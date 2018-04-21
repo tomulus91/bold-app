@@ -5,8 +5,9 @@
   "author": "Tomasz_Wadrzyk <tomulus91@gmail.com>",
   "private": true,
   "dependencies": {
-    "nuxt": "latest",
-    "@nuxtjs/pwa": "latest"
+    "@nuxtjs/pwa": "latest",
+    "axios": "^0.18.0",
+    "nuxt": "latest"
   },
   "scripts": {
     "dev": "nuxt",

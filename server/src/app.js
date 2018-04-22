@@ -9,32 +9,35 @@ app.use(bodyParser.json())
 app.use(cors())
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/posts');
+mongoose.connect('mongodb://localhost:27017/users');
+
 var db = mongoose.connection;
-var Post = require("../models/post");
+var Users = require("../models/users");
 
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", function(callback){
-    console.log("Connection Succeeded");
+    console.log("Connection Succeeded Users");
 });
 
-app.get('/posts', (req, res) => {
-    Post.find({}, 'title description', function (error, posts) {
+// Get user
+app.get('/users', (req, res) => {
+    Users.find({}, 'login name email password token isAdmin', function (error, users) {
         if (error) { console.error(error); }
         res.send({
-            posts: posts
+            users: users
         })
     }).sort({_id:-1})
 })
 
-// Add new post
-app.post('/posts', (req, res) => {
-    var db = req.db;
-    var title = req.body.title;
-    var description = req.body.description;
-    var new_post = new Post({
-        title: title,
-        description: description
+// Add new user
+app.post('/add_users', (req, res) => {
+    var new_post = new Users({
+        login: req.body.login,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        token: req.body.token,
+        isAdmin: req.body.isAdmin
     })
 
     new_post.save(function (error) {
@@ -48,38 +51,9 @@ app.post('/posts', (req, res) => {
     })
 })
 
-// Fetch single post
-app.get('/post/:id', (req, res) => {
-    var db = req.db;
-    Post.findById(req.params.id, 'title description', function (error, post) {
-        if (error) { console.error(error); }
-        res.send(post)
-    })
-})
-
-// Update a post
-app.put('/posts/:id', (req, res) => {
-    var db = req.db;
-    Post.findById(req.params.id, 'title description', function (error, post) {
-        if (error) { console.error(error); }
-
-        post.title = req.body.title
-        post.description = req.body.description
-        post.save(function (error) {
-            if (error) {
-                console.log(error)
-            }
-            res.send({
-                success: true
-            })
-        })
-    })
-})
-
-// Delete a post
-app.delete('/posts/:id', (req, res) => {
-    var db = req.db;
-    Post.remove({
+// Delete user
+app.delete('/users/:id', (req, res) => {
+    Users.remove({
         _id: req.params.id
     }, function(err, post){
         if (err)

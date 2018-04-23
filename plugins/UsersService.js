@@ -9,5 +9,11 @@ export default {
     },
     deleteUser (id) {
         return Api().delete('users/' + id)
+    },
+    updateUser (params) {
+        return Api().put('update_user/' + params.id, params)
+    },
+    getUser (params) {
+        return Api().get('single_user/' + params.id)
     }
 }

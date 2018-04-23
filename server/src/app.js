@@ -64,4 +64,32 @@ app.delete('/users/:id', (req, res) => {
     })
 })
 
+// Single User
+app.get('/single_user/:id', (req, res) => {
+    Users.findById(req.params.id, 'login name email password token isAdmin', function (error, user) {
+        if (error) { console.error(error); }
+        res.send(user)
+    })
+})
+
+// Update user
+app.put('/update_user/:id', (req, res) => {
+    Users.findById(req.params.id, 'login name email password', function (error, user) {
+        if (error) { console.error(error); }
+
+        user.login = req.body.login
+        user.email = req.body.email
+        user.name = req.body.name
+        user.password = req.body.password
+        user.save(function (error) {
+            if (error) {
+                console.log(error)
+            }
+            res.send({
+                success: true
+            })
+        })
+    })
+})
+
 app.listen(process.env.PORT || 8081)

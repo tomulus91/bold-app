@@ -15,8 +15,8 @@
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
                         <td align="center">
-                            <router-link :to="{ name: 'EditPost', params: { id: user._id } }">Edit</router-link> |
-                            <a href="#" @click="deleteUser(user._id)">Delete</a>
+                            <a href="#" @click.prevent="editUser(user._id)">Edit</a> |
+                            <a href="#" @click.prevent="deleteUser(user._id)">Delete</a>
                         </td>
                     </tr>
                 </table>
@@ -25,26 +25,29 @@
                 Brak użytkowników w bazie <br /><br />
             </div>
         </div>
-        <users-add @visibleAllUsersTable="visibleAllUsersPanel"></users-add>
+        <users-add v-if="!showEditUserPanel" @visibleAllUsersTable="visibleAllUsersPanel"></users-add>
+        <edit-user :idUser="idCurrentUser" @visibleAllUsersTable="visibleAllUsersPanel" v-if="showEditUserPanel"></edit-user>
     </div>
 </template>
 
 <script>
     import UsersService from '@/plugins/UsersService';
-    import UsersAdd from "@/components/user/add"
+    import UsersAdd from "@/components/user/add";
+    import EditUser from "@/components/user/edit";
 
     export default {
         name: 'usersShow',
-        components: {UsersAdd},
+        components: {UsersAdd, EditUser},
         data () {
             return {
                 users: [],
-                showAllUsers: true
+                showAllUsers: true,
+                showEditUserPanel: false,
+                idCurrentUser: ''
             }
         },
         mounted () {
             this.getPosts();
-
         },
         methods: {
             async getPosts () {
@@ -53,11 +56,17 @@
             },
             visibleAllUsersPanel() {
                 this.showAllUsers = !this.showAllUsers;
+                this.showEditUserPanel = false;
                 this.getPosts();
             },
             async deleteUser (id) {
                 await UsersService.deleteUser(id);
                 this.getPosts();
+            },
+            editUser(id) {
+                this.idCurrentUser = id;
+                this.showEditUserPanel = true;
+                this.showAllUsers = false;
             }
         }
     }

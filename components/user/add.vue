@@ -15,7 +15,7 @@
                 <input type="text" name="password" placeholder="Hasło użytkownika" v-model="password">
             </div>
             <div>
-                <button class="app_post_btn" @click="addUsers">Dodaj</button>
+                <button class="app_post_btn" @click="addUsers">Dodaj</button><br /><br />
                 <button class="app_post_btn" @click="exitAddUsers">Anuluj</button>
             </div>
         </div>

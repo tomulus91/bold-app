@@ -66,7 +66,7 @@ app.delete('/users/:id', (req, res) => {
 
 // Single User
 app.get('/single_user/:id', (req, res) => {
-    Users.findById(req.params.id, 'login name email password token isAdmin', function (error, user) {
+    Users.findById(req.params.id, 'login name email token isAdmin', function (error, user) {
         if (error) { console.error(error); }
         res.send(user)
     })
@@ -74,7 +74,7 @@ app.get('/single_user/:id', (req, res) => {
 
 // Update user
 app.put('/update_user/:id', (req, res) => {
-    Users.findById(req.params.id, 'login name email password', function (error, user) {
+    Users.findById(req.params.id, 'login name email', function (error, user) {
         if (error) { console.error(error); }
 
         user.login = req.body.login

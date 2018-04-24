@@ -3,20 +3,19 @@
         <h1>Edit Post</h1>
         <div class="form">
             <div>
+                <label>Login:</label><br />
                 <input type="text" name="login" placeholder="Login" v-model="login">
             </div>
             <div>
+                <label>Imię i nazwisko:</label><br />
                 <input type="text" name="name" placeholder="Imię i nazwisko" v-model="name">
             </div>
             <div>
+                <label>E-mail:</label><br />
                 <input type="email" name="email" placeholder="E-mail uzytkownika" v-model="email">
             </div>
             <div>
-                <input type="password" name="password" placeholder="Hasło" v-model="password">
-            </div>
-
-            <div>
-                <button class="app_post_btn" @click="updateUser">Update</button><br /> <br />
+                <button class="app_post_btn" @click="updateUser">Aktualizuj</button><br /> <br />
                 <button class="app_post_btn" @click="exitEditUserpanel">Anuluj</button>
             </div>
         </div>
@@ -32,8 +31,7 @@
             return {
                 login: '',
                 name: '',
-                email: '',
-                password: ''
+                email: ''
             }
         },
         mounted () {
@@ -46,16 +44,14 @@
                 });
                 this.login = response.data.login;
                 this.name = response.data.name;
-                this.email = response.data.email;
-                this.password = response.data.password;
+                this.email = response.data.email
             },
             async updateUser () {
                 await UserService.updateUser({
                     id: this.idUser,
                     login: this.login,
                     name: this.name,
-                    email: this.email,
-                    password: this.password
+                    email: this.email
                 })
                 this.exitEditUserpanel();
             },

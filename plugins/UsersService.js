@@ -15,5 +15,8 @@ export default {
     },
     getUser (params) {
         return Api().get('single_user/' + params.id)
+    },
+    userByLogin (params) {
+        return Api().get('login_user/' + params.login)
     }
 }

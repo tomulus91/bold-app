@@ -8,8 +8,7 @@
 </template>
 
 <script>
-    import UsersShow from "../components/user/show"
-
+    import UsersShow from "../components/user/show";
 
     export default {
         name: "users",

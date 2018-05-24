@@ -92,4 +92,14 @@ app.put('/update_user/:id', (req, res) => {
     })
 })
 
+// Single User by login
+app.get('/login_user/:login', (req, res) => {
+    Users.findOne({
+        login: req.params.login
+    }, 'password token isAdmin', function (error, result) {
+        //if (error) { res.send("error") }
+        res.send(result);
+    })
+})
+
 app.listen(process.env.PORT || 8081)

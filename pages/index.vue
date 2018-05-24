@@ -1,14 +1,17 @@
 <template>
   <section class="container">
     <div>
-      <h2>HOME</h2>
+      <users-show></users-show>
     </div>
   </section>
 </template>
 
 <script>
+    import UsersShow from "../components/user/login";
+
   export default {
     name: "default",
+    components: {UsersShow},
     data () {
         return {}
     }

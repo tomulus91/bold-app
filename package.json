@@ -8,6 +8,7 @@
     "@nuxtjs/pwa": "latest",
     "axios": "^0.18.0",
     "debounce": "^1.1.0",
+    "localforage": "^1.7.1",
     "nuxt": "latest",
     "password-hash": "^1.2.2",
     "randomstring": "^1.1.5"

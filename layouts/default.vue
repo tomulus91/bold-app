@@ -6,7 +6,7 @@
 </template>
 
 <script>
-  import MenuPage from '@/components/page/menu'
+  import MenuPage from '@/components/page/menu';
 
     export default {
       name: "layout",

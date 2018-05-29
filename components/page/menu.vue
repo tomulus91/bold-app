@@ -4,7 +4,7 @@
             <li>
                 <nuxt-link to="/">Home</nuxt-link>
             </li>
-            <li v-if="userIsLogin">
+            <li v-if="adminMod">
                 <nuxt-link to="/users">Użytkownicy</nuxt-link>
             </li>
         </ul>
@@ -12,11 +12,14 @@
 </template>
 
 <script>
+    import localStorage from '@/plugins/localforage';
+
     export default {
         name: 'EditUser',
         data() {
             return {
-                userIsLogin: false
+                userIsLogin: false,
+                adminMod: false
             }
         },
         mounted() {
@@ -24,9 +27,17 @@
         },
         methods: {
             async checkUserIsLogin () {
-                if (localStorage.getItem('usersToken') !== null) {
-                    this.userIsLogin = true;
-                }
+                localStorage.getItem('token_login').then((resolve) => {
+                    if (!!resolve) {
+                        this.userIsLogin = true;
+                    }
+                })
+
+                localStorage.getItem('local_isAdmin').then((resolve) => {
+                    if (!!resolve && resolve) {
+                        this.adminMod = true;
+                    }
+                })
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="posts">
-        <div class="form">
+        <div class="form" v-if="!this.isLogin">
             <div>
                 <label>Login</label><br/>
                 <input type="text" name="login" placeholder="Login" v-model="login">
@@ -10,16 +10,20 @@
                 <input type="password" name="password" placeholder="Password" v-model="password">
             </div>
             <div>
-                <button class="app_post_btn" @click.prevent="loginToApplication">Zaloguj się</button>
+                <button  class="app_post_btn" @click.prevent="loginToApplication">Zaloguj się</button>
                 <br/> <br/>
             </div>
         </div>
+        <button v-if="this.isLogin" class="app_post_btn" @click.prevent="logoutWithApplication">Wyloguj się</button>
+        <br /><br /><button  class="app_post_btn" @click.prevent="showLocal">Pokaż local storage</button>
     </div>
 </template>
 
 <script>
     import UserService from '@/plugins/UsersService';
     import PasswordApi from '@/plugins/PasswordApi';
+    import localStorage from '@/plugins/localforage';
+
 
     export default {
         name: "loginUser",
@@ -27,29 +31,46 @@
             return {
                 login: '',
                 password: '',
-                users: ''
+                users: '',
+                isLogin: false
             }
         },
         methods: {
             loginToApplication() {
-                UserService.userByLogin({
-                    login: this.login
-                }).then((result) => {
-                    if (!!result.data) {
-                        console.log(PasswordApi.verifyPassword(this.password, result.data.password))
+                if (this.login !== '' && this.password !== '') {
+                    UserService.userByLogin({
+                        login: this.login
+                    }).then((result) => {
+                        if (!!result.data) {
+                            if (PasswordApi.verifyPassword(this.password, result.data.password)) {
+                                localStorage.setItem('token_login', result.data.token);
+                                localStorage.setItem('local_isAdmin', result.data.isAdmin);
+                                this.isLogin = true;
+                            }
+                        }
+                    });
+                }
+            },
+            logoutWithApplication() {
+                localStorage.removeItem('token_login');
+                localStorage.removeItem('local_isAdmin');
+                this.isLogin = false;
+            },
+            showLocal() {
+                localStorage.getItem('token_login').then((resolve) => {
+                    console.log(resolve);
+                })
+            },
+            setIsLogin() {
+                localStorage.getItem('token_login').then((resolve) => {
+                    if (!!resolve) {
+                        this.isLogin = true;
                     }
-                });
-
-                // if (typeof response.data === 'object') {
-                //     console.log(this.password);
-                //     console.log(response);
-                // }
-
-                // if (response.data.hasOwnProperty('password')) {
-                //     console.log(response.data.password);
-                // }
-                //console.log(PasswordApi.verifyPassword(this.password, response.data.password));
+                })
             }
+        },
+        mounted() {
+            this.setIsLogin();
         }
     }
 </script>

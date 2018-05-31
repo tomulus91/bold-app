@@ -1,6 +1,6 @@
 <template>
     <div class="posts">
-        <div class="form" v-if="!this.isLogin">
+        <div class="form" v-if="!this.userIsLogged">
             <div>
                 <label>Login</label><br/>
                 <input type="text" name="login" placeholder="Login" v-model="login">
@@ -10,69 +10,57 @@
                 <input type="password" name="password" placeholder="Password" v-model="password">
             </div>
             <div>
-                <button  class="app_post_btn" @click.prevent="loginToApplication">Zaloguj się</button>
+                <button class="app_post_btn" @click.prevent="loginToApplication">Zaloguj się</button>
                 <br/> <br/>
             </div>
         </div>
-        <button v-if="this.isLogin" class="app_post_btn" @click.prevent="logoutWithApplication">Wyloguj się</button>
-        <br /><br /><button  class="app_post_btn" @click.prevent="showLocal">Pokaż local storage</button>
+        <button v-if="this.userIsLogged" class="app_post_btn" @click.prevent="logoutWithApplication">Wyloguj się</button>
     </div>
 </template>
 
 <script>
-    import UserService from '@/plugins/UsersService';
-    import PasswordApi from '@/plugins/PasswordApi';
-    import localStorage from '@/plugins/localforage';
+import UserService from '@/plugins/UsersService'
+import PasswordApi from '@/plugins/PasswordApi'
+import localStorage from '@/plugins/localforage'
+import {mapState, mapActions} from 'vuex'
 
-
-    export default {
-        name: "loginUser",
-        data() {
-            return {
-                login: '',
-                password: '',
-                users: '',
-                isLogin: false
-            }
-        },
-        methods: {
-            loginToApplication() {
-                if (this.login !== '' && this.password !== '') {
-                    UserService.userByLogin({
-                        login: this.login
-                    }).then((result) => {
-                        if (!!result.data) {
-                            if (PasswordApi.verifyPassword(this.password, result.data.password)) {
-                                localStorage.setItem('token_login', result.data.token);
-                                localStorage.setItem('local_isAdmin', result.data.isAdmin);
-                                this.isLogin = true;
-                            }
-                        }
-                    });
-                }
-            },
-            logoutWithApplication() {
-                localStorage.removeItem('token_login');
-                localStorage.removeItem('local_isAdmin');
-                this.isLogin = false;
-            },
-            showLocal() {
-                localStorage.getItem('token_login').then((resolve) => {
-                    console.log(resolve);
-                })
-            },
-            setIsLogin() {
-                localStorage.getItem('token_login').then((resolve) => {
-                    if (!!resolve) {
-                        this.isLogin = true;
-                    }
-                })
-            }
-        },
-        mounted() {
-            this.setIsLogin();
-        }
+export default {
+  name: 'loginUser',
+  data() {
+    return {
+      login: '',
+      password: '',
+      users: '',
+      isLogin: false
     }
+  },
+  computed: {
+    ...mapState('sessionUser', {
+      userIsLogged: state => state.userData['userIsLogged']
+    })
+  },
+  methods: {
+    ...mapActions('sessionUser', [
+      'sessionForUser'
+    ]),
+    loginToApplication () {
+      if (this.login !== '' && this.password !== '') {
+        UserService.userByLogin({
+          login: this.login
+        }).then((result) => {
+          if (!!result.data) {
+            if (PasswordApi.verifyPassword(this.password, result.data.password)) {
+              this.sessionForUser(result.data)
+            }
+          }
+        });
+      }
+    },
+    logoutWithApplication () {
+      this.sessionForUser({});
+    }
+  }
+}
 </script>
 
 <style scoped>

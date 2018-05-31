@@ -11,7 +11,8 @@
     "localforage": "^1.7.1",
     "nuxt": "latest",
     "password-hash": "^1.2.2",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "vuex": "^3.0.1"
   },
   "scripts": {
     "dev": "nuxt",

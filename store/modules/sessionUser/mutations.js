@@ -35,7 +35,7 @@ export const mutations = {
   [types.CHECK_SESSION_USER] (state) {
     localStorage.getItem(LocalStorageName.USER_DATA).then((result) => {
       let data = JSON.parse(result)
-      if (!!data) {
+      if (data) {
         state.userData = {
           userIsLogged: true,
           userIsAdmin: false,

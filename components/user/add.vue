@@ -32,7 +32,7 @@
 </template>
 
 <script>
-    import UsersService from '@/plugins/UsersService';
+    import UsersService from '@/service/users';
     import PasswordApi from '@/plugins/PasswordApi';
     import debounce from 'debounce';
 

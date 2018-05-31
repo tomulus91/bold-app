@@ -10,5 +10,5 @@ var UsersSchema = new Schema({
     isAdmin: Boolean
 });
 
-var Users = mongoose.model("Users", UsersSchema);
-module.exports = Users;
+var Index = mongoose.model('Index', UsersSchema);
+module.exports = Index;

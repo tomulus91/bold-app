@@ -4,41 +4,33 @@
             <li>
                 <nuxt-link to="/">Home</nuxt-link>
             </li>
-            <li v-if="adminMod">
+            <li v-if="this.userIsLogged">
                 <nuxt-link to="/users">Użytkownicy</nuxt-link>
+            </li>
+            <li v-if="this.userIsLogged">
+                <a href="#" @click.prevent="logoutWithApplication">Wyloguj się</a>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
-    import localStorage from '@/plugins/localforage';
+import { mapState, mapActions } from 'vuex'
 
-    export default {
-        name: 'EditUser',
-        data() {
-            return {
-                userIsLogin: false,
-                adminMod: false
-            }
-        },
-        mounted() {
-            this.checkUserIsLogin();
-        },
-        methods: {
-            async checkUserIsLogin () {
-                localStorage.getItem('token_login').then((resolve) => {
-                    if (!!resolve) {
-                        this.userIsLogin = true;
-                    }
-                })
-
-                localStorage.getItem('local_isAdmin').then((resolve) => {
-                    if (!!resolve && resolve) {
-                        this.adminMod = true;
-                    }
-                })
-            }
-        }
+export default {
+  name: 'EditUser',
+  computed: {
+    ...mapState('sessionUser', {
+      userIsLogged: state => state.userData['userIsLogged']
+    })
+  },
+  methods: {
+    ...mapActions('sessionUser', [
+      'sessionForUser'
+    ]),
+    logoutWithApplication () {
+      this.sessionForUser({})
     }
+  }
+}
 </script>

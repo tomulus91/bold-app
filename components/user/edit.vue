@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import UserService from '@/plugins/UsersService'
+    import UserService from '@/service/users'
     export default {
         name: 'EditUser',
         props: ['idUser'],

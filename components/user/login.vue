@@ -14,24 +14,21 @@
                 <br/> <br/>
             </div>
         </div>
-        <button v-if="this.userIsLogged" class="app_post_btn" @click.prevent="logoutWithApplication">Wyloguj się</button>
     </div>
 </template>
 
 <script>
-import UserService from '@/plugins/UsersService'
+import UserService from '@/service/users'
 import PasswordApi from '@/plugins/PasswordApi'
-import localStorage from '@/plugins/localforage'
 import {mapState, mapActions} from 'vuex'
 
 export default {
   name: 'loginUser',
-  data() {
+  data () {
     return {
       login: '',
       password: '',
-      users: '',
-      isLogin: false
+      showPanelLogin: false
     }
   },
   computed: {
@@ -48,16 +45,13 @@ export default {
         UserService.userByLogin({
           login: this.login
         }).then((result) => {
-          if (!!result.data) {
+          if (result.data) {
             if (PasswordApi.verifyPassword(this.password, result.data.password)) {
               this.sessionForUser(result.data)
             }
           }
-        });
+        })
       }
-    },
-    logoutWithApplication () {
-      this.sessionForUser({});
     }
   }
 }

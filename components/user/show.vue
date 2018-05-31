@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import UsersService from '@/plugins/UsersService';
+    import UsersService from '@/service/users';
     import UsersAdd from "@/components/user/add";
     import EditUser from "@/components/user/edit";
 

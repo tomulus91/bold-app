@@ -21,6 +21,9 @@
                 <span v-show="errorPassword" class="error-label">To pole jest puste lub ma mniej niż 8 znaków</span>
             </div>
             <div>
+                <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
+            </div>
+            <div>
                 <button class="button_btn" @click="validateAndAddUser">Dodaj</button>
                 <button class="button_btn" @click="exitAddUsers">Anuluj</button>
             </div>
@@ -32,105 +35,114 @@
 </template>
 
 <script>
-    import UsersService from '@/service/users';
-    import PasswordApi from '@/plugins/PasswordApi';
-    import debounce from 'debounce';
+import UsersService from '@/service/users'
+import SettingsService from '@/service/settingsApplication'
+import PasswordApi from '@/plugins/PasswordApi'
+import debounce from 'debounce'
 
-    var randomstring = require("randomstring");
+var randomstring = require('randomstring')
 
-    export default {
-        name: "UsersAdd",
-        data() {
-            return {
-                login: '',
-                name: '',
-                email: '',
-                password: '',
-                token: randomstring.generate(),
-                isAdmin: false,
-                showAddUsersPanel: false,
-                errorName: false,
-                errorLogin: false,
-                errorPassword: false,
-                errorEmail: false,
-                disableAddUser: true,
-                errorForm: 0
-            }
-        },
-        watch: {
-            login() {
-                if (this.login.length >= 6) {
-                    this.errorLogin = false;
-                }
-            },
-            name() {
-                if (this.name.length >= 6) {
-                    this.errorName = false;
-                }
-            },
-            email: debounce(function () {
-                this.validateEmail(this.email);
-            }, 300),
-            password() {
-                if (this.password.length >= 8) {
-                    this.errorPassword = false;
-                }
-            }
-        },
-        methods: {
-            async validateAndAddUser() {
-                this.errorForm = 0;
-                if (this.login.length < 6) {
-                    this.errorLogin = true;
-                    this.errorForm++;
-                }
-                if (this.name.length < 6) {
-                    this.errorName = true;
-                    this.errorForm++;
-                }
-
-                if (this.password.length < 6) {
-                    this.errorPassword = true;
-                    this.errorForm++;
-                }
-
-                this.validateEmail(this.email);
-
-                if (this.errorForm === 0) {
-                    this.addUsers();
-                }
-            },
-            async validateEmail(email) {
-                var regex= /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                if (!regex.test(String(email).toLowerCase())) {
-                    this.errorEmail = true;
-                    this.errorForm++;
-                } else {
-                    this.errorEmail = false;
-                }
-            },
-            async showPanelAddUsers() {
-                this.showAddUsersPanel = true;
-                this.$emit('visibleAllUsersTable');
-            },
-            async addUsers() {
-                await UsersService.addUsers({
-                    login: this.login,
-                    name: this.name,
-                    email: this.email,
-                    password: PasswordApi.generatePassword(this.password),
-                    token: this.token,
-                    isAdmin: this.isAdmin
-                });
-                this.$emit('visibleAllUsersTable');
-                this.showAddUsersPanel = false;
-            },
-            async exitAddUsers() {
-                this.$emit('visibleAllUsersTable');
-                this.showAddUsersPanel = false;
-            }
-        }
+export default {
+  name: 'UsersAdd',
+  data () {
+    return {
+      login: '',
+      name: '',
+      email: '',
+      password: '',
+      token: randomstring.generate(),
+      showAddUsersPanel: false,
+      errorName: false,
+      errorLogin: false,
+      errorPassword: false,
+      errorEmail: false,
+      disableAddUser: true,
+      errorForm: 0,
+      userIsAdmin: false,
+      id: ''
     }
+  },
+  watch: {
+    login () {
+      if (this.login.length >= 6) {
+        this.errorLogin = false
+      }
+    },
+    name () {
+      if (this.name.length >= 6) {
+        this.errorName = false
+      }
+    },
+    email: debounce(function () {
+      this.validateEmail(this.email)
+    }, 300),
+    password () {
+      if (this.password.length >= 8) {
+        this.errorPassword = false
+      }
+    }
+  },
+  methods: {
+    async validateAndAddUser () {
+      this.errorForm = 0
+      if (this.login.length < 6) {
+        this.errorLogin = true
+        this.errorForm++
+      }
+      if (this.name.length < 6) {
+        this.errorName = true
+        this.errorForm++
+      }
+
+      if (this.password.length < 6) {
+        this.errorPassword = true
+        this.errorForm++
+      }
+
+      this.validateEmail(this.email)
+
+      if (this.errorForm === 0) {
+        this.addUsers()
+      }
+    },
+    async validateEmail (email) {
+      let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      if (!regex.test(String(email).toLowerCase())) {
+        this.errorEmail = true
+        this.errorForm++
+      } else {
+        this.errorEmail = false
+      }
+    },
+    async showPanelAddUsers () {
+      this.showAddUsersPanel = true
+      this.$emit('visibleAllUsersTable')
+    },
+    async addUsers () {
+      await UsersService.addUsers({
+        login: this.login,
+        name: this.name,
+        email: this.email,
+        password: PasswordApi.generatePassword(this.password),
+        token: this.token
+      }).then((result) => {
+        this.id = result.data._id
+      })
+      if (this.userIsAdmin) {
+        await SettingsService.addSettings({
+          nameOptions: 'keyAdmin',
+          valueOptions: PasswordApi.generatePassword(this.id)
+        })
+      }
+      this.$emit('visibleAllUsersTable')
+      this.showAddUsersPanel = false
+    },
+    async exitAddUsers () {
+      this.$emit('visibleAllUsersTable')
+      this.showAddUsersPanel = false
+    }
+  }
+}
 </script>
 
 
@@ -141,6 +153,10 @@
         border: 1px solid #e0dede;
         outline: none;
         font-size: 12px;
+    }
+
+    .form input[type = 'checkbox'] {
+        width: auto;
     }
 
     .form div {

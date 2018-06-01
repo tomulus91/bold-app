@@ -4,7 +4,7 @@
             <li>
                 <nuxt-link to="/">Home</nuxt-link>
             </li>
-            <li v-if="this.userIsLogged">
+            <li v-if="!this.userIsLogged">
                 <nuxt-link to="/users">Użytkownicy</nuxt-link>
             </li>
             <li v-if="this.userIsLogged">

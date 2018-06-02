@@ -21,7 +21,7 @@ db.once('open', function () {
 
 // Get all options application
 app.get('/settings', (req, res) => {
-  SettingsApplication.find({}, 'type key', function (error, users) {
+  SettingsApplication.find({}, function (error, users) {
     if (error) {
       console.error(error)
     }

@@ -3,7 +3,8 @@ import localStorage from '@/plugins/localforage'
 export const types = {
   ADD_SESSION_LOGGED_USER: 'ADD_SESSION_LOGGED_USER',
   REMOVE_SESSION_LOGGED_USER: 'REMOVE_SESSION_LOGGED_USER',
-  CHECK_SESSION_USER: 'CHECK_SESSION_USER'
+  CHECK_SESSION_USER: 'CHECK_SESSION_USER',
+  CHECK_USER_IS_ADMIN: 'CHECK_USER_IS_ADMIN'
 }
 
 const LocalStorageName = {
@@ -44,5 +45,8 @@ export const mutations = {
         }
       }
     })
+  },
+  [types.CHECK_USER_IS_ADMIN] (state) {
+    console.log(state.userData.idUser)
   }
 }

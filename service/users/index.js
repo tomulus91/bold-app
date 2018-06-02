@@ -1,22 +1,28 @@
-import Axios from '@/plugins/Axios'
+import axios from 'axios'
+
+const network = () => {
+  return axios.create({
+    baseURL: 'http://localhost:8081'
+  })
+}
 
 export default {
   fetchUsers () {
-    return Axios().get('users')
+    return network().get('users')
   },
   addUsers (params) {
-    return Axios().post('add_users', params)
+    return network().post('add_users', params)
   },
   deleteUser (id) {
-    return Axios().delete('users/' + id)
+    return network().delete('users/' + id)
   },
   updateUser (params) {
-    return Axios().put('update_user/' + params.id, params)
+    return network().put('update_user/' + params.id, params)
   },
   getUser (params) {
-    return Axios().get('single_user/' + params.id)
+    return network().get('single_user/' + params.id)
   },
   userByLogin (params) {
-    return Axios().get('login_user/' + params.login)
+    return network().get('login_user/' + params.login)
   }
 }

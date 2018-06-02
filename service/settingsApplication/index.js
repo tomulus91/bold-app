@@ -1,19 +1,25 @@
-import Axios from '@/plugins/Axios'
+import axios from 'axios'
+
+const network = () => {
+  return axios.create({
+    baseURL: 'http://localhost:8082'
+  })
+}
 
 export default {
   fetchSettings () {
-    return Axios().get('settings')
+    return network().get('settings')
   },
   addSettings (params) {
-    return Axios().post('add_settings', params)
+    return network().post('add_settings', params)
   },
   deleteSettings (id) {
-    return Axios().delete('settings/' + id)
+    return network().delete('settings/' + id)
   },
   updateSettings (params) {
-    return Axios().put('update_settings/' + params.id, params)
+    return network().put('update_settings/' + params.id, params)
   },
   settingsByKey (params) {
-    return Axios().get('setting_by_key/' + params.settings)
+    return network().get('setting_by_key/' + params.settings)
   }
 }

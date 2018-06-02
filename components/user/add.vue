@@ -127,13 +127,13 @@ export default {
         token: this.token
       }).then((result) => {
         this.id = result.data._id
+        if (this.userIsAdmin) {
+          SettingsService.addSettings({
+            nameOptions: 'keyAdmin',
+            valueOptions: PasswordApi.generatePassword(this.id)
+          })
+        }
       })
-      if (this.userIsAdmin) {
-        await SettingsService.addSettings({
-          nameOptions: 'keyAdmin',
-          valueOptions: PasswordApi.generatePassword(this.id)
-        })
-      }
       this.$emit('visibleAllUsersTable')
       this.showAddUsersPanel = false
     },

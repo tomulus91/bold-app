@@ -1,4 +1,5 @@
 import localStorage from '@/plugins/localforage'
+import SettingsApplicationService from '@/service/settingsApplication'
 
 export const types = {
   ADD_SESSION_LOGGED_USER: 'ADD_SESSION_LOGGED_USER',
@@ -47,6 +48,15 @@ export const mutations = {
     })
   },
   [types.CHECK_USER_IS_ADMIN] (state) {
-    console.log(state.userData.idUser)
+    console.log('2')
+    SettingsApplicationService.settingsByNameOption(
+      'keyAdmin'
+    ).then((result) => {
+      if (result.data) {
+        Object.keys(result.data).forEach(function (key) {
+          console.log(result.data[key].valueOptions)
+        })
+      }
+    })
   }
 }

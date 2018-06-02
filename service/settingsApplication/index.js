@@ -19,7 +19,7 @@ export default {
   updateSettings (params) {
     return network().put('update_settings/' + params.id, params)
   },
-  settingsByKey (params) {
-    return network().get('setting_by_key/' + params.settings)
+  settingsByNameOption (params) {
+    return network().get('setting_by_name_option/' + params)
   }
 }

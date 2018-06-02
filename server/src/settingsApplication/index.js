@@ -47,4 +47,13 @@ app.post('/add_settings', (req, res) => {
   })
 })
 
+// Single User by login
+app.get('/setting_by_name_option/:option', (req, res) => {
+  SettingsApplication.find({
+    nameOptions: req.params.option
+  }, 'valueOptions', function (error, result) {
+    error ? res.send(error) : res.send(result)
+  })
+})
+
 app.listen(process.env.PORT || 8082)

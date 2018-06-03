@@ -1,5 +1,6 @@
 import localStorage from '@/plugins/localforage'
 import SettingsApplicationService from '@/service/settingsApplication'
+import PasswordApi from '@/plugins/PasswordApi'
 
 export const types = {
   ADD_SESSION_LOGGED_USER: 'ADD_SESSION_LOGGED_USER',
@@ -23,7 +24,9 @@ export const mutations = {
     localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
       'token': state.userData.tokenUser,
       'id': state.userData.idUser
-    }))
+    })).then(() => {
+      checkUserIsAdmin(state)
+    })
   },
   [types.REMOVE_SESSION_LOGGED_USER] (state) {
     localStorage.removeItem(LocalStorageName.USER_DATA)
@@ -40,23 +43,38 @@ export const mutations = {
       if (data) {
         state.userData = {
           userIsLogged: true,
-          userIsAdmin: false,
+          userIsAdmin: PasswordApi.verifyPassword(data.id, data.perm),
           tokenUser: data.token,
           idUser: data.id
         }
       }
-    })
-  },
-  [types.CHECK_USER_IS_ADMIN] (state) {
-    console.log('2')
-    SettingsApplicationService.settingsByNameOption(
-      'keyAdmin'
-    ).then((result) => {
-      if (result.data) {
-        Object.keys(result.data).forEach(function (key) {
-          console.log(result.data[key].valueOptions)
-        })
+      if (!state.userData.userIsAdmin) {
+        checkUserIsAdmin(state)
       }
     })
   }
 }
+
+function checkUserIsAdmin (state) {
+  SettingsApplicationService.settingsByNameOption(
+    'keyAdmin'
+  ).then((result) => {
+    if (result.data) {
+      Object.keys(result.data).forEach(function (key) {
+        let currentKey = result.data[key].valueOptions
+        if (PasswordApi.verifyPassword(state.userData.idUser, currentKey)) {
+          state.userData.userIsAdmin = true
+          localStorage.getItem(LocalStorageName.USER_DATA).then(() => {
+            localStorage.removeItem(LocalStorageName.USER_DATA)
+            localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
+              'token': state.userData.tokenUser,
+              'id': state.userData.idUser,
+              'perm': currentKey
+            }))
+          })
+        }
+      })
+    }
+  })
+}
+

@@ -4,7 +4,7 @@
             <li>
                 <nuxt-link to="/">Home</nuxt-link>
             </li>
-            <li v-if="!this.userIsLogged">
+            <li v-if="this.userIsLogged && this.userIsAdmin">
                 <nuxt-link to="/users">Użytkownicy</nuxt-link>
             </li>
             <li v-if="this.userIsLogged">
@@ -21,7 +21,8 @@ export default {
   name: 'EditUser',
   computed: {
     ...mapState('sessionUser', {
-      userIsLogged: state => state.userData['userIsLogged']
+      userIsLogged: state => state.userData['userIsLogged'],
+      userIsAdmin: state => state.userData['userIsAdmin']
     })
   },
   methods: {

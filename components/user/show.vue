@@ -1,5 +1,5 @@
 <template>
-    <div class="users">
+    <div class="users" v-if="this.userIsLogged && this.userIsAdmin">
         <div v-if="showAllUsers">
             <h1>Baza użytkowników</h1>
             <div v-if="users.length > 0" class="table-wrap">
@@ -29,12 +29,16 @@
         <edit-user :idUser="idCurrentUser" @visibleAllUsersTable="visibleAllUsersPanel"
                    v-if="showEditUserPanel"></edit-user>
     </div>
+    <div v-else>
+        <h2>Brak uprawnien</h2>
+    </div>
 </template>
 
 <script>
 import UsersService from '@/service/users'
 import UsersAdd from '@/components/user/add'
 import EditUser from '@/components/user/edit'
+import { mapState } from 'vuex'
 
 export default {
   name: 'usersShow',
@@ -46,6 +50,12 @@ export default {
       showEditUserPanel: false,
       idCurrentUser: ''
     }
+  },
+  computed: {
+    ...mapState('sessionUser', {
+      userIsLogged: state => state.userData['userIsLogged'],
+      userIsAdmin: state => state.userData['userIsAdmin']
+    })
   },
   mounted () {
     this.getUsers()

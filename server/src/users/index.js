@@ -4,9 +4,15 @@ const cors = require('cors')
 const morgan = require('morgan')
 
 const app = express()
-app.use(morgan('combined'))
+
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-app.use(cors())
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
 
 let mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/users')
@@ -32,7 +38,7 @@ app.get('/users', (req, res) => {
 })
 
 // Add new user
-app.post('/add_users', (req, res) => {
+app.post('/add_users', (req, res, next) => {
   let newUser = new Users({
     login: req.body.login,
     name: req.body.name,
@@ -40,7 +46,6 @@ app.post('/add_users', (req, res) => {
     password: req.body.password,
     token: req.body.token
   })
-
   newUser.save(function (error, user) {
     if (error) {
       console.log(error)
@@ -81,7 +86,6 @@ app.put('/update_user/:id', (req, res) => {
     if (error) {
       console.error(error)
     }
-
     user.login = req.body.login
     user.email = req.body.email
     user.name = req.body.name
@@ -101,7 +105,7 @@ app.put('/update_user/:id', (req, res) => {
 app.get('/login_user/:login', (req, res) => {
   Users.findOne({
     login: req.params.login
-  }, 'password token', function (error, result) {
+  }, 'password token', (error, result) => {
     res.send(result)
   })
 })

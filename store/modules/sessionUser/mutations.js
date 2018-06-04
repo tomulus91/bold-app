@@ -14,7 +14,7 @@ const LocalStorageName = {
 }
 
 export const mutations = {
-  [types.ADD_SESSION_LOGGED_USER] (state, dataUser) {
+  [types.ADD_SESSION_LOGGED_USER](state, dataUser) {
     state.userData = {
       userIsLogged: true,
       userIsAdmin: false,
@@ -38,24 +38,24 @@ export const mutations = {
     }
   },
   [types.CHECK_SESSION_USER] (state) {
-    localStorage.getItem(LocalStorageName.USER_DATA).then((result) => {
-      let data = JSON.parse(result)
-      if (data) {
+    localStorage.getItem(LocalStorageName.USER_DATA, (err, value) => {
+      if (!err) {
+        let data = JSON.parse(value)
         state.userData = {
           userIsLogged: true,
           userIsAdmin: PasswordApi.verifyPassword(data.id, data.perm),
           tokenUser: data.token,
           idUser: data.id
         }
-      }
-      if (!state.userData.userIsAdmin) {
-        checkUserIsAdmin(state)
+        if (!state.userData.userIsAdmin) {
+          checkUserIsAdmin(state)
+        }
       }
     })
   }
 }
 
-function checkUserIsAdmin (state) {
+function checkUserIsAdmin(state) {
   SettingsApplicationService.settingsByNameOption(
     'keyAdmin'
   ).then((result) => {
@@ -64,14 +64,12 @@ function checkUserIsAdmin (state) {
         let currentKey = result.data[key].valueOptions
         if (PasswordApi.verifyPassword(state.userData.idUser, currentKey)) {
           state.userData.userIsAdmin = true
-          localStorage.getItem(LocalStorageName.USER_DATA).then(() => {
-            localStorage.removeItem(LocalStorageName.USER_DATA)
-            localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
-              'token': state.userData.tokenUser,
-              'id': state.userData.idUser,
-              'perm': currentKey
-            }))
-          })
+          localStorage.removeItem(LocalStorageName.USER_DATA)
+          localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
+            'token': state.userData.tokenUser,
+            'id': state.userData.idUser,
+            'perm': currentKey
+          }))
         }
       })
     }

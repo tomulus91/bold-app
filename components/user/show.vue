@@ -1,5 +1,5 @@
 <template>
-    <div class="users" v-if="this.userIsLogged && this.userIsAdmin">
+    <div class="users">
         <div v-if="showAllUsers">
             <h1>Baza użytkowników</h1>
             <div v-if="users.length > 0" class="table-wrap">
@@ -29,16 +29,14 @@
         <edit-user :idUser="idCurrentUser" @visibleAllUsersTable="visibleAllUsersPanel"
                    v-if="showEditUserPanel"></edit-user>
     </div>
-    <div v-else>
-        <h2>Brak uprawnien</h2>
-    </div>
 </template>
 
 <script>
 import UsersService from '@/service/users'
 import UsersAdd from '@/components/user/add'
 import EditUser from '@/components/user/edit'
-import { mapState } from 'vuex'
+import SettingsApplicationService from '@/service/settingsApplication'
+import PasswordApi from '@/plugins/PasswordApi'
 
 export default {
   name: 'usersShow',
@@ -51,19 +49,14 @@ export default {
       idCurrentUser: ''
     }
   },
-  computed: {
-    ...mapState('sessionUser', {
-      userIsLogged: state => state.userData['userIsLogged'],
-      userIsAdmin: state => state.userData['userIsAdmin']
-    })
-  },
   mounted () {
     this.getUsers()
   },
   methods: {
     async getUsers () {
-      let response = await UsersService.fetchUsers()
-      this.users = response.data.users
+      await UsersService.fetchUsers().then((result) => {
+        this.users = result.data.users
+      })
     },
     visibleAllUsersPanel () {
       this.showAllUsers = !this.showAllUsers
@@ -71,8 +64,21 @@ export default {
       this.getUsers()
     },
     async deleteUser (id) {
-      await UsersService.deleteUser(id)
-      this.getUsers()
+      SettingsApplicationService.settingsByNameOption(
+        'keyAdmin'
+      ).then((result) => {
+        if (result.data && result.data.length > 1) {
+          Object.keys(result.data).forEach(function (key) {
+            let currentKey = result.data[key].valueOptions
+            if (PasswordApi.verifyPassword(id, currentKey)) {
+              SettingsApplicationService.deleteSettings(currentKey)
+            }
+          })
+          UsersService.deleteUser(id)
+        }
+      }).then(() => {
+        this.getUsers()
+      })
     },
     editUser (id) {
       this.idCurrentUser = id

@@ -13,8 +13,8 @@ export default {
   addSettings (params) {
     return network().post('add_settings', params)
   },
-  deleteSettings (id) {
-    return network().delete('settings/' + id)
+  deleteSettings (params) {
+    return network().delete('remove_settings/' + params)
   },
   updateSettings (params) {
     return network().put('update_settings/' + params.id, params)

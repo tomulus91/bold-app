@@ -4,9 +4,15 @@ const cors = require('cors')
 const morgan = require('morgan')
 
 const app = express()
-app.use(morgan('combined'))
+
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json())
-app.use(cors())
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  next()
+})
 
 let mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/settingsApplication')
@@ -53,6 +59,21 @@ app.get('/setting_by_name_option/:option', (req, res) => {
     nameOptions: req.params.option
   }, 'valueOptions', function (error, result) {
     error ? res.send(error) : res.send(result)
+  })
+})
+
+// Delete setting by param
+app.delete('/remove_settings/:option', (req, res) => {
+  SettingsApplication.remove({
+    'valueOptions': req.params.option
+  }, function (err) {
+    if (err) {
+      res.send(err)
+    } else {
+      res.send({
+        success: true
+      })
+    }
   })
 })
 

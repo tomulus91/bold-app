@@ -17,7 +17,7 @@ export default {
       'checkSession'
     ])
   },
-  created () {
+  mounted () {
     this.checkSession({})
   }
 }

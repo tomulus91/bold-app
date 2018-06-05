@@ -4,15 +4,9 @@ const cors = require('cors')
 const morgan = require('morgan')
 
 const app = express()
-
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(morgan('combined'))
 app.use(bodyParser.json())
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
-})
+app.use(cors())
 
 let mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/users')
@@ -38,7 +32,7 @@ app.get('/users', (req, res) => {
 })
 
 // Add new user
-app.post('/add_users', (req, res, next) => {
+app.post('/add_users', (req, res) => {
   let newUser = new Users({
     login: req.body.login,
     name: req.body.name,
@@ -46,6 +40,7 @@ app.post('/add_users', (req, res, next) => {
     password: req.body.password,
     token: req.body.token
   })
+
   newUser.save(function (error, user) {
     if (error) {
       console.log(error)

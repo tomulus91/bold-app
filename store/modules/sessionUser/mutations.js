@@ -14,7 +14,7 @@ const LocalStorageName = {
 }
 
 export const mutations = {
-  [types.ADD_SESSION_LOGGED_USER](state, dataUser) {
+  [types.ADD_SESSION_LOGGED_USER] (state, dataUser) {
     state.userData = {
       userIsLogged: true,
       userIsAdmin: false,
@@ -24,8 +24,10 @@ export const mutations = {
     localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
       'token': state.userData.tokenUser,
       'id': state.userData.idUser
-    })).then(() => {
+    })).ready().then(() => {
       checkUserIsAdmin(state)
+    }).catch(() => {
+      console.log('Error setItem')
     })
   },
   [types.REMOVE_SESSION_LOGGED_USER] (state) {
@@ -55,7 +57,7 @@ export const mutations = {
   }
 }
 
-function checkUserIsAdmin(state) {
+const checkUserIsAdmin = (state) => {
   SettingsApplicationService.settingsByNameOption(
     'keyAdmin'
   ).then((result) => {

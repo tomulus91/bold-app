@@ -1,10 +1,10 @@
 <template>
-    <div v-if="this.userIsLogged && this.userIsAdmin">
+    <div >
         <users-show></users-show>
     </div>
-    <div v-else>
-        <p>Musisz posiadać prawa administratora aby móc zarządzać użytkownikami</p>
-    </div>
+    <!--<div>-->
+        <!--<p>Musisz posiadać prawa administratora aby móc zarządzać użytkownikami</p>-->
+    <!--</div>-->
 </template>
 
 <script>

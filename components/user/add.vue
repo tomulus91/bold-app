@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import UsersService from '@/service/users'
-import SettingsService from '@/service/settingsApplication'
+import UsersService from '@/assets/service/users'
+import SettingsService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import debounce from 'debounce'
 

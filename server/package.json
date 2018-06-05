@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/nodemon/bin/nodemon.js src/index.js",
+    "start": "./node_modules/nodemon/bin/nodemon.js index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,10 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
     "express": "^4.16.3",
-    "mongoose": "^5.0.15",
-    "morgan": "^1.9.0",
-    "nodemon": "^1.17.3"
+    "mongodb": "^3.0.5"
   }
 }

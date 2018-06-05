@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import UserService from '@/service/users'
+import UserService from '@/assets/service/users'
 import PasswordApi from '@/plugins/PasswordApi'
 import {mapState, mapActions} from 'vuex'
 

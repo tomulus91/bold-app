@@ -15,7 +15,7 @@
     "vuex": "^3.0.1"
   },
   "scripts": {
-    "dev": "nuxt",
+    "dev": "node server/index.js | HOST=127.0.0.1 PORT=1234 nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",

@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import UsersService from '@/service/users'
+import usersService from '~/assets/service/users'
 import UsersAdd from '@/components/user/add'
 import EditUser from '@/components/user/edit'
-import SettingsApplicationService from '@/service/settingsApplication'
+import SettingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 
 export default {
@@ -54,9 +54,14 @@ export default {
   },
   methods: {
     async getUsers () {
-      await UsersService.fetchUsers().then((result) => {
-        this.users = result.data.users
-      })
+      const userPromise = usersService.fetchUsers()
+      userPromise
+        .then((response) => {
+            this.users = response.data.users
+        })
+        .catch((error) => {
+          console.error(`Error get categories: ${error}`)
+        })
     },
     visibleAllUsersPanel () {
       this.showAllUsers = !this.showAllUsers
@@ -74,7 +79,7 @@ export default {
               SettingsApplicationService.deleteSettings(currentKey)
             }
           })
-          UsersService.deleteUser(id)
+          usersService.deleteUser(id)
         }
       }).then(() => {
         this.getUsers()

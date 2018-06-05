@@ -1,5 +1,5 @@
 import localStorage from '@/plugins/localforage'
-import SettingsApplicationService from '@/service/settingsApplication'
+import SettingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 
 export const types = {

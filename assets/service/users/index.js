@@ -6,7 +6,7 @@ export default {
     return axios.get(`${BASE_URL}users`)
   },
   addUsers (params) {
-    return axios.post(`${BASE_URL}add_users/${params}`)
+    return axios.post(`${BASE_URL}add-users`, params)
   },
   deleteUser (id) {
     return axios.delete(`${BASE_URL}users/${id}`)

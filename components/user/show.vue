@@ -56,11 +56,13 @@ export default {
     async getUsers () {
       const userPromise = usersService.fetchUsers()
       userPromise
-        .then((response) => {
-            this.users = response.data.users
-        })
-        .catch((error) => {
-          console.error(`Error get categories: ${error}`)
+        .then(response => {
+            const data = response.data
+            if  (data.length > 0) {
+                this.users = data
+            }
+        }).catch(e => {
+          console.log(e)
         })
     },
     visibleAllUsersPanel () {
@@ -69,17 +71,16 @@ export default {
       this.getUsers()
     },
     async deleteUser (id) {
-      SettingsApplicationService.settingsByNameOption(
-        'keyAdmin'
-      ).then((result) => {
-        if (result.data && result.data.length > 1) {
-          Object.keys(result.data).forEach(function (key) {
-            let currentKey = result.data[key].valueOptions
-            if (PasswordApi.verifyPassword(id, currentKey)) {
-              SettingsApplicationService.deleteSettings(currentKey)
-            }
+        const userPromise = SettingsApplicationService.settingsByNameOption('keyAdmin')
+        userPromise.then((response) => {
+        if (response.data) {
+          Object.keys(response.data).forEach(function (key) {
+            let currentKey = response.data[key].valueOptions
+                if (PasswordApi.verifyPassword(id, currentKey)) {
+                  SettingsApplicationService.deleteSettings(currentKey)
+                }
           })
-          usersService.deleteUser(id)
+            usersService.deleteUser(id)
         }
       }).then(() => {
         this.getUsers()

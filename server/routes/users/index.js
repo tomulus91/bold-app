@@ -11,7 +11,7 @@ module.exports = function (app, db) {
   })
 
   // Add new user
-  app.post('/data/add_users', (req, res) => {
+  app.post('/data/add-users', (req, res) => {
     const newUser = {
       login: req.body.login,
       name: req.body.name,
@@ -19,11 +19,8 @@ module.exports = function (app, db) {
       password: req.body.password,
       token: req.body.token
     }
-    db.collection('users').insert(newUser, (err, res) => {
-      if (err) throw err
-      res.send(newUser)
-      db.close()
-    })
+    db.collection('users').insert(newUser)
+    res.send(newUser)
   })
 
   // Delete user

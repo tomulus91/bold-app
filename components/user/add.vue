@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import UsersService from '@/assets/service/users'
+import usersService from '@/assets/service/users'
 import SettingsService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import debounce from 'debounce'
@@ -119,23 +119,26 @@ export default {
       this.$emit('visibleAllUsersTable')
     },
     async addUsers () {
-      await UsersService.addUsers({
-        login: this.login,
-        name: this.name,
-        email: this.email,
-        password: PasswordApi.generatePassword(this.password),
-        token: this.token
-      }).then((result) => {
-        this.id = result.data._id
-        if (this.userIsAdmin) {
-          SettingsService.addSettings({
-            nameOptions: 'keyAdmin',
-            valueOptions: PasswordApi.generatePassword(this.id)
-          })
+        const dataToSend = {
+            login: this.login,
+            name: this.name,
+            email: this.email,
+            password: PasswordApi.generatePassword(this.password),
+            token: this.token
         }
+      usersService.addUsers(dataToSend).then(() => {
+          this.$emit('visibleAllUsersTable')
+          this.showAddUsersPanel = false
       })
-      this.$emit('visibleAllUsersTable')
-      this.showAddUsersPanel = false
+      //     .then((result) => {
+      //   this.id = result.data._id
+      //   if (this.userIsAdmin) {
+      //     SettingsService.addSettings({
+      //       nameOptions: 'keyAdmin',
+      //       valueOptions: PasswordApi.generatePassword(this.id)
+      //     })
+      //   }
+      // })
     },
     async exitAddUsers () {
       this.$emit('visibleAllUsersTable')

@@ -3,19 +3,20 @@
         <h1>Edit Post</h1>
         <div class="form">
             <div>
-                <label>Login:</label><br />
+                <label>Login:</label><br/>
                 <input type="text" name="login" placeholder="Login" v-model="login">
             </div>
             <div>
-                <label>Imię i nazwisko:</label><br />
+                <label>Imię i nazwisko:</label><br/>
                 <input type="text" name="name" placeholder="Imię i nazwisko" v-model="name">
             </div>
             <div>
-                <label>E-mail:</label><br />
+                <label>E-mail:</label><br/>
                 <input type="email" name="email" placeholder="E-mail uzytkownika" v-model="email">
             </div>
             <div>
-                <button class="app_post_btn" @click="updateUser">Aktualizuj</button><br /> <br />
+                <button class="app_post_btn" @click="updateUser">Aktualizuj</button>
+                <br/> <br/>
                 <button class="app_post_btn" @click="exitEditUserpanel">Anuluj</button>
             </div>
         </div>
@@ -23,43 +24,47 @@
 </template>
 
 <script>
-    import UserService from '@/assets/service/users'
-    export default {
-        name: 'EditUser',
-        props: ['idUser'],
-        data () {
-            return {
-                login: '',
-                name: '',
-                email: ''
-            }
-        },
-        mounted () {
-            this.getPost()
-        },
-        methods: {
-            async getPost () {
-                const response = await UserService.getUser({
-                    id: this.idUser
-                });
-                this.login = response.data.login;
-                this.name = response.data.name;
-                this.email = response.data.email
-            },
-            async updateUser () {
-                await UserService.updateUser({
-                    id: this.idUser,
-                    login: this.login,
-                    name: this.name,
-                    email: this.email
-                })
-                this.exitEditUserpanel();
-            },
-            async exitEditUserpanel() {
-                this.$emit('visibleAllUsersTable');
-            }
-        }
+import userService from '@/assets/service/users'
+
+export default {
+  name: 'EditUser',
+  props: ['tokenUser'],
+  data () {
+    return {
+      login: '',
+      name: '',
+      email: ''
     }
+  },
+  mounted () {
+    this.getPost()
+  },
+  methods: {
+    async getPost () {
+      await userService.getUser(this.tokenUser)
+        .then((response) => {
+          this.login = response.data.login
+          this.name = response.data.name
+          this.email = response.data.email
+          console.log(response)
+        }).then(() => {
+          console.log(this.login)
+        })
+    },
+    async updateUser () {
+      await userService.updateUser({
+        id: this.idUser,
+        login: this.login,
+        name: this.name,
+        email: this.email
+      })
+      this.exitEditUserpanel()
+    },
+    async exitEditUserpanel () {
+      this.$emit('visibleAllUsersTable')
+    }
+  }
+}
 </script>
 <style type="text/css">
     .form input, .form textarea {
@@ -69,9 +74,11 @@
         outline: none;
         font-size: 12px;
     }
+
     .form div {
         margin: 20px;
     }
+
     .app_post_btn {
         background: #4d7ef7;
         color: #fff;

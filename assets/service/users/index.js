@@ -14,8 +14,12 @@ export default {
   updateUser (params) {
     return axios.put(`${BASE_URL}update_user/${params}`)
   },
-  getUser (params) {
-    return axios.get(`${BASE_URL}single_user/${params.id}`)
+  getUser (token) {
+    return axios.get(`${BASE_URL}single-user`, {
+      params: {
+        token: token
+      }
+    })
   },
   userByLogin (params) {
     return axios.get(`${BASE_URL}login_user/${params.login}`)

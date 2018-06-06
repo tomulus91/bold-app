@@ -33,12 +33,18 @@ module.exports = function (app, db) {
   })
 
 // Single User
-  app.get('/data/single_user/:id', (req, res) => {
-    db.collection('users').findById(req.params.id, 'login name email token', function (error, user) {
-      if (error) {
-        console.error(error)
+  app.get('/data/single-user', (req, res) => {
+    const token = req.query.token
+    console.log('=====================')
+    console.log(token)
+    console.log('=====================')
+    db.collection('users').findOne({'token': token}, (err, result) => {
+      console.log(result)
+      if (err) {
+        res.send({ 'error': 'Bad get users' })
+      } else {
+        res.send(result)
       }
-      res.send(user)
     })
   })
 

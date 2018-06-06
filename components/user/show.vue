@@ -15,7 +15,7 @@
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
                         <td align="center">
-                            <a href="#" @click.prevent="editUser(user._id)">Edit</a> |
+                            <a href="#" @click.prevent="editUser(user.token)">Edit</a> |
                             <a href="#" @click.prevent="deleteUser(user._id)">Delete</a>
                         </td>
                     </tr>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <users-add v-if="!showEditUserPanel" @visibleAllUsersTable="visibleAllUsersPanel"></users-add>
-        <edit-user :idUser="idCurrentUser" @visibleAllUsersTable="visibleAllUsersPanel"
+        <edit-user :tokenUser="tokenCurrentUser" @visibleAllUsersTable="visibleAllUsersPanel"
                    v-if="showEditUserPanel"></edit-user>
     </div>
 </template>
@@ -46,7 +46,7 @@ export default {
       users: [],
       showAllUsers: true,
       showEditUserPanel: false,
-      idCurrentUser: ''
+      tokenCurrentUser: ''
     }
   },
   mounted () {
@@ -57,10 +57,10 @@ export default {
       const userPromise = usersService.fetchUsers()
       userPromise
         .then(response => {
-            const data = response.data
-            if  (data.length > 0) {
-                this.users = data
-            }
+          const data = response.data
+          if (data.length > 0) {
+            this.users = data
+          }
         }).catch(e => {
           console.log(e)
         })
@@ -71,23 +71,23 @@ export default {
       this.getUsers()
     },
     async deleteUser (id) {
-        const userPromise = SettingsApplicationService.settingsByNameOption('keyAdmin')
-        userPromise.then((response) => {
+      const userPromise = SettingsApplicationService.settingsByNameOption('keyAdmin')
+      userPromise.then((response) => {
         if (response.data) {
           Object.keys(response.data).forEach(function (key) {
             let currentKey = response.data[key].valueOptions
-                if (PasswordApi.verifyPassword(id, currentKey)) {
-                  SettingsApplicationService.deleteSettings(currentKey)
-                }
+            if (PasswordApi.verifyPassword(id, currentKey)) {
+              SettingsApplicationService.deleteSettings(currentKey)
+            }
           })
-            usersService.deleteUser(id)
+          usersService.deleteUser(id)
         }
       }).then(() => {
         this.getUsers()
       })
     },
-    editUser (id) {
-      this.idCurrentUser = id
+    editUser (token) {
+      this.tokenCurrentUser = token
       this.showEditUserPanel = true
       this.showAllUsers = false
     }

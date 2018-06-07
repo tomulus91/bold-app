@@ -46,19 +46,17 @@ export default {
           this.login = response.data.login
           this.name = response.data.name
           this.email = response.data.email
-          console.log(response)
-        }).then(() => {
-          console.log(this.login)
         })
     },
     async updateUser () {
       await userService.updateUser({
-        id: this.idUser,
+        token: this.tokenUser,
         login: this.login,
         name: this.name,
         email: this.email
+      }).then(() => {
+          this.exitEditUserpanel()
       })
-      this.exitEditUserpanel()
     },
     async exitEditUserpanel () {
       this.$emit('visibleAllUsersTable')

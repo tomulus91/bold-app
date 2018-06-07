@@ -42,9 +42,7 @@ export default {
     ]),
     loginToApplication () {
       if (this.login !== '' && this.password !== '') {
-        UserService.userByLogin({
-          login: this.login
-        }).then((result) => {
+        UserService.userByLogin(this.login).then((result) => {
           if (result.data) {
             if (PasswordApi.verifyPassword(this.password, result.data.password)) {
               this.sessionForUser(result.data)

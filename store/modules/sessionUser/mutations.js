@@ -25,7 +25,7 @@ export const mutations = {
       'token': state.userData.tokenUser,
       'id': state.userData.idUser
     })).ready().then(() => {
-      checkUserIsAdmin(state)
+      //checkUserIsAdmin(state)
     }).catch(() => {
       console.log('Error setItem')
     })

@@ -23,58 +23,52 @@ module.exports = function (app, db) {
     res.send(newUser)
   })
 
+  // Update user
+    app.post('/data/update-user', (req, res) => {
+      const query = {token: req.body.token}
+      const newValues = {$set: {
+              name: req.body.name,
+              login: req.body.login,
+              email: req.body.email
+          }}
+        db.collection('users').update(query, newValues,(error, user) => {
+            if (error) {
+                console.log(error)
+            }
+            res.send(user)
+        })
+    })
+
+    // Get Single User
+    app.get('/data/single-user', (req, res) => {
+        const token = req.query.token
+        db.collection('users').findOne({'token': token}, (err, result) => {
+            if (err) {
+                res.send({ 'error': 'Bad get single users' })
+            } else {
+                res.send(result)
+            }
+        })
+    })
+
   // Delete user
-  app.delete('/data/users/:id', (req) => {
-    db.collection('users').remove({_id: req.params.id}, (err, res) => {
+  app.post('/data/delete-users', (req, res) => {
+    console.log(req.body.params.token)
+    db.collection('users').deleteOne({token: req.body.params.token}, (err) => {
       if (err) throw err
       res.send(true)
-      db.close()
-    })
-  })
-
-// Single User
-  app.get('/data/single-user', (req, res) => {
-    const token = req.query.token
-    console.log('=====================')
-    console.log(token)
-    console.log('=====================')
-    db.collection('users').findOne({'token': token}, (err, result) => {
-      console.log(result)
-      if (err) {
-        res.send({ 'error': 'Bad get users' })
-      } else {
-        res.send(result)
-      }
-    })
-  })
-
-// Update user
-  app.put('/data/update_user/:id', (req, res) => {
-    db.collection('users').findById(req.params.id, 'login name email', function (error, user) {
-      if (error) {
-        console.error(error)
-      }
-      user.login = req.body.login
-      user.email = req.body.email
-      user.name = req.body.name
-      user.password = req.body.password
-      user.save(function (error) {
-        if (error) {
-          console.log(error)
-        }
-        res.send({
-          success: true
-        })
-      })
     })
   })
 
 // Single User by login
-  app.get('/data/login_user/:login', (req, res) => {
-    db.collection('users').findOne({
-      login: req.params.login
-    }, 'password token', (error, result) => {
-      res.send(result)
-    })
+  app.get('/data/login-user', (req, res) => {
+      const login = req.query.login
+      db.collection('users').findOne({'login': login}, (err, result) => {
+          if (err) {
+              res.send({ 'error': 'Bad login user' })
+          } else {
+              res.send(result)
+          }
+      })
   })
 }

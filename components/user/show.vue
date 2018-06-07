@@ -16,7 +16,7 @@
                         <td>{{ user.email }}</td>
                         <td align="center">
                             <a href="#" @click.prevent="editUser(user.token)">Edit</a> |
-                            <a href="#" @click.prevent="deleteUser(user._id)">Delete</a>
+                            <a href="#" @click.prevent="deleteUser(user.token)">Delete</a>
                         </td>
                     </tr>
                 </table>
@@ -70,19 +70,21 @@ export default {
       this.showEditUserPanel = false
       this.getUsers()
     },
-    async deleteUser (id) {
-      const userPromise = SettingsApplicationService.settingsByNameOption('keyAdmin')
-      userPromise.then((response) => {
-        if (response.data) {
-          Object.keys(response.data).forEach(function (key) {
-            let currentKey = response.data[key].valueOptions
-            if (PasswordApi.verifyPassword(id, currentKey)) {
-              SettingsApplicationService.deleteSettings(currentKey)
-            }
-          })
-          usersService.deleteUser(id)
-        }
-      }).then(() => {
+    async deleteUser (token) {
+      // const userPromise = SettingsApplicationService.settingsByNameOption('keyAdmin')
+      // userPromise.then((response) => {
+      //   if (response.data) {
+      //     Object.keys(response.data).forEach(function (key) {
+      //       let currentKey = response.data[key].valueOptions
+      //       if (PasswordApi.verifyPassword(token, currentKey)) {
+      //         SettingsApplicationService.deleteSettings(currentKey)
+      //       }
+      //     })
+      //     usersService.deleteUser(token)
+      //   }
+      // })
+        const userPromise = usersService.deleteUser(token)
+        userPromise.then(() => {
         this.getUsers()
       })
     },

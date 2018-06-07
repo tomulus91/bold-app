@@ -8,11 +8,15 @@ export default {
   addUsers (params) {
     return axios.post(`${BASE_URL}add-users`, params)
   },
-  deleteUser (id) {
-    return axios.delete(`${BASE_URL}users/${id}`)
+  deleteUser (token) {
+    return axios.post(`${BASE_URL}delete-users`, {
+        params: {
+            token: token
+        }
+    })
   },
   updateUser (params) {
-    return axios.put(`${BASE_URL}update_user/${params}`)
+    return axios.post(`${BASE_URL}update-user`, params)
   },
   getUser (token) {
     return axios.get(`${BASE_URL}single-user`, {
@@ -21,7 +25,11 @@ export default {
       }
     })
   },
-  userByLogin (params) {
-    return axios.get(`${BASE_URL}login_user/${params.login}`)
+  userByLogin (login) {
+    return axios.get(`${BASE_URL}login-user`, {
+        params: {
+            login: login
+        }
+    })
   }
 }

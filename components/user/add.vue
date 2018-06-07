@@ -36,7 +36,7 @@
 
 <script>
 import usersService from '@/assets/service/users'
-import SettingsService from '@/assets/service/settingsApplication'
+import settingsService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import debounce from 'debounce'
 
@@ -114,31 +114,39 @@ export default {
         this.errorEmail = false
       }
     },
+    resetData () {
+      this.token = ''
+      this.name = ''
+      this.email = ''
+      this.password = ''
+      this.token = randomstring.generate()
+      this.errorEmail = false
+    },
     async showPanelAddUsers () {
+      this.resetData()
       this.showAddUsersPanel = true
       this.$emit('visibleAllUsersTable')
     },
     async addUsers () {
-        const dataToSend = {
-            login: this.login,
-            name: this.name,
-            email: this.email,
-            password: PasswordApi.generatePassword(this.password),
-            token: this.token
+      const dataToSend = {
+        login: this.login,
+        name: this.name,
+        email: this.email,
+        password: PasswordApi.generatePassword(this.password),
+        token: this.token
+      }
+      usersService.addUsers(dataToSend).then((result) => {
+        const token = result.data.token
+
+        if (this.userIsAdmin) {
+          settingsService.addSettings({
+            nameOption: 'keyAdmin',
+            valueOption: PasswordApi.generatePassword(token)
+          })
         }
-      usersService.addUsers(dataToSend).then(() => {
-          this.$emit('visibleAllUsersTable')
-          this.showAddUsersPanel = false
+        this.$emit('visibleAllUsersTable')
+        this.showAddUsersPanel = false
       })
-      //     .then((result) => {
-      //   this.id = result.data._id
-      //   if (this.userIsAdmin) {
-      //     SettingsService.addSettings({
-      //       nameOptions: 'keyAdmin',
-      //       valueOptions: PasswordApi.generatePassword(this.id)
-      //     })
-      //   }
-      // })
     },
     async exitAddUsers () {
       this.$emit('visibleAllUsersTable')

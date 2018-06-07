@@ -10,9 +10,9 @@ export default {
   },
   deleteUser (token) {
     return axios.post(`${BASE_URL}delete-users`, {
-        params: {
-            token: token
-        }
+      params: {
+        token: token
+      }
     })
   },
   updateUser (params) {
@@ -27,9 +27,9 @@ export default {
   },
   userByLogin (login) {
     return axios.get(`${BASE_URL}login-user`, {
-        params: {
-            login: login
-        }
+      params: {
+        login: login
+      }
     })
   }
 }

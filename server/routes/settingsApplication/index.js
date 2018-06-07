@@ -1,53 +1,52 @@
 module.exports = function (app, db) {
-// Get all options application
-  app.get('/settings', (req, res) => {
-    SettingsApplication.find({}, function (error, users) {
-      if (error) {
-        console.error(error)
-      }
-      res.send({
-        settingsApplication: users
-      })
-    }).sort({_id: -1})
-  })
 
-// Add new settings
-  app.post('/add_settings', (req, res) => {
-    let newOption = new SettingsApplication({
-      nameOptions: req.body.nameOptions,
-      valueOptions: req.body.valueOptions
-    })
-
-    newOption.save(function (error, option) {
-      if (error) {
-        console.log(error)
-      } else {
-        res.send(option)
-      }
-    })
-  })
-
-// Single User by login
-  app.get('/setting_by_name_option/:option', (req, res) => {
-    SettingsApplication.find({
-      nameOptions: req.params.option
-    }, 'valueOptions', function (error, result) {
-      error ? res.send(error) : res.send(result)
-    })
-  })
-
-// Delete setting by param
-  app.delete('/remove_settings/:option', (req, res) => {
-    SettingsApplication.remove({
-      'valueOptions': req.params.option
-    }, function (err) {
+  // Get all options application
+  app.get('/data/setting', (req, res) => {
+    db.collection('settings').find({}).toArray((err, result) => {
       if (err) {
-        res.send(err)
+        res.send({'error': 'Bad get settings'})
       } else {
-        res.send({
-          success: true
-        })
+        res.send(result)
       }
+    })
+  })
+
+  // Add setting
+  app.post('/data/add-setting', (req, res) => {
+    const newSetting = {
+      keyOption: req.body.nameOption,
+      valueOption: req.body.valueOption
+    }
+    db.collection('settings').insert(newSetting)
+    res.send(newSetting)
+  })
+
+  // Get setting by keyoption
+  app.get('/data/setting-by-name-option', (req, res) => {
+    const keyOption = req.query.nameOption
+    const arrayKeyAdmin = []
+    db.collection('settings').find({}).toArray((err, result) => {
+      if (err) {
+        res.send({'error': 'Bad get single users'})
+      } else {
+        Object.keys(result).forEach(function (key) {
+          const currentkeyOption = result[key].keyOption
+          if (currentkeyOption === keyOption) {
+            arrayKeyAdmin.push(result[key])
+          }
+        })
+        res.send(arrayKeyAdmin)
+      }
+    })
+  })
+
+  // Delete setting by value
+  app.post('/data/remove-setting', (req, res) => {
+    console.log(req.body.params.valueOption)
+    db.collection('settings').deleteOne({valueOption: req.body.params.valueOption}, (err) => {
+      if (err) throw err
+      res.send(true)
     })
   })
 }
+

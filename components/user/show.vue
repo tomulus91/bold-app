@@ -35,7 +35,7 @@
 import usersService from '~/assets/service/users'
 import UsersAdd from '@/components/user/add'
 import EditUser from '@/components/user/edit'
-import SettingsApplicationService from '@/assets/service/settingsApplication'
+import settingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 
 export default {
@@ -71,21 +71,21 @@ export default {
       this.getUsers()
     },
     async deleteUser (token) {
-      // const userPromise = SettingsApplicationService.settingsByNameOption('keyAdmin')
-      // userPromise.then((response) => {
-      //   if (response.data) {
-      //     Object.keys(response.data).forEach(function (key) {
-      //       let currentKey = response.data[key].valueOptions
-      //       if (PasswordApi.verifyPassword(token, currentKey)) {
-      //         SettingsApplicationService.deleteSettings(currentKey)
-      //       }
-      //     })
-      //     usersService.deleteUser(token)
-      //   }
-      // })
+      const settingPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
+      settingPromise.then((response) => {
+        if (response.data) {
+          Object.keys(response.data).forEach(function (key) {
+            const currentValueOption = response.data[key].valueOption
+            if (PasswordApi.verifyPassword(token, currentValueOption)) {
+              settingsApplicationService.deleteSettings(currentValueOption)
+            }
+          })
+        }
+      }).then(() => {
         const userPromise = usersService.deleteUser(token)
         userPromise.then(() => {
-        this.getUsers()
+          this.getUsers()
+        })
       })
     },
     editUser (token) {

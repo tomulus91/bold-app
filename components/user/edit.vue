@@ -15,6 +15,9 @@
                 <input type="email" name="email" placeholder="E-mail uzytkownika" v-model="email">
             </div>
             <div>
+                <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
+            </div>
+            <div>
                 <button class="app_post_btn" @click="updateUser">Aktualizuj</button>
                 <br/> <br/>
                 <button class="app_post_btn" @click="exitEditUserpanel">Anuluj</button>
@@ -25,6 +28,8 @@
 
 <script>
 import userService from '@/assets/service/users'
+import settingsApplicationService from '@/assets/service/settingsApplication'
+import PasswordApi from '@/plugins/PasswordApi'
 
 export default {
   name: 'EditUser',
@@ -33,7 +38,9 @@ export default {
     return {
       login: '',
       name: '',
-      email: ''
+      email: '',
+      token: '',
+      userIsAdmin: false
     }
   },
   mounted () {
@@ -46,6 +53,19 @@ export default {
           this.login = response.data.login
           this.name = response.data.name
           this.email = response.data.email
+          this.token = response.data.token
+        }).then(() => {
+          const settingPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
+          settingPromise.then((response) => {
+            if (response.data) {
+              Object.keys(response.data).forEach((key) => {
+                const currentValueOption = response.data[key].valueOption
+                if (PasswordApi.verifyPassword(this.token, currentValueOption)) {
+                  this.userIsAdmin = true
+                }
+              })
+            }
+          })
         })
     },
     async updateUser () {
@@ -55,7 +75,7 @@ export default {
         name: this.name,
         email: this.email
       }).then(() => {
-          this.exitEditUserpanel()
+        this.exitEditUserpanel()
       })
     },
     async exitEditUserpanel () {
@@ -87,5 +107,9 @@ export default {
         width: 520px;
         border: none;
         cursor: pointer;
+    }
+
+    .form input[type = 'checkbox'] {
+        width: auto;
     }
 </style>

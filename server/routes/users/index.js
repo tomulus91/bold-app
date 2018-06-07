@@ -3,7 +3,7 @@ module.exports = function (app, db) {
   app.get('/data/users', (req, res) => {
     db.collection('users').find({}).toArray((err, result) => {
       if (err) {
-        res.send({ 'error': 'Bad get users' })
+        res.send({'error': 'Bad get users'})
       } else {
         res.send(result)
       }
@@ -24,36 +24,37 @@ module.exports = function (app, db) {
   })
 
   // Update user
-    app.post('/data/update-user', (req, res) => {
-      const query = {token: req.body.token}
-      const newValues = {$set: {
-              name: req.body.name,
-              login: req.body.login,
-              email: req.body.email
-          }}
-        db.collection('users').update(query, newValues,(error, user) => {
-            if (error) {
-                console.log(error)
-            }
-            res.send(user)
-        })
+  app.post('/data/update-user', (req, res) => {
+    const query = {token: req.body.token}
+    const newValues = {
+      $set: {
+        name: req.body.name,
+        login: req.body.login,
+        email: req.body.email
+      }
+    }
+    db.collection('users').update(query, newValues, (error, user) => {
+      if (error) {
+        console.log(error)
+      }
+      res.send(user)
     })
+  })
 
-    // Get Single User
-    app.get('/data/single-user', (req, res) => {
-        const token = req.query.token
-        db.collection('users').findOne({'token': token}, (err, result) => {
-            if (err) {
-                res.send({ 'error': 'Bad get single users' })
-            } else {
-                res.send(result)
-            }
-        })
+  // Get Single User
+  app.get('/data/single-user', (req, res) => {
+    const token = req.query.token
+    db.collection('users').findOne({'token': token}, (err, result) => {
+      if (err) {
+        res.send({'error': 'Bad get single users'})
+      } else {
+        res.send(result)
+      }
     })
+  })
 
   // Delete user
   app.post('/data/delete-users', (req, res) => {
-    console.log(req.body.params.token)
     db.collection('users').deleteOne({token: req.body.params.token}, (err) => {
       if (err) throw err
       res.send(true)
@@ -62,13 +63,13 @@ module.exports = function (app, db) {
 
 // Single User by login
   app.get('/data/login-user', (req, res) => {
-      const login = req.query.login
-      db.collection('users').findOne({'login': login}, (err, result) => {
-          if (err) {
-              res.send({ 'error': 'Bad login user' })
-          } else {
-              res.send(result)
-          }
-      })
+    const login = req.query.login
+    db.collection('users').findOne({'login': login}, (err, result) => {
+      if (err) {
+        res.send({'error': 'Bad login user'})
+      } else {
+        res.send(result)
+      }
+    })
   })
 }

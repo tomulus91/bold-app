@@ -1,25 +1,28 @@
 import axios from 'axios'
-
-const network = () => {
-  return axios.create({
-    baseURL: 'http://localhost:8082'
-  })
-}
+import { BASE_URL } from '../api.config'
 
 export default {
   fetchSettings () {
-    return network().get('settings')
+    return axios.get(`${BASE_URL}setting`)
   },
   addSettings (params) {
-    return network().post('add_settings', params)
+    return axios.post(`${BASE_URL}add-setting`, params)
   },
-  deleteSettings (params) {
-    return network().delete('remove_settings/' + params)
+  deleteSettings (valueOption) {
+    return axios.post(`${BASE_URL}remove-setting`, {
+      params: {
+        valueOption: valueOption
+      }
+    })
   },
   updateSettings (params) {
-    return network().put('update_settings/' + params.id, params)
+    return axios.put(`${BASE_URL}update-settings`, params.id, params)
   },
-  settingsByNameOption (params) {
-    return network().get('setting_by_name_option/' + params)
+  settingsByNameOption (nameOption) {
+    return axios.get(`${BASE_URL}setting-by-name-option`, {
+      params: {
+        nameOption: nameOption
+      }
+    })
   }
 }

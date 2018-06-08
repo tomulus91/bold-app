@@ -3,7 +3,7 @@ import { BASE_URL } from '../api.config'
 
 export default {
   fetchSettings () {
-    return axios.get(`${BASE_URL}setting`)
+    return axios.get(`${BASE_URL}settings`)
   },
   addSettings (params) {
     return axios.post(`${BASE_URL}add-setting`, params)

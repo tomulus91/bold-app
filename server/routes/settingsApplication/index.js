@@ -1,7 +1,7 @@
 module.exports = function (app, db) {
 
   // Get all options application
-  app.get('/data/setting', (req, res) => {
+  app.get('/data/settings', (req, res) => {
     db.collection('settings').find({}).toArray((err, result) => {
       if (err) {
         res.send({'error': 'Bad get settings'})
@@ -42,7 +42,6 @@ module.exports = function (app, db) {
 
   // Delete setting by value
   app.post('/data/remove-setting', (req, res) => {
-    console.log(req.body.params.valueOption)
     db.collection('settings').deleteOne({valueOption: req.body.params.valueOption}, (err) => {
       if (err) throw err
       res.send(true)

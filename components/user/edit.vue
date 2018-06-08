@@ -40,7 +40,8 @@ export default {
       name: '',
       email: '',
       token: '',
-      userIsAdmin: false
+      userIsAdmin: false,
+        beginValueUserIsAdmin: false
     }
   },
   mounted () {
@@ -62,6 +63,7 @@ export default {
                 const currentValueOption = response.data[key].valueOption
                 if (PasswordApi.verifyPassword(this.token, currentValueOption)) {
                   this.userIsAdmin = true
+                  this.beginValueUserIsAdmin = true
                 }
               })
             }
@@ -74,6 +76,26 @@ export default {
         login: this.login,
         name: this.name,
         email: this.email
+      }).then(() => {
+        if (!this.userIsAdmin && this.beginValueUserIsAdmin) {
+            const settingPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
+            settingPromise.then((response) => {
+                if (response.data) {
+                    Object.keys(response.data).forEach((key) => {
+                        const currentValueOption = response.data[key].valueOption
+                        if (PasswordApi.verifyPassword(this.token, currentValueOption)) {
+                            settingsApplicationService.deleteSettings(currentValueOption)
+                        }
+                    })
+                }
+            })
+        }
+      if (this.userIsAdmin && !this.beginValueUserIsAdmin) {
+          settingsApplicationService.addSettings({
+              nameOption: 'keyAdmin',
+              valueOption: PasswordApi.generatePassword(this.token)
+          })
+      }
       }).then(() => {
         this.exitEditUserpanel()
       })

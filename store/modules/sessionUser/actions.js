@@ -8,5 +8,8 @@ export default {
   },
   checkSession ({state, commit}) {
     commit(types.CHECK_SESSION_USER)
+  },
+  getUsers ({state, commit}) {
+    commit(types.GET_ALL_USERS)
   }
 }

@@ -7,9 +7,9 @@ export default {
     userData: {
       userIsLogged: false,
       userIsAdmin: false,
-      tokenUser: '',
-      idUser: ''
-    }
+      tokenUser: ''
+    },
+    users: []
   },
   mutations,
   actions

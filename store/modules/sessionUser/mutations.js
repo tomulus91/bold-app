@@ -1,12 +1,14 @@
 import localStorage from '@/plugins/localforage'
-import SettingsApplicationService from '@/assets/service/settingsApplication'
+import settingsApplicationService from '@/assets/service/settingsApplication'
+import usersService from '~/assets/service/users'
 import PasswordApi from '@/plugins/PasswordApi'
 
 export const types = {
   ADD_SESSION_LOGGED_USER: 'ADD_SESSION_LOGGED_USER',
   REMOVE_SESSION_LOGGED_USER: 'REMOVE_SESSION_LOGGED_USER',
   CHECK_SESSION_USER: 'CHECK_SESSION_USER',
-  CHECK_USER_IS_ADMIN: 'CHECK_USER_IS_ADMIN'
+  CHECK_USER_IS_ADMIN: 'CHECK_USER_IS_ADMIN',
+  GET_ALL_USERS: 'GET_ALL_USERS'
 }
 
 const LocalStorageName = {
@@ -18,14 +20,12 @@ export const mutations = {
     state.userData = {
       userIsLogged: true,
       userIsAdmin: false,
-      tokenUser: dataUser.token,
-      idUser: dataUser._id
+      tokenUser: dataUser.token
     }
     localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
-      'token': state.userData.tokenUser,
-      'id': state.userData.idUser
-    })).ready().then(() => {
-      //checkUserIsAdmin(state)
+      'token': state.userData.tokenUser
+    })).then(() => {
+      checkUserIsAdmin(state)
     }).catch(() => {
       console.log('Error setItem')
     })
@@ -35,41 +35,49 @@ export const mutations = {
     state.userData = {
       userIsLogged: false,
       userIsAdmin: false,
-      tokenUser: '',
-      idUser: ''
+      tokenUser: ''
     }
   },
   [types.CHECK_SESSION_USER] (state) {
     localStorage.getItem(LocalStorageName.USER_DATA, (err, value) => {
-      if (!err) {
+      if (!err && value) {
         let data = JSON.parse(value)
         state.userData = {
           userIsLogged: true,
-          userIsAdmin: PasswordApi.verifyPassword(data.id, data.perm),
-          tokenUser: data.token,
-          idUser: data.id
+          userIsAdmin: PasswordApi.verifyPassword(data.token, data.perm),
+          tokenUser: data.token
         }
         if (!state.userData.userIsAdmin) {
           checkUserIsAdmin(state)
         }
       }
     })
+  },
+  [types.GET_ALL_USERS] (state) {
+    const userPromise = usersService.fetchUsers()
+    userPromise
+      .then(response => {
+        const data = response.data
+        if (data.length > 0) {
+          state.users = data
+        }
+      }).catch(e => {
+      console.log(e)
+    })
   }
 }
 
 const checkUserIsAdmin = (state) => {
-  SettingsApplicationService.settingsByNameOption(
-    'keyAdmin'
-  ).then((result) => {
+  const settingsPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
+  settingsPromise.then((result) => {
     if (result.data) {
       Object.keys(result.data).forEach(function (key) {
-        let currentKey = result.data[key].valueOptions
-        if (PasswordApi.verifyPassword(state.userData.idUser, currentKey)) {
+        let currentKey = result.data[key].valueOption
+        if (PasswordApi.verifyPassword(state.userData.tokenUser, currentKey)) {
           state.userData.userIsAdmin = true
           localStorage.removeItem(LocalStorageName.USER_DATA)
           localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
             'token': state.userData.tokenUser,
-            'id': state.userData.idUser,
             'perm': currentKey
           }))
         }

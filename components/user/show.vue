@@ -37,34 +37,30 @@ import UsersAdd from '@/components/user/add'
 import EditUser from '@/components/user/edit'
 import settingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
+import {mapState, mapActions} from 'vuex'
 
 export default {
   name: 'usersShow',
   components: {UsersAdd, EditUser},
   data () {
     return {
-      users: [],
       showAllUsers: true,
       showEditUserPanel: false,
       tokenCurrentUser: ''
     }
   },
+  computed: {
+    ...mapState('sessionUser', {
+      users: state => state.users
+    })
+  },
   mounted () {
-    this.getUsers()
+    this.getUsers({})
   },
   methods: {
-    async getUsers () {
-      const userPromise = usersService.fetchUsers()
-      userPromise
-        .then(response => {
-          const data = response.data
-          if (data.length > 0) {
-            this.users = data
-          }
-        }).catch(e => {
-          console.log(e)
-        })
-    },
+    ...mapActions('sessionUser', [
+      'getUsers'
+    ]),
     visibleAllUsersPanel () {
       this.showAllUsers = !this.showAllUsers
       this.showEditUserPanel = false

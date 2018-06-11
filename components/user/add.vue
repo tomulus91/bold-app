@@ -5,7 +5,7 @@
             <div class="input-wrapper">
                 <div>
                     <label class="label-user">Login user</label>
-                    <input class="input-user" v-validate="'required|alpha|min:6'" type="text" name="login"
+                    <input class="input-user" v-validate="'required|min:6'" type="text" name="login"
                            placeholder="Write Your login"/>
                 </div>
                 <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>

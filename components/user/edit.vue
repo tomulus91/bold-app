@@ -2,25 +2,40 @@
     <div class="posts">
         <h1>Edit Post</h1>
         <div class="form">
+            <form class="add-user" v-on:submit.prevent="submit">
+                <div class="input-wrapper">
+                    <div>
+                        <label class="label-user">Login user</label>
+                        <input class="input-user" v-validate="'required|min:6'" v-model="login" type="text" name="login"
+                               placeholder="Write Your login"/>
+                    </div>
+                    <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
+                </div>
+                <div class="input-wrapper">
+                    <div>
+                        <label class="label-user">Name user</label>
+                        <input class="input-user" v-validate="'required|alpha|min:6'" v-model="name" type="text" name="name"
+                               placeholder="Write Your Name"/>
+                    </div>
+                    <validation-error v-if="vErrors.has('name')" :errorMessage="vErrors.first('name')"/>
+                </div>
+                <div class="input-wrapper">
+                    <div>
+                        <label class="label-user">E-mail user</label>
+                        <input class="input-user" v-validate="'required|email|min:6'" v-model="email" type="text" name="email"
+                               placeholder="Write Your Email"/>
+                    </div>
+                    <validation-error v-if="vErrors.has('email')" :errorMessage="vErrors.first('email')"/>
+                </div>
+                <div>
+                    <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
+                </div>
+                <button class="add-question__submit btn--default" :class="{ active: isValidateAll }" type="submit">
+                    Update User
+                </button>
+            </form>
             <div>
-                <label>Login:</label><br/>
-                <input type="text" name="login" placeholder="Login" v-model="login">
-            </div>
-            <div>
-                <label>Imię i nazwisko:</label><br/>
-                <input type="text" name="name" placeholder="Imię i nazwisko" v-model="name">
-            </div>
-            <div>
-                <label>E-mail:</label><br/>
-                <input type="email" name="email" placeholder="E-mail uzytkownika" v-model="email">
-            </div>
-            <div>
-                <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
-            </div>
-            <div>
-                <button class="app_post_btn" @click="updateUser">Aktualizuj</button>
-                <br/> <br/>
-                <button class="app_post_btn" @click="exit">Anuluj</button>
+                <div class="app_post_btn" @click="exit">Anuluj</div>
             </div>
         </div>
     </div>
@@ -31,10 +46,14 @@ import userService from '@/assets/service/users'
 import settingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import {mapActions} from 'vuex'
+import ValidationError from '@/components/common/validation/ValidationError'
 
 export default {
   name: 'EditUser',
   props: ['tokenUser'],
+  components: {
+    ValidationError
+  },
   data () {
     return {
       login: '',
@@ -48,10 +67,50 @@ export default {
   mounted () {
     this.getPost()
   },
+  computed: {
+    isValidateAll () {
+      return Object.keys(this.fields).every(key => this.fields[key].valid)
+    }
+  },
   methods: {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
+    submit () {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          userService.updateUser({
+            token: this.tokenUser,
+            login: this.login,
+            name: this.name,
+            email: this.email
+          }).then(() => {
+            if (!this.userIsAdmin && this.beginValueUserIsAdmin) {
+              const settingPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
+              settingPromise.then((response) => {
+                if (response.data) {
+                  Object.keys(response.data).forEach((key) => {
+                    const currentValueOption = response.data[key].valueOption
+                    if (PasswordApi.verifyPassword(this.token, currentValueOption)) {
+                      settingsApplicationService.deleteSettings(currentValueOption)
+                    }
+                  })
+                }
+              })
+            }
+            if (this.userIsAdmin && !this.beginValueUserIsAdmin) {
+              settingsApplicationService.addSettings({
+                nameOption: 'keyAdmin',
+                valueOption: PasswordApi.generatePassword(this.token)
+              })
+            }
+          }).then(() => {
+            this.getUsers({})
+            this.exit()
+          })
+        }
+      })
+    },
     async getPost () {
       await userService.getUser(this.tokenUser)
         .then((response) => {
@@ -74,69 +133,12 @@ export default {
           })
         })
     },
-    async updateUser () {
-      await userService.updateUser({
-        token: this.tokenUser,
-        login: this.login,
-        name: this.name,
-        email: this.email
-      }).then(() => {
-        if (!this.userIsAdmin && this.beginValueUserIsAdmin) {
-          const settingPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
-          settingPromise.then((response) => {
-            if (response.data) {
-              Object.keys(response.data).forEach((key) => {
-                const currentValueOption = response.data[key].valueOption
-                if (PasswordApi.verifyPassword(this.token, currentValueOption)) {
-                  settingsApplicationService.deleteSettings(currentValueOption)
-                }
-              })
-            }
-          })
-        }
-        if (this.userIsAdmin && !this.beginValueUserIsAdmin) {
-          settingsApplicationService.addSettings({
-            nameOption: 'keyAdmin',
-            valueOption: PasswordApi.generatePassword(this.token)
-          })
-        }
-      }).then(() => {
-        this.getUsers({})
-        this.exit()
-      })
-    },
     async exit () {
       this.$emit('setVisibleUserPanel')
-    },
+    }
   }
 }
 </script>
 <style type="text/css">
-    .form input, .form textarea {
-        width: 500px;
-        padding: 10px;
-        border: 1px solid #e0dede;
-        outline: none;
-        font-size: 12px;
-    }
 
-    .form div {
-        margin: 20px;
-    }
-
-    .app_post_btn {
-        background: #4d7ef7;
-        color: #fff;
-        padding: 10px 80px;
-        text-transform: uppercase;
-        font-size: 12px;
-        font-weight: bold;
-        width: 520px;
-        border: none;
-        cursor: pointer;
-    }
-
-    .form input[type = 'checkbox'] {
-        width: auto;
-    }
 </style>

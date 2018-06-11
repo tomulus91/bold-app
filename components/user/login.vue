@@ -1,82 +1,75 @@
 <template>
-    <div class="posts">
-        <div class="form" v-if="!this.userIsLogged">
+    <form class="add-user" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
+        <div class="input-wrapper">
             <div>
-                <label>Login</label><br/>
-                <input type="text" name="login" placeholder="Login" v-model="login">
+                <label class="label-user">Login user</label>
+                <input class="input-user" v-validate="'required|min:6'" type="text" name="login"
+                       placeholder="Write Your login"/>
             </div>
-            <div>
-                <label>Password</label><br/>
-                <input type="password" name="password" placeholder="Password" v-model="password">
-            </div>
-            <div>
-                <button class="app_post_btn" @click.prevent="loginToApplication">Zaloguj się</button>
-                <br/> <br/>
-            </div>
+            <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
         </div>
-    </div>
+        <div class="input-wrapper">
+            <div>
+                <label class="label-user">Password User</label>
+                <input class="input-user" v-validate="'required|min:6'" type="password" name="password"
+                       placeholder="Write Your Password"/>
+            </div>
+            <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
+        </div>
+        <div>
+            <button class="app_post_btn">Zaloguj się</button>
+            <br/> <br/>
+        </div>
+    </form>
 </template>
 
 <script>
+import Vue from 'vue'
+import VeeValidate from 'vee-validate'
 import UserService from '@/assets/service/users'
 import PasswordApi from '@/plugins/PasswordApi'
-import {mapState, mapActions} from 'vuex'
-
+import { mapState, mapActions } from 'vuex'
+import ValidationError from '@/components/common/validation/ValidationError'
+Vue.use(VeeValidate, {
+  errorBagName: 'vErrors'
+})
 export default {
   name: 'loginUser',
-  data () {
-    return {
-      login: '',
-      password: '',
-      showPanelLogin: false
-    }
+  components: {
+    ValidationError
   },
   computed: {
     ...mapState('sessionUser', {
       userIsLogged: state => state.userData['userIsLogged']
-    })
+    }),
+    isValidateAll () {
+      return Object.keys(this.fields).every(key => this.fields[key].valid)
+    }
   },
   methods: {
     ...mapActions('sessionUser', [
       'sessionForUser'
     ]),
-    loginToApplication () {
-      if (this.login !== '' && this.password !== '') {
-        UserService.userByLogin(this.login).then((result) => {
-          if (result.data) {
-            if (PasswordApi.verifyPassword(this.password, result.data.password)) {
-              this.sessionForUser(result.data)
+    submit (submitEvent) {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          const formInputs = submitEvent.target.elements
+          const login = formInputs.login.value
+          const password = formInputs.password.value
+          UserService.userByLogin(login).then((result) => {
+            if (result.data) {
+              if (PasswordApi.verifyPassword(password, result.data.password)) {
+                this.sessionForUser(result.data)
+              }
             }
-          }
-        })
-      }
+          })
+        }
+      })
     }
   }
 }
 </script>
 
 <style scoped>
-    .form input, .form textarea {
-        width: 500px;
-        padding: 10px;
-        border: 1px solid #e0dede;
-        outline: none;
-        font-size: 12px;
-    }
 
-    .form div {
-        margin: 20px;
-    }
-
-    .app_post_btn {
-        background: #4d7ef7;
-        color: #fff;
-        padding: 10px 80px;
-        text-transform: uppercase;
-        font-size: 12px;
-        font-weight: bold;
-        width: 520px;
-        border: none;
-        cursor: pointer;
-    }
 </style>

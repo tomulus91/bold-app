@@ -1,6 +1,6 @@
 <template>
     <div class="users">
-        <div v-if="showAllUsers">
+        <div v-if="flags.showAllUsers">
             <h1>Baza użytkowników</h1>
             <div v-if="users.length > 0" class="table-wrap">
                 <table>
@@ -24,10 +24,13 @@
             <div v-else>
                 Brak użytkowników w bazie <br/><br/>
             </div>
+            <button class="button_btn button_btn-center" @click="setVisibleUserPanel(false, false, true)">
+                Dodaj nowego użytkownika
+            </button>
         </div>
-        <users-add v-if="!showEditUserPanel" @visibleAllUsersTable="visibleAllUsersPanel"></users-add>
-        <edit-user :tokenUser="tokenCurrentUser" @visibleAllUsersTable="visibleAllUsersPanel"
-                   v-if="showEditUserPanel"></edit-user>
+        <users-add v-if="flags.addSingleUser" @setVisibleUserPanel="setVisibleUserPanel"></users-add>
+        <edit-user :tokenUser="tokenCurrentUser" @setVisibleUserPanel="setVisibleUserPanel"
+                   v-if="flags.editSingleUser"></edit-user>
     </div>
 </template>
 
@@ -46,7 +49,12 @@ export default {
     return {
       showAllUsers: true,
       showEditUserPanel: false,
-      tokenCurrentUser: ''
+      tokenCurrentUser: '',
+      flags: {
+        showAllUsers: true,
+        editSingleUser: false,
+        addSingleUser: false
+      }
     }
   },
   computed: {
@@ -61,10 +69,10 @@ export default {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
-    visibleAllUsersPanel () {
-      this.showAllUsers = !this.showAllUsers
-      this.showEditUserPanel = false
-      this.getUsers()
+    setVisibleUserPanel (showAllUsers, editSingleUser, addSingleUser) {
+      this.flags.showAllUsers = showAllUsers !== undefined ? showAllUsers : true
+      this.flags.editSingleUser = editSingleUser !== undefined ? editSingleUser : false
+      this.flags.addSingleUser = addSingleUser !== undefined ? addSingleUser : false
     },
     async deleteUser (token) {
       const settingPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
@@ -86,8 +94,7 @@ export default {
     },
     editUser (token) {
       this.tokenCurrentUser = token
-      this.showEditUserPanel = true
-      this.showAllUsers = false
+      this.setVisibleUserPanel(false, true, false)
     }
   }
 }

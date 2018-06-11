@@ -20,7 +20,7 @@
             <div>
                 <button class="app_post_btn" @click="updateUser">Aktualizuj</button>
                 <br/> <br/>
-                <button class="app_post_btn" @click="exitEditUserpanel">Anuluj</button>
+                <button class="app_post_btn" @click="exit">Anuluj</button>
             </div>
         </div>
     </div>
@@ -30,6 +30,7 @@
 import userService from '@/assets/service/users'
 import settingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
+import {mapActions} from 'vuex'
 
 export default {
   name: 'EditUser',
@@ -48,6 +49,9 @@ export default {
     this.getPost()
   },
   methods: {
+    ...mapActions('sessionUser', [
+      'getUsers'
+    ]),
     async getPost () {
       await userService.getUser(this.tokenUser)
         .then((response) => {
@@ -97,12 +101,13 @@ export default {
           })
         }
       }).then(() => {
-        this.exitEditUserpanel()
+        this.getUsers({})
+        this.exit()
       })
     },
-    async exitEditUserpanel () {
-      this.$emit('visibleAllUsersTable')
-    }
+    async exit () {
+      this.$emit('setVisibleUserPanel')
+    },
   }
 }
 </script>

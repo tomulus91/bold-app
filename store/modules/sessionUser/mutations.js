@@ -62,8 +62,8 @@ export const mutations = {
           state.users = data
         }
       }).catch(e => {
-      console.log(e)
-    })
+        console.log(e)
+      })
   }
 }
 

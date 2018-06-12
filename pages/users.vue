@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.userIsAdmin && this.userIsLogged">
+    <div v-if="this.userIsLogged && this.userIsAdmin">
         <users-show></users-show>
     </div>
     <div v-else>

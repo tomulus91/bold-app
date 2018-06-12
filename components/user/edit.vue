@@ -30,9 +30,7 @@
                 <div>
                     <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
                 </div>
-                <button class="add-question__submit btn--default" :class="{ active: isValidateAll }" type="submit">
-                    Update User
-                </button>
+                <button-elements :buttonMessage="'Aktualizuj dane'" />
             </form>
             <div>
                 <div class="app_post_btn" @click="exit">Anuluj</div>
@@ -47,12 +45,14 @@ import settingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import {mapActions} from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'
+import ButtonElements from '@/components/common/elements/button'
 
 export default {
   name: 'EditUser',
   props: ['tokenUser'],
   components: {
-    ValidationError
+    ValidationError,
+    ButtonElements
   },
   data () {
     return {

@@ -8,6 +8,9 @@ module.exports = {
       'localforage'
     ]
   },
+  css: [
+    '@/assets/css/src/main.scss'
+  ],
   plugins: [
     '~/plugins/localforage'
   ],

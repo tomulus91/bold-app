@@ -30,7 +30,9 @@ export default {
       'sessionForUser'
     ]),
     logoutWithApplication () {
-      this.sessionForUser({})
+      this.sessionForUser({}).then(() => {
+        this.$nuxt.$router.replace({ path: '/' })
+      })
     }
   }
 }

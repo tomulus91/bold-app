@@ -1,5 +1,6 @@
 <template>
     <form class="add-user" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
+        <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
         <div class="input-wrapper">
             <div>
                 <label class="label-user">Login user</label>
@@ -17,7 +18,7 @@
             <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
         </div>
         <div>
-            <button class="app_post_btn">Zaloguj się</button>
+            <button-elements :buttonMessage="'Zaloguj sie'" />
             <br/> <br/>
         </div>
     </form>
@@ -30,13 +31,24 @@ import UserService from '@/assets/service/users'
 import PasswordApi from '@/plugins/PasswordApi'
 import { mapState, mapActions } from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'
+import ButtonElements from '@/components/common/elements/button'
+import Message from '@/components/common/message'
+
 Vue.use(VeeValidate, {
   errorBagName: 'vErrors'
 })
+
 export default {
   name: 'loginUser',
+  data () {
+    return {
+      errorLogin: false
+    }
+  },
   components: {
-    ValidationError
+    ValidationError,
+    ButtonElements,
+    Message
   },
   computed: {
     ...mapState('sessionUser', {
@@ -60,7 +72,11 @@ export default {
             if (result.data) {
               if (PasswordApi.verifyPassword(password, result.data.password)) {
                 this.sessionForUser(result.data)
+              } else {
+                this.errorLogin = true
               }
+            } else {
+              this.errorLogin = true
             }
           })
         }

@@ -37,9 +37,7 @@
             <div>
                 <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
             </div>
-            <button class="add-question__submit btn--default" :class="{ active: isValidateAll }" type="submit">Add New
-                User
-            </button>
+            <button-elements :buttonMessage="'Dodaj nowego użytkownika'" />
         </form>
         <div class="exit" @click="exit()">Exit add new user</div>
     </div>
@@ -53,6 +51,7 @@ import ValidationError from '@/components/common/validation/ValidationError'
 import usersService from '@/assets/service/users'
 import settingsService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
+import ButtonElements from '@/components/common/elements/button'
 
 const randomstring = require('randomstring')
 
@@ -63,7 +62,8 @@ Vue.use(VeeValidate, {
 export default {
   name: 'UsersAdd',
   components: {
-    ValidationError
+    ValidationError,
+    ButtonElements
   },
   data () {
     return {

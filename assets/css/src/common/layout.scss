@@ -1,0 +1,15 @@
+body,html {
+  margin: 0;
+  padding: 0;
+  min-width: 100%;
+  min-height: 100%;
+
+  .header {
+    padding: 40px 0;
+  }
+
+  .container {
+    width: 1000px;
+    margin: 0 auto;
+  }
+}

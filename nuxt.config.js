@@ -9,7 +9,8 @@ module.exports = {
     ]
   },
   css: [
-    '@/assets/css/src/main.scss'
+    '@/assets/css/src/main.scss',
+    '@/assets/css/src/normalize.scss'
   ],
   plugins: [
     '~/plugins/localforage'
@@ -18,7 +19,11 @@ module.exports = {
   ** Headers
   ** Common headers are already provided by @nuxtjs/pwa preset
   */
-  head: {},
+  head: {
+    link: [
+      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700'}
+    ]
+  },
   /*
   ** Customize the progress-bar color
   */

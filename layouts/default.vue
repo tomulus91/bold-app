@@ -1,17 +1,17 @@
 <template>
-    <div>
-        <menu-page></menu-page>
+    <div class="wrapper">
+        <header-on-page></header-on-page>
         <nuxt/>
     </div>
 </template>
 
 <script>
-import MenuPage from '@/components/page/menu'
+import HeaderOnPage from '@/components/page/header'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'layout',
-  components: {MenuPage},
+  components: {HeaderOnPage},
   methods: {
     ...mapActions('sessionUser', [
       'checkSession'

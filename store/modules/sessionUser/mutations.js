@@ -20,10 +20,12 @@ export const mutations = {
     state.userData = {
       userIsLogged: true,
       userIsAdmin: false,
-      tokenUser: dataUser.token
+      tokenUser: dataUser.token,
+      nameUser: dataUser.name
     }
     localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
-      'token': state.userData.tokenUser
+      'token': state.userData.tokenUser,
+      'name': state.userData.nameUser,
     })).then(() => {
       checkUserIsAdmin(state)
     }).catch(() => {
@@ -35,7 +37,8 @@ export const mutations = {
     state.userData = {
       userIsLogged: false,
       userIsAdmin: false,
-      tokenUser: ''
+      tokenUser: '',
+      nameUser: ''
     }
   },
   [types.CHECK_SESSION_USER] (state) {
@@ -45,7 +48,8 @@ export const mutations = {
         state.userData = {
           userIsLogged: true,
           userIsAdmin: PasswordApi.verifyPassword(data.token, data.perm),
-          tokenUser: data.token
+          tokenUser: data.token,
+          nameUser: data.name
         }
         if (!state.userData.userIsAdmin) {
           checkUserIsAdmin(state)
@@ -78,6 +82,7 @@ const checkUserIsAdmin = (state) => {
           localStorage.removeItem(LocalStorageName.USER_DATA)
           localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
             'token': state.userData.tokenUser,
+            'name': state.userData.nameUser,
             'perm': currentKey
           }))
         }

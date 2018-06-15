@@ -1,12 +1,18 @@
 <template>
     <div class="date-container">
-        {{this.today}}
+        {{this.today}} <br />
+        <name-day></name-day>
     </div>
 </template>
 
 <script>
+import nameDay from '@/components/page/elements/header/nameDay'
+
 export default {
   name: 'todayDate',
+  components: {
+    nameDay
+  },
   data () {
     return {
       today: ''

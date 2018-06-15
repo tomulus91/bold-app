@@ -3,8 +3,10 @@
         <div class="container">
             <logo-page></logo-page>
             <today-date></today-date>
-            <name-day></name-day>
-            <menu-page></menu-page>
+            <div v-if="this.userIsLogged" class="container--logged">
+                <name-user></name-user>
+                <!--<menu-page></menu-page>-->
+            </div>
         </div>
     </div>
 </template>
@@ -13,14 +15,21 @@
 import MenuPage from '@/components/page/elements/header/menu'
 import LogoPage from '@/components/page/elements/header/logo'
 import todayDate from '@/components/page/elements/header/todayDate'
-import nameDay from '@/components/page/elements/header/nameDay'
+import nameUser from '@/components/page/elements/header/loginName'
+import {mapState} from 'vuex'
+
 export default {
   name: 'headerOnPage',
   components: {
     MenuPage,
     LogoPage,
     todayDate,
-    nameDay
+    nameUser
+  },
+  computed: {
+    ...mapState('sessionUser', {
+      userIsLogged: state => state.userData['userIsLogged']
+    })
   }
 }
 </script>

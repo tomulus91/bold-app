@@ -1,6 +1,6 @@
 <template>
     <div class="message-container">
-            <p :class="messageType">
+            <p :class="'message-container--' + messageType">
                 {{ messageText }}
             </p>
     </div>

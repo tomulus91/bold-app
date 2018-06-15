@@ -1,5 +1,5 @@
 <template>
-    <div class='name-day'>
+    <div class='date-container--name-day'>
         {{this.nameDay}}
     </div>
 </template>

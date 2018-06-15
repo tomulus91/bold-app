@@ -9,6 +9,10 @@ button {
     font-family: 'Open Sans', sans-serif;
     cursor: pointer;
 
+    &:focus {
+      outline: none;
+    }
+
     &--normal {
       color: #000000;
       font-weight: 700;

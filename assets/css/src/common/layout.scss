@@ -12,10 +12,19 @@ body,html {
       float: left;
     }
 
-    .date-container, .name-day {
+    .date-container {
+      float: left;
+      font: 600 12px/16px 'Open Sans', sans-serif;
+      margin-left: 50px;
+    }
+
+    .login-name {
       float: left;
       font: 600 12px/30px 'Open Sans', sans-serif;
-      margin-left: 50px;
+    }
+
+    .container--logged {
+      float: right;
     }
 
     &::after {

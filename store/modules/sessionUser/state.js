@@ -7,7 +7,8 @@ export default {
     userData: {
       userIsLogged: false,
       userIsAdmin: false,
-      tokenUser: ''
+      tokenUser: '',
+      nameUser: ''
     },
     users: []
   },

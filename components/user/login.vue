@@ -1,27 +1,32 @@
 <template>
-    <form class="add-user" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
-        <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
-        <div class="input-wrapper">
-            <div>
-                <label class="label-user">Login user</label>
-                <input class="input-user" v-validate="'required|min:6'" type="text" name="login"
-                       placeholder="Write Your login"/>
-            </div>
-            <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
+    <div class="login-panel">
+        <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner"></banner-top>
+        <div class="container">
+            <form class="add-user" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
+                <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
+                <div class="input-wrapper">
+                    <div>
+                        <label class="label-user">Login user</label>
+                        <input class="input-user" v-validate="'required|min:6'" type="text" name="login"
+                               placeholder="Write Your login"/>
+                    </div>
+                    <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
+                </div>
+                <div class="input-wrapper">
+                    <div>
+                        <label class="label-user">Password User</label>
+                        <input class="input-user" v-validate="'required|min:6'" type="password" name="password"
+                               placeholder="Write Your Password"/>
+                    </div>
+                    <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
+                </div>
+                <div>
+                    <button-elements :buttonMessage="'Zaloguj sie'" />
+                    <br/> <br/>
+                </div>
+            </form>
         </div>
-        <div class="input-wrapper">
-            <div>
-                <label class="label-user">Password User</label>
-                <input class="input-user" v-validate="'required|min:6'" type="password" name="password"
-                       placeholder="Write Your Password"/>
-            </div>
-            <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
-        </div>
-        <div>
-            <button-elements :buttonMessage="'Zaloguj sie'" />
-            <br/> <br/>
-        </div>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -31,6 +36,7 @@ import UserService from '@/assets/service/users'
 import PasswordApi from '@/plugins/PasswordApi'
 import { mapState, mapActions } from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'
+import BannerTop from '@/components/page/elements/content/bannerOnTop'
 import ButtonElements from '@/components/common/elements/button'
 import Message from '@/components/common/message'
 
@@ -42,13 +48,15 @@ export default {
   name: 'loginUser',
   data () {
     return {
-      errorLogin: false
+      errorLogin: false,
+      banner: require('~/assets/image/bannerLogin.jpg')
     }
   },
   components: {
     ValidationError,
     ButtonElements,
-    Message
+    Message,
+    BannerTop
   },
   computed: {
     ...mapState('sessionUser', {

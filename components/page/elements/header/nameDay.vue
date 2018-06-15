@@ -1,6 +1,6 @@
 <template>
     <div class='name-day'>
-        Imieniny obchodzą: {{this.nameDay}}
+        {{this.nameDay}}
     </div>
 </template>
 
@@ -396,7 +396,7 @@ export default {
       const currentDate = new Date()
       const day = currentDate.getDate()
       const month = currentDate.getMonth()
-      this.nameDay = dayName[month][day]
+      this.nameDay = 'Imieniny obchodzą: ' + dayName[month][day]
     }
   },
   mounted () {

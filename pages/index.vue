@@ -1,9 +1,7 @@
 <template>
-    <section class="container">
-        <div>
-            <login-panel></login-panel>
-        </div>
-    </section>
+    <div>
+        <login-panel></login-panel>
+    </div>
 </template>
 
 <script>

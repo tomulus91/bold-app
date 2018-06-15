@@ -2,23 +2,22 @@
     <div class="login-panel">
         <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner"></banner-top>
         <div class="container">
-            <form class="add-user" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
+            <form class="form-login" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
+                <h2 class="title-page">Logowanie</h2>
                 <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
                 <div class="input-wrapper">
                     <div>
-                        <label class="label-user">Login user</label>
-                        <input class="input-user" v-validate="'required|min:6'" type="text" name="login"
-                               placeholder="Write Your login"/>
+                        <label class="label-form">Login:</label>
+                        <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
+                        <input class="input-form" v-validate="'required|min:6'" type="text" name="login" />
                     </div>
-                    <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
                 </div>
                 <div class="input-wrapper">
                     <div>
-                        <label class="label-user">Password User</label>
-                        <input class="input-user" v-validate="'required|min:6'" type="password" name="password"
-                               placeholder="Write Your Password"/>
+                        <label class="label-form">Password: </label>
+                        <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
+                        <input class="input-form" v-validate="'required|min:6'" type="password" name="password" />
                     </div>
-                    <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
                 </div>
                 <div>
                     <button-elements :buttonMessage="'Zaloguj sie'" />

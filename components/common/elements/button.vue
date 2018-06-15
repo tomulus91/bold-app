@@ -12,21 +12,8 @@ export default {
     },
     'buttonClass': {
       type: String,
-      default: 'button__normal'
+      default: 'buttonForm buttonForm--normal'
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-    .button {
-        background: yellow;
-        color: #FFF;
-        padding: 10px 25px;
-        border: none;
-
-        &__normal {
-            color: red;
-        }
-    }
-</style>

@@ -21,7 +21,7 @@ module.exports = {
   */
   head: {
     link: [
-      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:400,600,700'}
+      {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700'}
     ]
   },
   /*

@@ -1,0 +1,29 @@
+form {
+
+  &.form-login {
+    width: 500px;
+    margin: 0 auto;
+  }
+
+  .label-form {
+    display: block;
+    width: 100%;
+    font-weight: 300;
+    color: #333;
+  }
+
+  .input-form {
+    width: 100%;
+    padding: 15px 20px;
+    height: 48px;
+    box-sizing: border-box;
+    border:none;
+    border-bottom: 1px solid #c5c6ca;
+    margin-bottom: 40px;
+
+    &:focus {
+      outline: none;
+      border-bottom: 1px solid #47494e;
+    }
+  }
+}

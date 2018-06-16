@@ -1,6 +1,6 @@
 <template>
     <form class="form-edit-user" v-on:submit.prevent="submit">
-        <h1>Edytuj dane użytkownika</h1>
+        <h1>Edytuj dane pracownika</h1>
         <div class="input-wrapper">
             <div>
                 <label class="label-form">Login user</label>

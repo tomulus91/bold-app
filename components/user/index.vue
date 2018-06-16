@@ -7,6 +7,8 @@
                     Dodaj nowego
                 </button>
             </div>
+            <message v-if="this.flags.addUser" :messageText="'Pracownik został dodany'"></message>
+            <message v-if="this.flags.removeUser" :messageType="'error'" :messageText="'Pracownik został usunięty'"></message>
             <div v-if="users.length > 0" class="table-wrap">
                 <table>
                     <tr>
@@ -43,10 +45,11 @@ import EditUser from '@/components/user/edit'
 import settingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import {mapState, mapActions} from 'vuex'
+import Message from '@/components/common/message'
 
 export default {
   name: 'usersShow',
-  components: {UsersAdd, EditUser},
+  components: {UsersAdd, EditUser, Message},
   data () {
     return {
       showAllUsers: true,
@@ -55,7 +58,9 @@ export default {
       flags: {
         showAllUsers: true,
         editSingleUser: false,
-        addSingleUser: false
+        addSingleUser: false,
+        addUser: false,
+        removeUser: false
       }
     }
   },
@@ -91,6 +96,7 @@ export default {
         const userPromise = usersService.deleteUser(token)
         userPromise.then(() => {
           this.getUsers({})
+          this.flags.removeUser = true
         })
       })
     },

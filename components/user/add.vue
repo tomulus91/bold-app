@@ -33,7 +33,7 @@
             <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
         </div>
         <button-elements :buttonMessage="'Dodaj nowego użytkownika'" />
-        <div class="exit-form" @click="exit()">Exit add new user</div>
+        <div class="exit-form" @click="exit()">Anuluj</div>
     </form>
 </template>
 

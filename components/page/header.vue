@@ -5,7 +5,7 @@
             <today-date></today-date>
             <div v-if="this.userIsLogged" class="container--logged">
                 <name-user></name-user>
-                <!--<menu-page></menu-page>-->
+                <menu-page></menu-page>
             </div>
         </div>
     </div>

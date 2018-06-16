@@ -1,42 +1,36 @@
 <template>
-    <div class="posts">
-        <h1>Edit Post</h1>
-        <div class="form">
-            <form class="add-user" v-on:submit.prevent="submit">
-                <div class="input-wrapper">
-                    <div>
-                        <label class="label-user">Login user</label>
-                        <input class="input-user" v-validate="'required|min:6'" v-model="login" type="text" name="login"
-                               placeholder="Write Your login"/>
-                    </div>
-                    <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
-                </div>
-                <div class="input-wrapper">
-                    <div>
-                        <label class="label-user">Name user</label>
-                        <input class="input-user" v-validate="'required|alpha|min:6'" v-model="name" type="text" name="name"
-                               placeholder="Write Your Name"/>
-                    </div>
-                    <validation-error v-if="vErrors.has('name')" :errorMessage="vErrors.first('name')"/>
-                </div>
-                <div class="input-wrapper">
-                    <div>
-                        <label class="label-user">E-mail user</label>
-                        <input class="input-user" v-validate="'required|email|min:6'" v-model="email" type="text" name="email"
-                               placeholder="Write Your Email"/>
-                    </div>
-                    <validation-error v-if="vErrors.has('email')" :errorMessage="vErrors.first('email')"/>
-                </div>
-                <div>
-                    <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
-                </div>
-                <button-elements :buttonMessage="'Aktualizuj dane'" />
-            </form>
+    <form class="form-edit-user" v-on:submit.prevent="submit">
+        <h1>Edytuj dane użytkownika</h1>
+        <div class="input-wrapper">
             <div>
-                <div class="app_post_btn" @click="exit">Anuluj</div>
+                <label class="label-form">Login user</label>
+                <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
+                <input class="input-form" v-validate="'required|min:6'" v-model="login" type="text" name="login"
+                       placeholder="Write Your login"/>
             </div>
         </div>
-    </div>
+        <div class="input-wrapper">
+            <div>
+                <label class="label-form">Name user</label>
+                <validation-error v-if="vErrors.has('name')" :errorMessage="vErrors.first('name')"/>
+                <input class="input-form" v-validate="'required|min:6'" v-model="name" type="text" name="name"
+                       placeholder="Write Your Name"/>
+            </div>
+        </div>
+        <div class="input-wrapper">
+            <div>
+                <label class="label-form">E-mail user</label>
+                <validation-error v-if="vErrors.has('email')" :errorMessage="vErrors.first('email')"/>
+                <input class="input-form" v-validate="'required|email|min:6'" v-model="email" type="text" name="email"
+                       placeholder="Write Your Email"/>
+            </div>
+        </div>
+        <div class="checkbox-admin">
+            <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
+        </div>
+        <button-elements :buttonMessage="'Aktualizuj dane'" />
+        <div class="exit-form" @click="exit">Anuluj</div>
+    </form>
 </template>
 
 <script>

@@ -7,6 +7,7 @@ body,html {
 
   .header {
     padding: 15px 0 30px 0;
+    border-bottom: 1px solid #f2f2f2;
 
     .logo {
       float: left;
@@ -21,6 +22,52 @@ body,html {
     .login-name {
       float: left;
       font: 600 12px/30px 'Open Sans', sans-serif;
+    }
+
+    .menu-container {
+      float: left;
+      margin-left: 50px;
+      position: relative;
+
+      &--icon {
+        height: 30px;
+        cursor: pointer;
+      }
+
+      &--block {
+        position: absolute;
+        list-style-type: none;
+        padding: 0;
+        z-index: 1;
+        background: #ffdb09;
+        margin: 0;
+        top: 35px;
+        right: 0;
+
+        li {
+          border-bottom: 1px solid #efc14e;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          a {
+            text-decoration: none;
+            color: #000000;
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 12px;
+            padding: 10px 40px;
+            display: block;
+            letter-spacing: 2px;
+
+            &:hover, &.nuxt-link-exact-active {
+              background: #000000;
+              color: #FFFFFF;
+            }
+          }
+        }
+      }
     }
 
     .container--logged {
@@ -44,6 +91,22 @@ body,html {
       font-weight: 300;
       letter-spacing: 2px;
       font-size: 32px;
+    }
+
+    h1 {
+      font: 300 28px/44px 'Open Sans', sans-serif;
+      text-transform: uppercase;
+
+      &.title-user-panel {
+        float: left;
+      }
+    }
+  }
+  .users-panel-top {
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
     }
   }
 }

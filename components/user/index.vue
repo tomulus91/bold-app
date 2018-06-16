@@ -1,14 +1,19 @@
 <template>
     <div class="users">
         <div v-if="flags.showAllUsers">
-            <h1>Baza użytkowników</h1>
+            <div class="users-panel-top">
+                <h1 class="title-user-panel">Zarządzaj pracownikami</h1>
+                <button class="buttonForm buttonForm--add-user" @click="setVisibleUserPanel(false, false, true)">
+                    Dodaj nowego
+                </button>
+            </div>
             <div v-if="users.length > 0" class="table-wrap">
                 <table>
                     <tr>
                         <td>Login</td>
-                        <td width="550">Imię i nazwisko</td>
-                        <td width="550">Email</td>
-                        <td width="100" align="center">Opcje</td>
+                        <td >Imię / Nazwisko</td>
+                        <td>Email</td>
+                        <td>Opcje</td>
                     </tr>
                     <tr v-for="user in users">
                         <td>{{ user.login }}</td>
@@ -24,9 +29,6 @@
             <div v-else>
                 Brak użytkowników w bazie <br/><br/>
             </div>
-            <button class="button_btn button_btn-center" @click="setVisibleUserPanel(false, false, true)">
-                Dodaj nowego użytkownika
-            </button>
         </div>
         <users-add v-if="flags.addSingleUser" @setVisibleUserPanel="setVisibleUserPanel"></users-add>
         <edit-user :tokenUser="tokenCurrentUser" @setVisibleUserPanel="setVisibleUserPanel"
@@ -88,7 +90,7 @@ export default {
       }).then(() => {
         const userPromise = usersService.deleteUser(token)
         userPromise.then(() => {
-          this.getUsers()
+          this.getUsers({})
         })
       })
     },
@@ -99,36 +101,3 @@ export default {
   }
 }
 </script>
-<style type="text/css">
-    .table-wrap {
-        width: 60%;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    table th, table tr {
-        text-align: left;
-    }
-
-    table thead {
-        background: #f2f2f2;
-    }
-
-    table tr td {
-        padding: 10px;
-    }
-
-    table tr:nth-child(odd) {
-        background: #f2f2f2;
-    }
-
-    table tr:nth-child(1) {
-        background: #4d7ef7;
-        color: #fff;
-    }
-
-    a {
-        color: #4d7ef7;
-        text-decoration: none;
-    }
-</style>

@@ -1,46 +1,40 @@
 <template>
-    <div>
+    <form class="form-add-user" v-on:submit.prevent="submit">
         <h1>Dodaj nowego użytkownika</h1>
-        <form class="add-user" v-on:submit.prevent="submit">
-            <div class="input-wrapper">
-                <div>
-                    <label class="label-user">Login user</label>
-                    <input class="input-user" v-validate="'required|min:6'" type="text" name="login"
-                           placeholder="Write Your login"/>
-                </div>
-                <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
-            </div>
-            <div class="input-wrapper">
-                <div>
-                    <label class="label-user">Name user</label>
-                    <input class="input-user" v-validate="'required|alpha|min:6'" type="text" name="name"
-                           placeholder="Write Your Name"/>
-                </div>
-                <validation-error v-if="vErrors.has('name')" :errorMessage="vErrors.first('name')"/>
-            </div>
-            <div class="input-wrapper">
-                <div>
-                    <label class="label-user">E-mail user</label>
-                    <input class="input-user" v-validate="'required|email|min:6'" type="text" name="email"
-                           placeholder="Write Your Email"/>
-                </div>
-                <validation-error v-if="vErrors.has('email')" :errorMessage="vErrors.first('email')"/>
-            </div>
-            <div class="input-wrapper">
-                <div>
-                    <label class="label-user">Password User</label>
-                    <input class="input-user" v-validate="'required|min:6'" type="text" name="password"
-                           placeholder="Write Your Password"/>
-                </div>
-                <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
-            </div>
+        <div class="input-wrapper">
             <div>
-                <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
+                <label class="label-form">Login user</label>
+                <validation-error v-if="vErrors.has('login')" :errorMessage="vErrors.first('login')"/>
+                <input class="input-form" v-validate="'required|min:6'" type="text" name="login" />
             </div>
-            <button-elements :buttonMessage="'Dodaj nowego użytkownika'" />
-        </form>
-        <div class="exit" @click="exit()">Exit add new user</div>
-    </div>
+        </div>
+        <div class="input-wrapper">
+            <div>
+                <label class="label-form">Name user</label>
+                <validation-error v-if="vErrors.has('name')" :errorMessage="vErrors.first('name')"/>
+                <input class="input-form" v-validate="'required|min:6'" type="text" name="name" />
+            </div>
+        </div>
+        <div class="input-wrapper">
+            <div>
+                <label class="label-form">E-mail user</label>
+                <validation-error v-if="vErrors.has('email')" :errorMessage="vErrors.first('email')"/>
+                <input class="input-form" v-validate="'required|email|min:6'" type="text" name="email" />
+            </div>
+        </div>
+        <div class="input-wrapper">
+            <div>
+                <label class="label-form">Password User</label>
+                <validation-error v-if="vErrors.has('password')" :errorMessage="vErrors.first('password')"/>
+                <input class="input-form" v-validate="'required|min:6'" type="text" name="password" />
+            </div>
+        </div>
+        <div class="checkbox-admin">
+            <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
+        </div>
+        <button-elements :buttonMessage="'Dodaj nowego użytkownika'" />
+        <div class="exit-form" @click="exit()">Exit add new user</div>
+    </form>
 </template>
 
 <script>
@@ -116,18 +110,3 @@ export default {
   }
 }
 </script>
-
-
-<style scoped type="text/css">
-    .input-wrapper {
-        position: relative;
-        margin-bottom: 10px;
-        width: 300px;
-    }
-    .label-user{
-        display: block;
-    }
-    .input-user {
-        display: block;
-    }
-</style>

@@ -1,14 +1,16 @@
 <template>
-    <div v-if="this.userIsLogged && this.userIsAdmin">
-        <users-show></users-show>
-    </div>
-    <div v-else>
-        <p>Musisz posiadać prawa administratora aby móc zarządzać użytkownikami</p>
+    <div class="container">
+        <div v-if="this.userIsLogged && this.userIsAdmin">
+            <users-show></users-show>
+        </div>
+        <div v-else>
+            <p>Musisz posiadać prawa administratora aby móc zarządzać użytkownikami</p>
+        </div>
     </div>
 </template>
 
 <script>
-import UsersShow from '../components/user/show'
+import UsersShow from '../components/user'
 import {mapState} from 'vuex'
 
 export default {

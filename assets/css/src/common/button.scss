@@ -17,12 +17,17 @@ button {
       color: #000000;
       font-weight: 700;
       letter-spacing: 4px;
-      text-transform: uppercase;
+    }
 
-      &:hover {
-        background: #000000;
-        color: #ffdb09;
-      }
+    &--add-user {
+      width: auto;
+      float: right;
+      margin-top: 20px;
+    }
+
+    &:hover {
+      background: #000000;
+      color: #ffdb09;
     }
   }
 }

@@ -33,7 +33,7 @@
             <input type="checkbox" name="vehicle" v-model="userIsAdmin">Administrator aplikacji<br>
         </div>
         <button-elements :buttonMessage="'Dodaj nowego użytkownika'" />
-        <div class="exit-form" @click="exit()">Anuluj</div>
+        <div class="exit-form" @click="exit(false)">Anuluj</div>
     </form>
 </template>
 
@@ -74,8 +74,8 @@ export default {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
-    exit () {
-      this.$emit('setVisibleUserPanel')
+    exit (successAddUser) {
+      this.$emit('setVisibleUserPanel', true, false, false, successAddUser)
     },
     submit (submitEvent) {
       this.$validator.validateAll().then((result) => {
@@ -98,7 +98,7 @@ export default {
             }
             this.clearForm()
             this.getUsers({})
-            this.exit()
+            this.exit(true)
           })
         }
       })

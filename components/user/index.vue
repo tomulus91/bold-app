@@ -7,8 +7,8 @@
                     Dodaj nowego
                 </button>
             </div>
-            <message v-if="this.flags.addUser" :messageText="'Pracownik został dodany'"></message>
-            <message v-if="this.flags.removeUser" :messageType="'error'" :messageText="'Pracownik został usunięty'"></message>
+            <message v-if="this.flags.addUserMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageText="'Pracownik został dodany'"></message>
+            <message v-if="this.flags.removeUserMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageType="'error'" :messageText="'Pracownik został usunięty'"></message>
             <div v-if="users.length > 0" class="table-wrap">
                 <table>
                     <tr>
@@ -59,8 +59,8 @@ export default {
         showAllUsers: true,
         editSingleUser: false,
         addSingleUser: false,
-        addUser: false,
-        removeUser: false
+        addUserMessage: false,
+        removeUserMessage: false
       }
     }
   },
@@ -76,10 +76,16 @@ export default {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
-    setVisibleUserPanel (showAllUsers, editSingleUser, addSingleUser) {
+    removeMessage (type) {
+      type === 'error' ? this.flags.removeUserMessage = false : this.flags.addUserMessage = false
+    },
+    setVisibleUserPanel (showAllUsers, editSingleUser, addSingleUser, successAddNewUser) {
       this.flags.showAllUsers = showAllUsers !== undefined ? showAllUsers : true
       this.flags.editSingleUser = editSingleUser !== undefined ? editSingleUser : false
       this.flags.addSingleUser = addSingleUser !== undefined ? addSingleUser : false
+      if (successAddNewUser !== undefined && successAddNewUser) {
+        this.flags.addUserMessage = true
+      }
     },
     async deleteUser (token) {
       const settingPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
@@ -96,7 +102,7 @@ export default {
         const userPromise = usersService.deleteUser(token)
         userPromise.then(() => {
           this.getUsers({})
-          this.flags.removeUser = true
+          this.flags.removeUserMessage = true
         })
       })
     },

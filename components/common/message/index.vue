@@ -1,8 +1,11 @@
 <template>
     <div class="message-container">
-            <p :class="'message-container--' + messageType">
-                {{ messageText }}
-            </p>
+        <span class="message-close" v-if="showCloseButton" @click="removeMessage()">
+            close
+        </span>
+        <p :class="'message-container--' + messageType">
+            {{ messageText }}
+        </p>
     </div>
 </template>
 
@@ -17,6 +20,15 @@ export default {
     'messageType': {
       type: String,
       default: 'success'
+    },
+    'showCloseButton': {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    removeMessage () {
+      this.$emit('removeMessage', this.messageType)
     }
   }
 }

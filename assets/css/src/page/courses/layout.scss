@@ -1,0 +1,27 @@
+.courses {
+  clear: both;
+
+  h2 {
+    font-size: 22px;
+  }
+
+  &--left {
+    width: 65%;
+    float: left;
+
+    h2 {
+      float: left;
+    }
+  }
+
+  &--right {
+    width: 30%;
+    float: right;
+  }
+
+  &::after {
+    display: table;
+    content: '';
+    clear: both;
+  }
+}

@@ -1,5 +1,5 @@
 form {
-  &.form-login, &.form-add-user, &.form-edit-user {
+  &.form-login, &.form-add-user, &.form-edit-user, &.form-add-course{
     width: 500px;
     margin: 0 auto;
   }
@@ -28,6 +28,20 @@ form {
 
   .checkbox-admin {
     margin-bottom: 40px;
+  }
+
+  select {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #c7c7cb;
+    background: none;
+    font-size: 18px;
+    margin-top: 10px;
+
+    &:focus {
+      outline: none;
+      border-bottom: 1px solid #47494e;
+    }
   }
 
   .exit-form {

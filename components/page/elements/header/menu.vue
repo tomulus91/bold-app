@@ -5,6 +5,9 @@
             <li v-if="this.userIsLogged" @click="hideMenuBlock">
                 <nuxt-link to="/">Home</nuxt-link>
             </li>
+            <li v-if="this.userIsLogged" @click="hideMenuBlock">
+                <nuxt-link to="/courses">Szkolenia</nuxt-link>
+            </li>
             <li v-if="this.userIsLogged && this.userIsAdmin" @click="hideMenuBlock">
                 <nuxt-link to="/users">Użytkownicy</nuxt-link>
             </li>

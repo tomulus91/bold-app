@@ -6,6 +6,7 @@
                 <button class="buttonForm buttonForm--add-user" @click="setVisibleUserPanel(false, false, true)">
                     Dodaj nowego
                 </button>
+                <search-form :arrayToSearch="users" :searchText="'Imienia/Nazwiska'" :searchBy="'name'" @arrayAfterSearch="arrayAfterSearch"></search-form>
             </div>
             <message v-if="this.flags.addUserMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageText="'Pracownik został dodany'"></message>
             <message v-if="this.flags.removeUserMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageType="'error'" :messageText="'Pracownik został usunięty'"></message>
@@ -17,7 +18,7 @@
                         <td>Email</td>
                         <td>Opcje</td>
                     </tr>
-                    <tr v-for="user in users">
+                    <tr v-for="user in usersArray">
                         <td>{{ user.login }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
@@ -46,15 +47,17 @@ import settingsApplicationService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import {mapState, mapActions} from 'vuex'
 import Message from '@/components/common/message'
+import SearchForm from '@/components/common/search'
 
 export default {
   name: 'usersShow',
-  components: {UsersAdd, EditUser, Message},
+  components: {UsersAdd, EditUser, Message, SearchForm},
   data () {
     return {
       showAllUsers: true,
       showEditUserPanel: false,
       tokenCurrentUser: '',
+      usersArray: [],
       flags: {
         showAllUsers: true,
         editSingleUser: false,
@@ -69,13 +72,22 @@ export default {
       users: state => state.users
     })
   },
+  watch: {
+    users () {
+      this.usersArray = this.users
+    }
+  },
   mounted () {
     this.getUsers({})
+    this.usersArray = this.users
   },
   methods: {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
+    arrayAfterSearch (newArrayUser) {
+      this.usersArray = newArrayUser
+    },
     removeMessage (type) {
       type === 'error' ? this.flags.removeUserMessage = false : this.flags.addUserMessage = false
     },

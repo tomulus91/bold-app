@@ -1,0 +1,18 @@
+.search-input {
+  width: 250px;
+  padding: 5px 10px;
+  height: 36px;
+  box-sizing: border-box;
+  border:none;
+  border-bottom: 1px solid #ececec;
+
+  &:focus {
+    outline: none;
+    border-bottom: 1px solid #47494e;
+  }
+
+  .users-panel-top & {
+    float: right;
+    margin: 20px 50px 0 0;
+  }
+}

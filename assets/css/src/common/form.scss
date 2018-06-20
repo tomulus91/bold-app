@@ -24,6 +24,10 @@ form {
       outline: none;
       border-bottom: 1px solid #47494e;
     }
+
+    &.calendar-input {
+      margin-bottom: 0px;
+    }
   }
 
   .checkbox-admin {
@@ -36,7 +40,7 @@ form {
     border: 1px solid #c7c7cb;
     background: none;
     font-size: 18px;
-    margin-top: 10px;
+    margin: 10px 0 40px;
 
     &:focus {
       outline: none;
@@ -61,5 +65,18 @@ form {
     &:hover {
       background: #000000;
     }
+  }
+
+  .other-information {
+    width: 100%;
+    margin-top: 15px;
+    height: 150px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+
+  .input-wrapper--bottom {
+    margin-bottom: 40px;
   }
 }

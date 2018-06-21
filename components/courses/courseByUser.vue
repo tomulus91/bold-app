@@ -9,9 +9,9 @@
                 </tr>
                 <tr v-for="course in courseByUser">
                     <td>{{ course.name }}</td>
-                    <td>{{ course.type }}</td>
+                    <td>{{ course.status }}</td>
                     <td align="center">
-                        <a href="#" @click.prevent="editUser(course.token)">Zobacz</a>
+                        <a href="#" @click.prevent="editUser(course._id)">Zobacz</a>
                     </td>
                 </tr>
             </table>

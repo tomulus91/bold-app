@@ -134,7 +134,9 @@ export default {
             if (this.autoAddUserForCourse) {
               courseByUserService.addCourseForUser({
                 user: this.tokenUser,
-                course: token + formInputs.coursetype.value
+                course: token + formInputs.coursetype.value,
+                name: formInputs.name.value,
+                date: this.formatDate(formInputs.dateStart.value)
               })
             }
             this.clearForm()

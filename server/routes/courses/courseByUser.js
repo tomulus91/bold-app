@@ -15,6 +15,8 @@ module.exports = function (app, db) {
     const newCourseForUser = {
       user: req.body.user,
       course: req.body.course,
+      name: req.body.name,
+      date: req.body.date,
       status: '0'
     }
     db.collection('courses-user').insert(newCourseForUser)

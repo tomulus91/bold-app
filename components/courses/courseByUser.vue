@@ -1,17 +1,15 @@
 <template>
     <div class="courses-all">
-        <div v-if="courses.length > 0" class="table-wrap">
+        <div v-if="courseByUser.length > 0" class="table-wrap">
             <table>
                 <tr>
                     <td >Nazwa</td>
-                    <td>Przeznaczenie</td>
-                    <td>Data</td>
+                    <td>Status</td>
                     <td>Opcje</td>
                 </tr>
-                <tr v-for="course in courses">
+                <tr v-for="course in courseByUser">
                     <td>{{ course.name }}</td>
                     <td>{{ course.type }}</td>
-                    <td>{{ course.begin }}</td>
                     <td align="center">
                         <a href="#" @click.prevent="editUser(course.token)">Zobacz</a>
                     </td>
@@ -19,28 +17,33 @@
             </table>
         </div>
         <div v-else>
-            Brak dostępnych kursów
+            Brak aktywnych kursów
         </div>
     </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
-  name: 'showAllCourses',
+  name: 'courseByUser',
   computed: {
     ...mapState('courses', {
-      courses: state => state.courses
+      courseByUser: state => state.courseByUser
+    }),
+    ...mapState('sessionUser', {
+      tokenUser: state => state.userData['tokenUser']
     })
-  },
-  mounted () {
-    this.getCourses({})
   },
   methods: {
     ...mapActions('courses', [
-      'getCourses'
+      'getActiveCourse'
     ])
+  },
+  mounted () {
+    this.getActiveCourse({
+      token: this.tokenUser
+    })
   }
 }
 </script>

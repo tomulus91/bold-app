@@ -21,4 +21,16 @@ module.exports = function (app, db) {
     res.send(newCourseForUser)
   })
 
+  // Get Single User
+  app.get('/data/get-active-course-for-user', (req, res) => {
+    const tokenUser = req.query.tokenUser
+    console.log(tokenUser)
+    db.collection('courses-user').find({'user': tokenUser}).toArray((err, result) => {
+      if (err) {
+        res.send({'error': 'Bad get course for user'})
+      } else {
+        res.send(result)
+      }
+    })
+  })
 }

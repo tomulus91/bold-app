@@ -14,6 +14,7 @@
                 <div class="courses--right">
                     <h2>Twój budżet na szkolenia</h2>
                     <h2>Twoje szkolenia</h2>
+                    <course-by-user></course-by-user>
                 </div>
             </div>
         </div>
@@ -25,6 +26,7 @@
 import {mapState} from 'vuex'
 import AllCourses from '@/components/courses/all'
 import AddCourse from '@/components/courses/add'
+import CourseByUser from '@/components/courses/courseByUser'
 import Message from '@/components/common/message'
 
 export default {
@@ -32,7 +34,8 @@ export default {
   components: {
     AllCourses,
     AddCourse,
-    Message
+    Message,
+    CourseByUser
   },
   data () {
     return {

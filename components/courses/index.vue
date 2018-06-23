@@ -9,16 +9,17 @@
                     <button class="buttonForm buttonForm--add-course" @click="showAddCoursePanel">
                         Dodaj nowe
                     </button>
-                    <all-courses></all-courses>
+                    <all-courses @showSingleCourse="showSingleCourse"></all-courses>
                 </div>
                 <div class="courses--right">
                     <h2>Twój budżet na szkolenia</h2>
                     <h2>Twoje szkolenia</h2>
-                    <course-by-user></course-by-user>
+                    <course-by-user @showSingleCourse="showSingleCourse"></course-by-user>
                 </div>
             </div>
         </div>
-        <add-course @showDefaultCourseView="showDefaultCourseView" v-if="this.showAddCourse"></add-course>
+        <add-course @showDefaultCourseView="showDefaultCourseView" v-if="this.showAddCourseView"></add-course>
+        <single-course @showDefaultCourseView="showDefaultCourseView" v-if="this.showSingleCourseView" :tokenCourseCurrent="this.singleCourseToken"></single-course>
     </div>
 </template>
 
@@ -27,6 +28,7 @@ import {mapState} from 'vuex'
 import AllCourses from '@/components/courses/all'
 import AddCourse from '@/components/courses/add'
 import CourseByUser from '@/components/courses/courseByUser'
+import SingleCourse from '@/components/courses/courseSingle'
 import Message from '@/components/common/message'
 
 export default {
@@ -35,13 +37,16 @@ export default {
     AllCourses,
     AddCourse,
     Message,
-    CourseByUser
+    CourseByUser,
+    SingleCourse
   },
   data () {
     return {
-      showAddCourse: false,
+      showAddCourseView: false,
+      showSingleCourseView: false,
       showDefaultView: true,
-      newCourseIsAddMessage: false
+      newCourseIsAddMessage: false,
+      singleCourseToken: ''
     }
   },
   computed: {
@@ -51,16 +56,24 @@ export default {
   },
   methods: {
     showAddCoursePanel () {
-      this.showAddCourse = true
+      this.showAddCourseView = true
       this.showDefaultView = false
     },
     showDefaultCourseView (courseIsAdd) {
-      this.showAddCourse = false
+      this.showAddCourseView = false
       this.showDefaultView = true
-      this.newCourseIsAddMessage = courseIsAdd
+      this.showSingleCourseView = false
+      if (courseIsAdd) {
+        this.newCourseIsAddMessage = courseIsAdd
+      }
     },
     removeMessage () {
       this.newCourseIsAddMessage = false
+    },
+    showSingleCourse (singleCourseToken) {
+      this.singleCourseToken = singleCourseToken
+      this.showDefaultView = false
+      this.showSingleCourseView = true
     }
   }
 }

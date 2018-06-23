@@ -15,13 +15,14 @@ module.exports = function (app, db) {
   app.post('/data/add-course', (req, res) => {
     const newCourse = {
       name: req.body.courseName,
+      address: req.body.courseAddress,
       link: req.body.courseLink,
       type: req.body.courseType,
       price: req.body.coursePrice,
       token: req.body.courseToken,
       information: req.body.courseInformation,
       begin: req.body.courseStartDate,
-      duration: req.body.courseDuration,
+      duration: req.body.courseDuration
     }
     db.collection('courses').insert(newCourse)
     res.send(newCourse)

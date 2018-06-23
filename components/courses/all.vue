@@ -13,7 +13,7 @@
                     <td>{{ course.type }}</td>
                     <td>{{ course.begin }}</td>
                     <td align="center">
-                        <a href="#" @click.prevent="editUser(course.token)">Zobacz</a>
+                        <a href="#" @click.prevent="showSingleCourse(course.token)">Zobacz</a>
                     </td>
                 </tr>
             </table>
@@ -35,12 +35,15 @@ export default {
     })
   },
   mounted () {
-    this.getCourses({})
+    this.courses.length === 0 ? this.getCourses({}) : ''
   },
   methods: {
     ...mapActions('courses', [
       'getCourses'
-    ])
+    ]),
+    showSingleCourse (courseToken) {
+      this.$emit('showSingleCourse', courseToken)
+    }
   }
 }
 </script>

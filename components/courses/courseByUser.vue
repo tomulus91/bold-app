@@ -11,7 +11,7 @@
                     <td>{{ course.name }}</td>
                     <td>{{ course.status }}</td>
                     <td align="center">
-                        <a href="#" @click.prevent="editUser(course._id)">Zobacz</a>
+                        <a href="#" @click.prevent="showSingleCourse(course.course)">Zobacz</a>
                     </td>
                 </tr>
             </table>
@@ -38,12 +38,15 @@ export default {
   methods: {
     ...mapActions('courses', [
       'getActiveCourse'
-    ])
+    ]),
+    showSingleCourse (courseToken) {
+      this.$emit('showSingleCourse', courseToken)
+    }
   },
   mounted () {
-    this.getActiveCourse({
-      token: this.tokenUser
-    })
+    this.courseByUser.length === 0
+      ? this.getActiveCourse({token: this.tokenUser})
+      : ''
   }
 }
 </script>

@@ -11,6 +11,13 @@
             </div>
             <div class="input-wrapper">
                 <div>
+                    <label class="label-form">Adres szkolenia (miasto, ulica):</label>
+                    <validation-error v-if="vErrors.has('address')" :errorMessage="vErrors.first('address')"/>
+                    <input class="input-form" v-validate="'required'" type="text" name="address" />
+                </div>
+            </div>
+            <div class="input-wrapper">
+                <div>
                     <label class="label-form">Link do szkolenia (nie wymagane):</label>
                     <input class="input-form" type="text" name="link" />
                 </div>
@@ -33,7 +40,7 @@
                     <label class="label-form">Data rozpoczęcia szkolenia:</label>
                     <validation-error v-if="vErrors.has('dateStart')" :errorMessage="vErrors.first('dateStart')"/>
                     <input v-model="dateStartCourse" class="input-form" v-validate="'required'" type="hidden" name="dateStart" />
-                    <date-picker :format="formatDate" input-class="input-form calendar-input" v-model="dateStartCourse"></date-picker>
+                    <date-picker :disabledDates="{to: this.disableDate()}" :format="formatDate" input-class="input-form calendar-input" v-model="dateStartCourse"></date-picker>
                 </div>
             </div>
             <div class="input-wrapper input-wrapper--bottom">
@@ -122,6 +129,7 @@ export default {
           const token = randomstring.generate()
           const dataToSend = {
             courseName: formInputs.name.value,
+            courseAddress: formInputs.address.value,
             courseType: formInputs.coursetype.value,
             courseDuration: formInputs.courseduration.value,
             courseStartDate: this.formatDate(formInputs.dateStart.value),
@@ -139,6 +147,10 @@ export default {
                 date: this.formatDate(formInputs.dateStart.value)
               })
             }
+          }).then(() => {
+            this.$store.dispatch('courses/getCourses')
+            this.$store.dispatch('courses/getActiveCourse', {token: this.tokenUser})
+          }).then(() => {
             this.clearForm()
             this.exit(true)
           })
@@ -148,6 +160,10 @@ export default {
     clearForm () {
       this.autoAddUserForCourse = true
       this.$validator.reset()
+    },
+    disableDate () {
+      const today = new Date()
+      return today
     },
     formatDate (date) {
       return moment(new Date(date)).format('DD-MM-YYYY')

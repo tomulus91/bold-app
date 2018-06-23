@@ -1,4 +1,16 @@
 module.exports = function (app, db) {
+  // Get all courses save
+  app.get('/data/courses-save-user', (req, res) => {
+    const tokenCourse = req.query.tokenCourse
+    db.collection('courses-user').find({'course': tokenCourse}).toArray((err, result) => {
+      if (err) {
+        res.send({'error': 'Bad get save courses'})
+      } else {
+        res.send(result)
+      }
+    })
+  })
+
   // Get all courses for users
   app.get('/data/courses-user', (req, res) => {
     db.collection('courses-user').find({}).toArray((err, result) => {
@@ -26,7 +38,6 @@ module.exports = function (app, db) {
   // Get Single User
   app.get('/data/get-active-course-for-user', (req, res) => {
     const tokenUser = req.query.tokenUser
-    console.log(tokenUser)
     db.collection('courses-user').find({'user': tokenUser}).toArray((err, result) => {
       if (err) {
         res.send({'error': 'Bad get course for user'})

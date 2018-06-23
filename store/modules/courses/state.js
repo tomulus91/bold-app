@@ -5,7 +5,8 @@ export default {
   namespaced: true,
   state: {
     courses: [],
-    courseByUser: []
+    courseByUser: [],
+    allSaveCourses: []
   },
   mutations,
   actions

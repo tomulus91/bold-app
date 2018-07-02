@@ -48,11 +48,14 @@ export default {
       })
     },
     getSaveUsersInCourse () {
-      this.$store.dispatch('courses/getSaveCourses', {token: this.singleCourse.token}).then(() => {
-        this.allSaveCourses.forEach((index) => {
-          this.usersIdInCourse.push(index.user)
-        })
-        this.getUserNameInCourse()
+      this.$store.dispatch('courses/getAllCoursesByToken', {token: this.singleCourse.token}).then(() => {
+        setTimeout(() => {
+          console.log(this.allSaveCourses)
+          this.allSaveCourses.forEach((index) => {
+            this.usersIdInCourse.push(index.user)
+          })
+          this.getUserNameInCourse()
+        }, 100)
       })
     },
     getUserNameInCourse () {

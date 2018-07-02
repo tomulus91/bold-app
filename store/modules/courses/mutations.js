@@ -3,7 +3,7 @@ import coursesServiceByUser from '~/assets/service/courses/courseByUser'
 
 export const types = {
   GET_ALL_COURSES: 'GET_ALL_COURSES',
-  GET_ALL_SAVE_COURSE: 'GET_ALL_SAVE_COURSE',
+  GET_ALL_SAVE_COURSE_BY_TOKEN: 'GET_ALL_SAVE_COURSE_BY_TOKEN',
   GET_ACTIVE_COURSE_FOR_USER: 'GET_ACTIVE_COURSE_FOR_USER'
 }
 
@@ -20,7 +20,7 @@ export const mutations = {
         console.log(e)
       })
   },
-  [types.GET_ALL_SAVE_COURSE] (state, courseToken) {
+  [types.GET_ALL_SAVE_COURSE_BY_TOKEN] (state, courseToken) {
     const coursesPromise = coursesServiceByUser.fetchSaveCourses(courseToken)
     coursesPromise
       .then(response => {

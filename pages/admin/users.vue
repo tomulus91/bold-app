@@ -1,13 +1,11 @@
 <template>
     <div class="container">
-        <!--<div v-if="this.userIsLogged && this.userIsAdmin">-->
-            <users-show></users-show>
-        <!--</div>-->
+        <users-show></users-show>
     </div>
 </template>
 
 <script>
-import UsersShow from '../components/user'
+import UsersShow from '@/components/user/index'
 
 export default {
   name: 'users',

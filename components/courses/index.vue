@@ -1,7 +1,10 @@
 <template>
     <div class="container">
         <div v-if="this.userIsLogged && this.showDefaultView">
-            <h1>Szkolenia</h1>
+            <h1 class="title-course">Szkolenia</h1>
+            <button v-if="this.userIsAdmin" class="buttonForm buttonForm--add-course">
+                <nuxt-link to="/admin/courses">Zarządzaj szkoleniami</nuxt-link>
+            </button>
             <message v-if="this.newCourseIsAddMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageText="'Szkolenie zostało dodane'"></message>
             <div class="courses">
                 <div class="courses--left">
@@ -51,7 +54,8 @@ export default {
   },
   computed: {
     ...mapState('sessionUser', {
-      userIsLogged: state => state.userData['userIsLogged']
+      userIsLogged: state => state.userData['userIsLogged'],
+      userIsAdmin: state => state.userData['userIsLogged']
     })
   },
   methods: {

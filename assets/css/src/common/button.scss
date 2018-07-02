@@ -9,6 +9,11 @@ button {
     font-family: 'Open Sans', sans-serif;
     cursor: pointer;
 
+    a {
+      text-decoration: none;
+      color: #000000;
+    }
+
     &:focus {
       outline: none;
     }
@@ -28,6 +33,10 @@ button {
     &:hover {
       background: #000000;
       color: #ffdb09;
+
+      a {
+        color: #ffdb09;
+      }
     }
   }
 }

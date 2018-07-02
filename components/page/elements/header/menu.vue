@@ -9,7 +9,7 @@
                 <nuxt-link to="/courses">Szkolenia</nuxt-link>
             </li>
             <li v-if="this.userIsLogged && this.userIsAdmin" @click="hideMenuBlock">
-                <nuxt-link to="/users">Użytkownicy</nuxt-link>
+                <nuxt-link to="/admin/users">Użytkownicy</nuxt-link>
             </li>
             <li v-if="this.userIsLogged">
                 <a href="#" @click.prevent="logoutWithApplication">Wyloguj się</a>

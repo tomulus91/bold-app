@@ -6,7 +6,7 @@ export default {
   state: {
     courses: [],
     courseByUser: [],
-    allSaveCourses: []
+    allSaveCoursesByToken: []
   },
   mutations,
   actions

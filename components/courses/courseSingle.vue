@@ -50,12 +50,11 @@ export default {
     getSaveUsersInCourse () {
       this.$store.dispatch('courses/getAllCoursesByToken', {token: this.singleCourse.token}).then(() => {
         setTimeout(() => {
-          console.log(this.allSaveCourses)
-          this.allSaveCourses.forEach((index) => {
+          this.allSaveCoursesByToken.forEach((index) => {
             this.usersIdInCourse.push(index.user)
           })
           this.getUserNameInCourse()
-        }, 100)
+        }, 50)
       })
     },
     getUserNameInCourse () {
@@ -78,10 +77,8 @@ export default {
   },
   computed: {
     ...mapState('courses', {
-      courses: state => state.courses
-    }),
-    ...mapState('courses', {
-      allSaveCourses: state => state.allSaveCourses
+      courses: state => state.courses,
+      allSaveCoursesByToken: state => state.allSaveCoursesByToken
     }),
     ...mapState('sessionUser', {
       users: state => state.users

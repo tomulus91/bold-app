@@ -26,7 +26,7 @@ export const mutations = {
       .then(response => {
         const data = response.data
         if (data.length > 0) {
-          state.allSaveCourses = data
+          state.allSaveCoursesByToken = data
         }
       }).catch(e => {
         console.log(e)

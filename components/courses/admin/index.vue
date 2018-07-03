@@ -12,12 +12,12 @@ export default {
   computed: {
     ...mapState('courses', {
       allCourses: state => state.courses,
-      saveCourses: state => state.allSaveCourses
+      //saveCourses: state => state.allSaveCourses
     })
   },
   mounted () {
     this.allCourses.length === 0 ? this.getCourses({}) : ''
-    this.saveCourses.length === 0 ? this.getSaveCourses({}) : ''
+    //this.saveCourses.length === 0 ? this.getSaveCourses({}) : ''
   },
   methods: {
     ...mapActions('courses', [

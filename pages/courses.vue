@@ -9,7 +9,6 @@ import CoursesIndex from '../components/courses/'
 
 export default {
   name: 'courses',
-  middleware: 'authenticatedUser',
   components: {
     CoursesIndex
   }

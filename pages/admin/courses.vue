@@ -6,6 +6,7 @@
 
 <script>
 import CourseAdmin from '@/components/courses/admin/'
+
 export default {
   name: 'courses',
   middleware: 'authenticatedAdmin',

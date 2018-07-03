@@ -9,6 +9,8 @@ import loginPanel from '../components/user/login'
 
 export default {
   name: 'default',
-  components: {loginPanel}
+  components: {
+    loginPanel
+  }
 }
 </script>

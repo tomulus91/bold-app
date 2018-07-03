@@ -11,7 +11,9 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'layout',
-  components: {HeaderOnPage},
+  components: {
+    HeaderOnPage
+  },
   methods: {
     ...mapActions('sessionUser', [
       'checkSession'

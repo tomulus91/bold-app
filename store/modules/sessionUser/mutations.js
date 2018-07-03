@@ -25,7 +25,7 @@ export const mutations = {
     }
     localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
       'token': state.userData.tokenUser,
-      'name': state.userData.nameUser,
+      'name': state.userData.nameUser
     })).then(() => {
       checkUserIsAdmin(state)
     }).catch(() => {
@@ -53,6 +53,10 @@ export const mutations = {
         }
         if (!state.userData.userIsAdmin) {
           checkUserIsAdmin(state)
+        }
+      } else {
+        state.userData = {
+          userIsLogged: false
         }
       }
     })

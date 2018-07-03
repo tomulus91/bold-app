@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     userData: {
-      userIsLogged: false,
+      userIsLogged: '',
       userIsAdmin: false,
       tokenUser: '',
       nameUser: ''

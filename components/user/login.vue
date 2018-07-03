@@ -1,7 +1,7 @@
 <template>
     <div class="login-panel">
         <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner"></banner-top>
-        <div class="container">
+        <div class="container" v-if="this.viewShow">
             <form class="form-login" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
                 <h2 class="title-page">Logowanie</h2>
                 <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
@@ -48,7 +48,8 @@ export default {
   data () {
     return {
       errorLogin: false,
-      banner: require('~/assets/image/bannerLogin.jpg')
+      banner: require('~/assets/image/bannerLogin.jpg'),
+      viewShow: false
     }
   },
   components: {
@@ -56,6 +57,11 @@ export default {
     ButtonElements,
     Message,
     BannerTop
+  },
+  watch: {
+    userIsLogged (value) {
+      this.viewShow = !value
+    }
   },
   computed: {
     ...mapState('sessionUser', {

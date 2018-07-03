@@ -2,8 +2,11 @@ import axios from 'axios'
 import { BASE_URL } from '../api.config'
 
 export default {
-  fetchSaveCourses (tokenCourse) {
-    return axios.get(`${BASE_URL}courses-save-user`, {
+  fetch () {
+    return axios.get(`${BASE_URL}courses-save`)
+  },
+  fetchSaveCoursesByToken (tokenCourse) {
+    return axios.get(`${BASE_URL}courses-save-user-by-token`, {
       params: {
         tokenCourse: tokenCourse
       }

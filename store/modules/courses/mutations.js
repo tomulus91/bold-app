@@ -4,7 +4,8 @@ import coursesServiceByUser from '~/assets/service/courses/courseByUser'
 export const types = {
   GET_ALL_COURSES: 'GET_ALL_COURSES',
   GET_ALL_SAVE_COURSE_BY_TOKEN: 'GET_ALL_SAVE_COURSE_BY_TOKEN',
-  GET_ACTIVE_COURSE_FOR_USER: 'GET_ACTIVE_COURSE_FOR_USER'
+  GET_ACTIVE_COURSE_FOR_USER: 'GET_ACTIVE_COURSE_FOR_USER',
+  GET_ALL_SAVE_COURSES: 'GET_ALL_SAVE_COURSES'
 }
 
 export const mutations = {
@@ -21,7 +22,7 @@ export const mutations = {
       })
   },
   [types.GET_ALL_SAVE_COURSE_BY_TOKEN] (state, courseToken) {
-    const coursesPromise = coursesServiceByUser.fetchSaveCourses(courseToken)
+    const coursesPromise = coursesServiceByUser.fetchSaveCoursesByToken(courseToken)
     coursesPromise
       .then(response => {
         const data = response.data
@@ -39,6 +40,18 @@ export const mutations = {
         const data = response.data
         if (data.length > 0) {
           state.courseByUser = data
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+  },
+  [types.GET_ALL_SAVE_COURSES] (state) {
+    const coursesPromise = coursesServiceByUser.fetch()
+    coursesPromise
+      .then(response => {
+        const data = response.data
+        if (data.length > 0) {
+          state.allSaveCourses = data
         }
       }).catch(e => {
         console.log(e)

@@ -9,5 +9,8 @@ export default {
   },
   getActiveCourse ({state, commit}, params) {
     commit(types.GET_ACTIVE_COURSE_FOR_USER, params.token)
+  },
+  getAllSaveCourses ({state, commit}) {
+    commit(types.GET_ALL_SAVE_COURSES)
   }
 }

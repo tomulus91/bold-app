@@ -9,9 +9,15 @@ button {
     font-family: 'Open Sans', sans-serif;
     cursor: pointer;
 
+    &.no-padd{
+      padding: 0;
+    }
+
     a {
       text-decoration: none;
       color: #000000;
+      display: block;
+      padding: 15px 30px;
     }
 
     &:focus {

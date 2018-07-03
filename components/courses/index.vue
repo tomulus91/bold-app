@@ -2,7 +2,7 @@
     <div class="container">
         <div v-if="this.userIsLogged && this.showDefaultView">
             <h1 class="title-course">Szkolenia</h1>
-            <button v-if="this.userIsAdmin" class="buttonForm buttonForm--add-course">
+            <button v-if="this.userIsAdmin" class="buttonForm buttonForm--add-course no-padd">
                 <nuxt-link to="/admin/courses">Zarządzaj szkoleniami</nuxt-link>
             </button>
             <message v-if="this.newCourseIsAddMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageText="'Szkolenie zostało dodane'"></message>

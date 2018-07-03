@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Zarządzaj szkoleniami</h1>
+        <h1 @click="test">Zarządzaj szkoleniami</h1>
     </div>
 </template>
 
@@ -12,18 +12,30 @@ export default {
   computed: {
     ...mapState('courses', {
       allCourses: state => state.courses,
-      //saveCourses: state => state.allSaveCourses
+      allSaveCourse: state => state.allSaveCourses
+    }),
+    ...mapState('sessionUser', {
+      allUsers: state => state.users
     })
   },
   mounted () {
     this.allCourses.length === 0 ? this.getCourses({}) : ''
-    //this.saveCourses.length === 0 ? this.getSaveCourses({}) : ''
+    this.allSaveCourse.length === 0 ? this.getAllSaveCourses({}) : ''
+    this.allUsers.length === 0 ? this.getUsers({}) : ''
   },
   methods: {
     ...mapActions('courses', [
       'getCourses',
-      'getSaveCourses'
-    ])
+      'getAllSaveCourses'
+    ]),
+    ...mapActions('sessionUser', [
+      'getUsers'
+    ]),
+    test () {
+      console.log(this.allCourses)
+      console.log(this.allSaveCourse)
+      console.log(this.allUsers)
+    }
   }
 }
 </script>

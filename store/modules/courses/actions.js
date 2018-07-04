@@ -1,16 +1,52 @@
 import { types } from './mutations'
+import coursesService from '~/assets/service/courses'
+import coursesServiceByUser from '~/assets/service/courses/courseByUser'
+
 
 export default {
   getCourses ({state, commit}) {
-    commit(types.GET_ALL_COURSES)
+      const coursesPromise = coursesService.fetchCourses()
+      coursesPromise
+          .then(response => {
+              if (response.data) {
+                  commit(types.SET_COURSES, response.data)
+              }
+          }).catch(e => {
+          console.log(e)
+      })
   },
   getAllCoursesByToken ({state, commit}, params) {
-    commit(types.GET_ALL_SAVE_COURSE_BY_TOKEN, params.token)
+      const coursesPromise = coursesServiceByUser.fetchSaveCoursesByToken(params.token)
+      coursesPromise
+          .then(response => {
+              if (response.data) {
+                  commit(types.SET_COURSES_SAVES_BY_TOKEN, response.data)
+              }
+          }).catch(e => {
+          console.log(e)
+      })
   },
   getActiveCourse ({state, commit}, params) {
-    commit(types.GET_ACTIVE_COURSE_FOR_USER, params.token)
+      const coursesPromise = coursesServiceByUser.getActiveCourseForUser(params.token)
+      coursesPromise
+          .then(response => {
+              if (response.data) {
+                  commit(types.SET_COURSES_FOR_USER, response.data)
+              }
+          }).catch(e => {
+          console.log(e)
+      })
+
   },
   getAllSaveCourses ({state, commit}) {
-    commit(types.GET_ALL_SAVE_COURSES)
+      const coursesPromise = coursesServiceByUser.fetch()
+      coursesPromise
+          .then(response => {
+              if (response.data) {
+                  commit(types.SET_ALL_SAVES_COURSES, response.data)
+              }
+          }).catch(e => {
+          console.log(e)
+      })
   }
 }

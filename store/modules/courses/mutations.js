@@ -2,59 +2,23 @@ import coursesService from '~/assets/service/courses'
 import coursesServiceByUser from '~/assets/service/courses/courseByUser'
 
 export const types = {
-  GET_ALL_COURSES: 'GET_ALL_COURSES',
-  GET_ALL_SAVE_COURSE_BY_TOKEN: 'GET_ALL_SAVE_COURSE_BY_TOKEN',
-  GET_ACTIVE_COURSE_FOR_USER: 'GET_ACTIVE_COURSE_FOR_USER',
-  GET_ALL_SAVE_COURSES: 'GET_ALL_SAVE_COURSES'
+  SET_COURSES: 'SET_COURSES',
+  SET_COURSES_SAVES_BY_TOKEN: 'SET_COURSES_SAVES_BY_TOKEN',
+  SET_COURSES_FOR_USER: 'SET_COURSES_FOR_USER',
+  SET_ALL_SAVES_COURSES: 'SET_ALL_SAVES_COURSES'
 }
 
 export const mutations = {
-  [types.GET_ALL_COURSES] (state) {
-    const coursesPromise = coursesService.fetchCourses()
-    coursesPromise
-      .then(response => {
-        const data = response.data
-        if (data.length > 0) {
-          state.courses = data
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+  [types.SET_COURSES] (state, dataCourses) {
+      state.courses = dataCourses
   },
-  [types.GET_ALL_SAVE_COURSE_BY_TOKEN] (state, courseToken) {
-    const coursesPromise = coursesServiceByUser.fetchSaveCoursesByToken(courseToken)
-    coursesPromise
-      .then(response => {
-        const data = response.data
-        if (data.length > 0) {
-          state.allSaveCoursesByToken = data
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+  [types.SET_COURSES_SAVES_BY_TOKEN] (state, dataCourseByToken) {
+      state.allSaveCoursesByToken = dataCourseByToken
   },
-  [types.GET_ACTIVE_COURSE_FOR_USER] (state, userToken) {
-    const coursesPromise = coursesServiceByUser.getActiveCourseForUser(userToken)
-    coursesPromise
-      .then(response => {
-        const data = response.data
-        if (data.length > 0) {
-          state.courseByUser = data
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+  [types.SET_COURSES_FOR_USER] (state, dataCourseForSingleUser) {
+      state.courseByUser = dataCourseForSingleUser
   },
-  [types.GET_ALL_SAVE_COURSES] (state) {
-    const coursesPromise = coursesServiceByUser.fetch()
-    coursesPromise
-      .then(response => {
-        const data = response.data
-        if (data.length > 0) {
-          state.allSaveCourses = data
-        }
-      }).catch(e => {
-        console.log(e)
-      })
+  [types.SET_ALL_SAVES_COURSES] (state, dataAllSavesCourses) {
+      state.allSaveCourses = dataAllSavesCourses
   }
 }

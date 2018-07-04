@@ -55,7 +55,7 @@ export default {
   computed: {
     ...mapState('sessionUser', {
       userIsLogged: state => state.userData['userIsLogged'],
-      userIsAdmin: state => state.userData['userIsLogged']
+      userIsAdmin: state => state.userData['userIsAdmin']
     })
   },
   methods: {

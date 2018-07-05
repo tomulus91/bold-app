@@ -1,6 +1,14 @@
 <template>
     <div>
-        <h1>{{ this.courseData.name }}</h1>
+        <h1> {{ this.courseData.name }} </h1>
+        <button @click="exitSingleCourse">Wyjdź</button>
+        <p><span>Pracownik:</span> {{ this.courseData.nameUser }} </p>
+        <p><span>Link do szkolenia:</span> {{ this.courseData.link }} </p>
+        <p><span>Adres szkolenia:</span> {{ this.courseData.address }} </p>
+        <p><span>Data rozpoczęcia szkolenia:</span> {{ this.courseData.begin }} </p>
+        <p><span>Czas trwania szkolenia:</span> {{ this.courseData.duration }} </p>
+        <p><span>Cena za szkolenie:</span> {{ this.courseData.price }} zł</p>
+        <p><span>Dodatkowe informacje:</span> {{ this.courseData.information }}</p>
     </div>
 </template>
 
@@ -15,10 +23,13 @@ export default {
       courseData: {}
     }
   },
-  mounted () {
+  beforeMount () {
     this.setCourseData()
   },
   methods: {
+      exitSingleCourse () {
+          this.$emit('setDefaultView')
+          },
     setCourseData () {
       this.params.saveCourses.forEach((saveCourse) => {
         if (saveCourse._id === this.params.idCourse) {

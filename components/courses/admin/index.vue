@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1>Zarządzaj szkoleniami</h1>
         <div v-if="coursesToAccept.length > 0 && !this.singleCourseView" class="table-wrap">
+            <h1>Zarządzaj szkoleniami</h1>
             <table>
                 <tr>
                     <td>Nazwa szkolenia</td>
@@ -19,7 +19,7 @@
                 </tr>
             </table>
         </div>
-        <courses-single :params="paramsForSingleCourse" v-if="this.singleCourseView"></courses-single>
+        <courses-single @setDefaultView="setDefaultView" :params="paramsForSingleCourse" v-if="this.singleCourseView"></courses-single>
     </div>
 </template>
 
@@ -93,7 +93,10 @@ export default {
         'users': this.allUsers
       }
       this.singleCourseView = true
-    }
+    },
+      setDefaultView () {
+          this.singleCourseView = false
+      }
   }
 }
 </script>

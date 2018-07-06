@@ -21,5 +21,8 @@ export default {
         tokenUser: tokenUser
       }
     })
+  },
+  updateStatusCourse (params) {
+    return axios.post(`${BASE_URL}update-save-course`, params)
   }
 }

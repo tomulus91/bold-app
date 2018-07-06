@@ -46,7 +46,7 @@ module.exports = function (app, db) {
     res.send(newCourseForUser)
   })
 
-  // Get Single User
+  // Get Course By Single User
   app.get('/data/get-active-course-for-user', (req, res) => {
     const tokenUser = req.query.tokenUser
     db.collection('courses-user').find({'user': tokenUser}).toArray((err, result) => {
@@ -55,6 +55,22 @@ module.exports = function (app, db) {
       } else {
         res.send(result)
       }
+    })
+  })
+
+  // Update single save course
+  app.post('/data/update-save-course', (req, res) => {
+    const query = {course: req.body.courseToken, user: req.body.userToken}
+    const newValues = {
+      $set: {
+        status: req.body.type === 'accept' ? 1 : -1
+      }
+    }
+    db.collection('courses-user').update(query, newValues, (error, course) => {
+      if (error) {
+        console.log(error)
+      }
+      res.send(course)
     })
   })
 }

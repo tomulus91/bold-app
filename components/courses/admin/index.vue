@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="coursesToAccept.length > 0 && !this.singleCourseView" class="table-wrap">
-            <h1>Zarządzaj szkoleniami</h1>
+            <h1>Szkolenia do rozpatrzenia</h1>
             <table>
                 <tr>
                     <td>Nazwa szkolenia</td>

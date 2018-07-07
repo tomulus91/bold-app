@@ -40,7 +40,7 @@ module.exports = function (app, db) {
       course: req.body.course,
       name: req.body.name,
       date: req.body.date,
-      status: '0'
+      status: 0
     }
     db.collection('courses-user').insert(newCourseForUser)
     res.send(newCourseForUser)

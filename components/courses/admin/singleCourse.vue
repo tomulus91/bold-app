@@ -2,7 +2,10 @@
     <div>
         <h1> {{ this.courseData.name }} </h1>
         <button @click="exitSingleCourse">Wyjdź</button>
-        <p><span>Pracownik:</span> {{ this.courseData.nameUser }} </p>
+        <message v-if="this.updateStatus"
+                 :messageType="this.updateIsErrorType ? 'success' : 'error'"
+                 :messageText="this.updateIsErrorType ? 'Szkolenie zostało zaakceptowane' : 'Szkolenie zostało odrzucone'"></message>
+        <p><span>Pracownik:</span> {{ this.userData.name }} </p>
         <p><span>Szkolenie dla:</span> {{ this.courseData.type }} </p>
         <p><span>Link do szkolenia:</span> {{ this.courseData.link }} </p>
         <p><span>Adres szkolenia:</span> {{ this.courseData.address }} </p>
@@ -10,22 +13,30 @@
         <p><span>Czas trwania szkolenia:</span> {{ this.courseData.duration }} </p>
         <p><span>Cena za szkolenie:</span> {{ this.courseData.price }} zł</p>
         <p><span>Dodatkowe informacje:</span> {{ this.courseData.information }}</p>
-        <button @click="updateStatusCourse('accept')">Akceptuj</button>
-        <button @click="updateStatusCourse('discard')">Odrzuć</button>
+        <button v-if="this.showUpdateButtons" @click="updateStatusCourse('accept')">Akceptuj</button>
+        <button v-if="this.showUpdateButtons" @click="updateStatusCourse('discard')">Odrzuć</button>
     </div>
 </template>
 
 <script>
 import coursesServiceByUser from '~/assets/service/courses/courseByUser'
+import Message from '@/components/common/message'
 
 export default {
   name: 'singleCourse',
   props: [
     'params'
   ],
+  components: {
+    Message
+  },
   data () {
     return {
-      courseData: {}
+      courseData: {},
+      userData: {},
+      updateStatus: false,
+      updateIsErrorType: false,
+      showUpdateButtons: true
     }
   },
   beforeMount () {
@@ -37,13 +48,16 @@ export default {
     },
     updateStatusCourse (typeUpdate) {
       const coursesPromise = coursesServiceByUser.updateStatusCourse({
-        userToken: this.courseData.tokenUser,
+        userToken: this.userData.token,
         courseToken: this.courseData.token,
         type: typeUpdate
       })
+      this.updateIsErrorType = typeUpdate === 'accept'
       coursesPromise
         .then(response => {
           if (response.data) {
+            this.updateStatus = true
+            this.showUpdateButtons = false
             this.$store.dispatch('courses/getAllSaveCourses')
           }
         }).catch(e => {
@@ -51,33 +65,8 @@ export default {
         })
     },
     setCourseData () {
-      this.params.saveCourses.forEach((saveCourse) => {
-        if (saveCourse._id === this.params.idCourse) {
-          this.courseData.id = saveCourse._id
-          this.params.users.forEach((user) => {
-            if (user.token === saveCourse.user) {
-              this.courseData.nameUser = user.name
-              this.courseData.tokenUser = user.token
-              return false
-            }
-          })
-          this.params.courses.forEach((course) => {
-            if (course.token === saveCourse.course) {
-              this.courseData.address = course.address
-              this.courseData.token = course.token
-              this.courseData.duration = course.duration
-              this.courseData.begin = course.begin
-              this.courseData.price = course.price
-              this.courseData.link = course.link
-              this.courseData.name = course.name
-              this.courseData.type = course.type
-              this.courseData.information = course.information
-              return false
-            }
-          })
-          return false
-        }
-      })
+      this.courseData = this.params.courseData['0']
+      this.userData = this.params.user['0']
     }
   }
 }

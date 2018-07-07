@@ -1,7 +1,10 @@
 <template>
     <div>
         <div v-if="coursesToAccept.length > 0 && !this.singleCourseView" class="table-wrap">
-            <h1>Szkolenia do rozpatrzenia</h1>
+            <h1>{{ this.titleCourse }}</h1>
+            <button @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
+            <button @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
+            <button @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
             <table>
                 <tr>
                     <td>Nazwa szkolenia</td>
@@ -14,11 +17,12 @@
                     <td>{{ course.date }}</td>
                     <td>{{ getNameUser(course.user) }}</td>
                     <td align="center">
-                        <a href="#" @click.prevent="showDetails(course._id)">Zobacz szczegóły</a>
+                        <a href="#" @click.prevent="showDetails(course._id, course.user, course.course)">Zobacz szczegóły</a>
                     </td>
                 </tr>
             </table>
         </div>
+        <h1 v-if="this.coursesToAccept.length === 0">Brak kursów do rozpatrzenia</h1>
         <courses-single @setDefaultView="setDefaultView" :params="paramsForSingleCourse" v-if="this.singleCourseView"></courses-single>
     </div>
 </template>
@@ -36,7 +40,9 @@ export default {
     return {
       allUsersArray: {},
       paramsForSingleCourse: {},
-      singleCourseView: false
+      singleCourseView: false,
+      showTypeCourse: 0,
+      titleCourse: 'Szkolenia do rozpatrzenia'
     }
   },
   computed: {
@@ -48,8 +54,8 @@ export default {
       allUsers: state => state.users
     }),
     coursesToAccept: function () {
-      return this.allSaveCourse.filter(function (index) {
-        return index.status === '0'
+      return this.allSaveCourse.filter((index) => {
+        return index.status === this.showTypeCourse
       })
     }
   },
@@ -75,6 +81,25 @@ export default {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
+    setShowTypeCourse (type) {
+      switch (type) {
+        case 'none':
+          this.showTypeCourse = 0
+          this.titleCourse = 'Szkolenia do rozpatrzenia'
+          break
+        case 'accept':
+          this.showTypeCourse = 1
+          this.titleCourse = 'Zaakceptowane szkolenia'
+          break
+        case 'discard':
+          this.showTypeCourse = -1
+          this.titleCourse = 'Odrzucone szkolenia'
+          break
+        default:
+          this.showTypeCourse = 0
+          this.titleCourse = 'Szkolenia do rozpatrzenia'
+      }
+    },
     getNameUser (idCourse) {
       let name = ''
       this.allUsers.forEach((index) => {
@@ -85,12 +110,18 @@ export default {
       })
       return name
     },
-    showDetails (idCourse) {
+    showDetails (idCourse, user, courseToken) {
       this.paramsForSingleCourse = {
         'idCourse': idCourse,
-        'courses': this.allCourses,
-        'saveCourses': this.allSaveCourse,
-        'users': this.allUsers
+        'courseData': this.allCourses.filter(function (index) {
+          return index.token === courseToken
+        }),
+        'saveCourse': this.allSaveCourse.filter(function (index) {
+          return index._id === idCourse
+        }),
+        'user': this.allUsers.filter(function (index) {
+          return index.token === user
+        })
       }
       this.singleCourseView = true
     },

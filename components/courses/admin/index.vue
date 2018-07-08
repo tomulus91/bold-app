@@ -5,6 +5,7 @@
             <button @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
             <button @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
             <button @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
+            <button @click="setShowTypeCourse('all')">Wszystkie szkolenia</button>
             <table>
                 <tr>
                     <td>Nazwa szkolenia</td>
@@ -54,9 +55,13 @@ export default {
       allUsers: state => state.users
     }),
     coursesToAccept: function () {
-      return this.allSaveCourse.filter((index) => {
-        return index.status === this.showTypeCourse
-      })
+      if (this.showTypeCourse !== 2) {
+        return this.allSaveCourse.filter((index) => {
+          return index.status === this.showTypeCourse
+        })
+      } else {
+        return this.allSaveCourse
+      }
     }
   },
   watch: {
@@ -95,6 +100,10 @@ export default {
           this.showTypeCourse = -1
           this.titleCourse = 'Odrzucone szkolenia'
           break
+        case 'all':
+          this.showTypeCourse = 2
+          this.titleCourse = 'Wszystkie szkolenia'
+          break
         default:
           this.showTypeCourse = 0
           this.titleCourse = 'Szkolenia do rozpatrzenia'
@@ -125,9 +134,9 @@ export default {
       }
       this.singleCourseView = true
     },
-      setDefaultView () {
-          this.singleCourseView = false
-      }
+    setDefaultView () {
+      this.singleCourseView = false
+    }
   }
 }
 </script>

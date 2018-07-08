@@ -9,7 +9,7 @@
                 </tr>
                 <tr v-for="course in courseByUser">
                     <td>{{ course.name }}</td>
-                    <td>{{ course.status }}</td>
+                    <td>{{ getStatusName(course.status) }}</td>
                     <td align="center">
                         <a href="#" @click.prevent="showSingleCourse(course.course)">Zobacz</a>
                     </td>
@@ -41,6 +41,15 @@ export default {
     ]),
     showSingleCourse (courseToken) {
       this.$emit('showSingleCourse', courseToken)
+    },
+    getStatusName (status) {
+      if (status === 0) {
+        return 'W trakcie rozpatrzenia'
+      } else if (status === 1) {
+        return 'Zaakceptowano'
+      } else {
+        return 'Odrzucono'
+      }
     }
   },
   mounted () {

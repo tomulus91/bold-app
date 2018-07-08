@@ -13,8 +13,8 @@
         <p><span>Czas trwania szkolenia:</span> {{ this.courseData.duration }} </p>
         <p><span>Cena za szkolenie:</span> {{ this.courseData.price }} zł</p>
         <p><span>Dodatkowe informacje:</span> {{ this.courseData.information }}</p>
-        <button v-if="this.showUpdateButtons" @click="updateStatusCourse('accept')">Akceptuj</button>
-        <button v-if="this.showUpdateButtons" @click="updateStatusCourse('discard')">Odrzuć</button>
+        <button v-if="this.showUpdateButtons && (this.saveCourse.status === 0 || this.saveCourse.status === -1)" @click="updateStatusCourse('accept')">Akceptuj</button>
+        <button v-if="this.showUpdateButtons && (this.saveCourse.status === 0 || this.saveCourse.status === 1)" @click="updateStatusCourse('discard')">Odrzuć</button>
     </div>
 </template>
 
@@ -67,6 +67,7 @@ export default {
     setCourseData () {
       this.courseData = this.params.courseData['0']
       this.userData = this.params.user['0']
+      this.saveCourse = this.params.saveCourse['0']
     }
   }
 }

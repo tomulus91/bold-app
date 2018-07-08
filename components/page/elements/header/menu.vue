@@ -11,6 +11,9 @@
             <li v-if="this.userIsLogged && this.userIsAdmin" @click="hideMenuBlock">
                 <nuxt-link to="/admin/users">Użytkownicy</nuxt-link>
             </li>
+            <li v-if="this.userIsLogged && this.userIsAdmin" @click="hideMenuBlock">
+                <nuxt-link to="/admin/settingApplication">Ustawienia</nuxt-link>
+            </li>
             <li v-if="this.userIsLogged">
                 <a href="#" @click.prevent="logoutWithApplication">Wyloguj się</a>
             </li>

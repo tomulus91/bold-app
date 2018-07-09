@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  name: 'singleSetting',
+  name: 'course',
   props: [
     'dataSetting'
   ]

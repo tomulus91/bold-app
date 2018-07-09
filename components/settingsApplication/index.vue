@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>{{ this.titleSetting }}</h1>
-        <div content="all-setting" v-if="!this.showSingleSetting">
+        <div content="all-setting" v-if="!this.showAdminSettings && !this.showCourseSettings">
             <div @click="setSettingToView('keyAdmin')">
                 Administratorzy systemu
             </div>
@@ -9,24 +9,28 @@
                 Ustawienia szkoleń
             </div>
         </div>
-        <div v-if="this.showSingleSetting" @click="setView">Wyjdź</div>
-        <single-view :dataSetting="dataForSingleView" v-if="this.showSingleSetting" />
+        <div v-if="this.showAdminSettings || this.showCourseSettings" @click="setView">Wyjdź</div>
+        <admin-users-view :dataSetting="dataForSingleView" v-if="this.showAdminSettings" />
+        <course-view :dataSetting="dataForSingleView" v-if="this.showCourseSettings" />
     </div>
 </template>
 
 <script>
 import settingsApplicationService from '@/assets/service/settingsApplication'
-import singleView from '@/components/settingsApplication/singleSetting.vue'
+import adminUsersView from '@/components/settingsApplication/adminUsers'
+import courseView from '@/components/settingsApplication/course'
 
 export default {
   name: 'settingApplication',
   components: {
-    singleView
+    adminUsersView,
+    courseView
   },
   data () {
     return {
       settingsData: {},
-      showSingleSetting: false,
+      showAdminSettings: false,
+      showCourseSettings: false,
       dataForSingleView: {},
       titleSetting: 'Ustawienia aplikacji'
     }
@@ -43,10 +47,16 @@ export default {
         }
       })
     },
-    setView () {
-      this.showSingleSetting = !this.showSingleSetting
-      if (!this.showSingleSetting) {
-        this.titleSetting = 'Ustawienia aplikacji'
+    setView (searchKey) {
+      this.showAdminSettings = false
+      this.showCourseSettings = false
+      switch (searchKey) {
+        case 'keyAdmin':
+          this.showAdminSettings = true
+          break
+        case 'courseSetting':
+          this.showCourseSettings = true
+          break
       }
     },
     setSettingToView (searchKey) {
@@ -63,7 +73,7 @@ export default {
       this.dataForSingleView = this.settingsData.filter((index) => {
         return index.keyOption === searchKey
       })
-      this.setView()
+      this.setView(searchKey)
     }
   }
 }

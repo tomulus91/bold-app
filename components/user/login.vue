@@ -1,7 +1,7 @@
 <template>
     <div class="login-panel">
         <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner"></banner-top>
-        <content-home v-if="!this.viewShow" />
+        <content-home v-if="this.userIsLogged" />
         <div class="container" v-if="this.viewShow">
             <form class="form-login" v-if="!this.userIsLogged" @keyup.enter="submit" v-on:submit.prevent="submit">
                 <h2 class="title-page">Logowanie</h2>

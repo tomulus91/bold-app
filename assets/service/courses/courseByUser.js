@@ -32,4 +32,12 @@ export default {
       }
     })
   },
+  deleteSaveCourseForSingleUser (tokenCourse, userToken) {
+    return axios.post(`${BASE_URL}remove-save-course-single`, {
+      params: {
+        token: tokenCourse,
+        user: userToken
+      }
+    })
+  },
 }

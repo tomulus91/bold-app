@@ -47,5 +47,22 @@ module.exports = function (app, db) {
       res.send(true)
     })
   })
+
+  //Update setting
+  app.post('/data/update-settings', (req, res) => {
+    const query = {keyOption: req.body.key}
+    const newValues = {
+      $set: {
+        valueOption: req.body.price
+      }
+    }
+    db.collection('settings').update(query, newValues, (error, sett) => {
+      if (error) {
+        console.log(error)
+      }
+      res.send(sett)
+    })
+  })
+
 }
 

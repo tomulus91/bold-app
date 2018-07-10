@@ -16,7 +16,7 @@ export default {
     })
   },
   updateSettings (params) {
-    return axios.put(`${BASE_URL}update-settings`, params.id, params)
+    return axios.post(`${BASE_URL}update-settings`, params)
   },
   settingsByNameOption (nameOption) {
     return axios.get(`${BASE_URL}setting-by-name-option`, {

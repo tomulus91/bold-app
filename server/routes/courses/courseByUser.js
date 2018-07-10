@@ -73,4 +73,12 @@ module.exports = function (app, db) {
       res.send(course)
     })
   })
+
+  // Delete save course
+  app.post('/data/remove-save-course', (req, res) => {
+    db.collection('courses-user').deleteOne({course: req.body.params.token}, (err) => {
+      if (err) throw err
+      res.send(true)
+    })
+  })
 }

@@ -8,10 +8,10 @@ export default {
   addCourse (params) {
     return axios.post(`${BASE_URL}add-course`, params)
   },
-  deleteCourse (valueOption) {
+  deleteCourse (token) {
     return axios.post(`${BASE_URL}remove-course`, {
       params: {
-        valueOption: valueOption
+        token: token
       }
     })
   },

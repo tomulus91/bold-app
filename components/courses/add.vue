@@ -149,7 +149,9 @@ export default {
             }
           }).then(() => {
             this.$store.dispatch('courses/getCourses')
-            this.$store.dispatch('courses/getActiveCourse', {token: this.tokenUser})
+            setTimeout(() => {
+              this.$store.dispatch('courses/getActiveCourse', {token: this.tokenUser})
+            }, 100)
           }).then(() => {
             this.clearForm()
             this.exit(true)

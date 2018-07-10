@@ -27,4 +27,12 @@ module.exports = function (app, db) {
     db.collection('courses').insert(newCourse)
     res.send(newCourse)
   })
+
+  // Delete course
+  app.post('/data/remove-course', (req, res) => {
+    db.collection('courses').deleteOne({token: req.body.params.token}, (err) => {
+      if (err) throw err
+      res.send(true)
+    })
+  })
 }

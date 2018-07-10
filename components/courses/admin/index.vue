@@ -1,11 +1,12 @@
 <template>
     <div>
+        <h1>{{ this.titleCourse }}</h1>
+        <nuxt-link to="/courses">Wyjdź</nuxt-link>
+        <button @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
+        <button @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
+        <button @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
+        <button @click="setShowTypeCourse('all')">Wszystkie szkolenia</button>
         <div v-if="coursesToAccept.length > 0 && !this.singleCourseView" class="table-wrap">
-            <h1>{{ this.titleCourse }}</h1>
-            <button @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
-            <button @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
-            <button @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
-            <button @click="setShowTypeCourse('all')">Wszystkie szkolenia</button>
             <table>
                 <tr>
                     <td>Nazwa szkolenia</td>
@@ -19,11 +20,12 @@
                     <td>{{ getNameUser(course.user) }}</td>
                     <td align="center">
                         <a href="#" @click.prevent="showDetails(course._id, course.user, course.course)">Zobacz szczegóły</a>
+                        <a v-if="isAllCourse" href="#" @click.prevent="removeCourses(course.course)">Usuń kurs</a>
                     </td>
                 </tr>
             </table>
         </div>
-        <h1 v-if="this.coursesToAccept.length === 0">Brak kursów do rozpatrzenia</h1>
+        <h1 v-if="this.coursesToAccept.length === 0 && !this.singleCourseView">Brak kursów do rozpatrzenia</h1>
         <courses-single @setDefaultView="setDefaultView" :params="paramsForSingleCourse" v-if="this.singleCourseView"></courses-single>
     </div>
 </template>
@@ -31,6 +33,8 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import CoursesSingle from './singleCourse'
+import courseService from '@/assets/service/courses'
+import courseByUserService from '@/assets/service/courses/courseByUser'
 
 export default {
   name: 'courseAdmin',
@@ -43,7 +47,8 @@ export default {
       paramsForSingleCourse: {},
       singleCourseView: false,
       showTypeCourse: 0,
-      titleCourse: 'Szkolenia do rozpatrzenia'
+      titleCourse: 'Szkolenia do rozpatrzenia',
+      isAllCourse: false
     }
   },
   computed: {
@@ -86,7 +91,22 @@ export default {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
+    removeCourses (courseToken) {
+      const coursePromise = courseService.deleteCourse(courseToken)
+      coursePromise.then((result) => {
+        if (result.data) {
+          const courseSavePromise = courseByUserService.deleteSaveCourse(courseToken)
+          courseSavePromise.then((resultSave) => {
+            if (resultSave.data) {
+              this.getAllSaveCourses({})
+              this.getCourses({})
+            }
+          })
+        }
+      })
+    },
     setShowTypeCourse (type) {
+      this.isAllCourse = false
       switch (type) {
         case 'none':
           this.showTypeCourse = 0
@@ -102,6 +122,7 @@ export default {
           break
         case 'all':
           this.showTypeCourse = 2
+          this.isAllCourse = true
           this.titleCourse = 'Wszystkie szkolenia'
           break
         default:

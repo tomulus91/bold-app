@@ -6,6 +6,7 @@
                  :messageType="this.updateIsErrorType ? 'success' : 'error'"
                  :messageText="this.updateIsErrorType ? 'Szkolenie zostało zaakceptowane' : 'Szkolenie zostało odrzucone'"></message>
         <p><span>Pracownik:</span> {{ this.userData.name }} </p>
+        <p><span>Dostępny budżet pracownika:</span> <price/> </p>
         <p><span>Szkolenie dla:</span> {{ this.courseData.type }} </p>
         <p><span>Link do szkolenia:</span> {{ this.courseData.link }} </p>
         <p><span>Adres szkolenia:</span> {{ this.courseData.address }} </p>
@@ -21,6 +22,7 @@
 <script>
 import coursesServiceByUser from '~/assets/service/courses/courseByUser'
 import Message from '@/components/common/message'
+import Price from '@/components/courses/price'
 
 export default {
   name: 'singleCourse',
@@ -28,7 +30,8 @@ export default {
     'params'
   ],
   components: {
-    Message
+    Message,
+    Price
   },
   data () {
     return {

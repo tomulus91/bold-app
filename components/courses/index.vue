@@ -16,6 +16,7 @@
                 </div>
                 <div class="courses--right">
                     <h2>Twój budżet na szkolenia</h2>
+                    <price />
                     <h2>Twoje szkolenia</h2>
                     <course-by-user @showSingleCourse="showSingleCourse"></course-by-user>
                 </div>
@@ -28,6 +29,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import Price from '@/components/courses/price'
 import AllCourses from '@/components/courses/all'
 import AddCourse from '@/components/courses/add'
 import CourseByUser from '@/components/courses/courseByUser'
@@ -41,7 +43,8 @@ export default {
     AddCourse,
     Message,
     CourseByUser,
-    SingleCourse
+    SingleCourse,
+    Price
   },
   data () {
     return {

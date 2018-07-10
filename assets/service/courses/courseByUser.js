@@ -24,5 +24,12 @@ export default {
   },
   updateStatusCourse (params) {
     return axios.post(`${BASE_URL}update-save-course`, params)
-  }
+  },
+  deleteSaveCourse (token) {
+    return axios.post(`${BASE_URL}remove-save-course`, {
+      params: {
+        token: token
+      }
+    })
+  },
 }

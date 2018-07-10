@@ -1,8 +1,9 @@
 <template>
     <div class="login-panel">
         <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner"></banner-top>
+        <content-home v-if="!this.viewShow" />
         <div class="container" v-if="this.viewShow">
-            <form class="form-login" v-if="!this.userIsLogged" v-on:submit.prevent="submit">
+            <form class="form-login" v-if="!this.userIsLogged" @keyup.enter="submit" v-on:submit.prevent="submit">
                 <h2 class="title-page">Logowanie</h2>
                 <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
                 <div class="input-wrapper">
@@ -36,6 +37,7 @@ import PasswordApi from '@/plugins/PasswordApi'
 import { mapState, mapActions } from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'
 import BannerTop from '@/components/page/elements/content/bannerOnTop'
+import ContentHome from '@/components/page/elements/content/contentHome'
 import ButtonElements from '@/components/common/elements/button'
 import Message from '@/components/common/message'
 
@@ -56,7 +58,8 @@ export default {
     ValidationError,
     ButtonElements,
     Message,
-    BannerTop
+    BannerTop,
+    ContentHome
   },
   watch: {
     userIsLogged (value) {

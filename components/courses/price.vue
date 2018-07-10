@@ -63,3 +63,15 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.courses--right {
+    .price {
+        text-align: right;
+        font-weight: 700;
+        color: red;
+        font-size: 28px;
+        letter-spacing: 2px;
+        margin-bottom: 60px;
+    }
+}
+</style>

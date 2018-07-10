@@ -1,24 +1,26 @@
 <template>
     <div class="course-single-page">
-        <h2>{{this.singleCourse.name}}</h2>
-        <div class="exit-form" @click="exitSingleCourseView">Anuluj</div>
-        <div @click="addToCourse" v-if="showAddToCourseButton">Dodaj mnie do tego kursu</div>
-        <div @click="removeToCourse" v-if="!showAddToCourseButton">Usuń mnie z tego kursu</div>
-        {{this.singleCourse.address}}<br />
-        {{this.singleCourse.link}}<br />
-        {{this.singleCourse.type}}<br />
-        {{this.singleCourse.price}}<br />
-        {{this.singleCourse.information}}<br />
-        {{this.singleCourse.begin}}<br />
-        {{this.singleCourse.duration}}<br />
-
-        Zapisani do kursu: <br/>
-        <table>
-            <tr v-for="nameUser in usersNameInCourse">
-                <td>{{ nameUser }}</td>
-            </tr>
-        </table>
-
+        <div class="course-single-top">
+            <h2 class="course-single-top__title">{{this.singleCourse.name}}</h2>
+            <div class="course-single-top__exit" @click="exitSingleCourseView">Anuluj</div>
+            <div class="course-single-top__action" @click="addToCourse" v-if="showAddToCourseButton">Dodaj mnie do tego kursu</div>
+            <div class="course-single-top__action course-single-top__action--remove" @click="removeToCourse" v-if="!showAddToCourseButton">Usuń mnie z tego kursu</div>
+        </div>
+        <div class="container-info-course">
+            <p><span>Adres: </span>{{this.singleCourse.address}}</p>
+            <p><span>Link do kursu: </span>{{this.singleCourse.link}}</p>
+            <p><span>Kurs dla: </span>{{this.singleCourse.type}}</p>
+            <p><span>Cena za kurs: </span>{{this.singleCourse.price}}</p>
+            <p><span>Początek kursu: </span>{{this.singleCourse.begin}}</p>
+            <p><span>Czas trwania kursu: </span>{{this.singleCourse.duration}}</p>
+            <p class="emplo-info"><span>Zapisani pracownicy: </span></p>
+            <table>
+                <tr v-for="nameUser in usersNameInCourse">
+                    <td>{{ nameUser }}</td>
+                </tr>
+            </table>
+            <div class="add-info-course"><span>Dodatkowe informacje: </span>{{this.singleCourse.information}}</div>
+        </div>
     </div>
 </template>
 
@@ -120,3 +122,90 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+    .course-single-top {
+        &__title {
+            float: left;
+        }
+        &__exit {
+            float: right;
+            border: none;
+            padding: 15px 30px;
+            background: #ffdb09;
+            display: inline-block;
+            width: 100%;
+            font-family: 'Open Sans', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            color: #000000;
+            text-align: center;
+            margin-top: 20px;
+            width: 100px;
+
+            &:hover {
+                background: #000000;
+                color: #ffdb09;
+            }
+        }
+        &::after {
+            clear: both;
+            content: '';
+            display: table;
+        }
+
+        &__action {
+            float: right;
+            border: none;
+            padding: 15px 30px;
+            background: #41ec41;
+            display: inline-block;
+            width: 100%;
+            font-family: 'Open Sans', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            color: #000000;
+            text-align: center;
+            margin: 20px 20px 0 0;
+            width: 300px;
+
+            &:hover {
+                background: #000000;
+                color: #ffdb09;
+            }
+
+            &--remove {
+                background: #ff0909;
+            }
+        }
+    }
+
+    .container-info-course {
+        margin-top: 80px;
+
+        p {
+            clear: both;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            text-align: right;
+
+            span {
+                font-weight: 700;
+                float: left;
+            }
+
+            &.emplo-info {
+                margin-bottom: 10px;
+                border: none;
+            }
+        }
+
+        .add-info-course {
+            margin-top: 60px;
+
+            span {
+                font-weight: 700;
+            }
+        }
+    }
+</style>

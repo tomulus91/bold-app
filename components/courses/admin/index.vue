@@ -1,11 +1,13 @@
 <template>
-    <div>
-        <h1>{{ this.titleCourse }}</h1>
-        <nuxt-link to="/courses">Wyjdź</nuxt-link>
-        <button @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
-        <button @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
-        <button @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
-        <button @click="setShowTypeCourse('all')">Wszystkie szkolenia</button>
+    <div class="course-admin-panel">
+        <div class="course-admin-top">
+            <h1 class="course-admin-top__title">{{ this.titleCourse }}</h1>
+            <span class="course-admin-top__exit"><nuxt-link to="/courses">Wyjdź</nuxt-link></span>
+        </div>
+        <button class="menu-course-admin" @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
+        <button class="menu-course-admin" @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
+        <button class="menu-course-admin" @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
+        <button class="menu-course-admin" @click="setShowTypeCourse('all')">Wszystkie szkolenia</button>
         <div v-if="coursesToAccept.length > 0 && !this.singleCourseView" class="table-wrap">
             <table>
                 <tr>
@@ -20,7 +22,7 @@
                     <td>{{ getNameUser(course.user) }}</td>
                     <td align="center">
                         <a href="#" @click.prevent="showDetails(course._id, course.user, course.course)">Zobacz szczegóły</a>
-                        <a v-if="isAllCourse" href="#" @click.prevent="removeCourses(course.course)">Usuń kurs</a>
+                        <a v-if="isAllCourse" class="delete-course" href="#" @click.prevent="removeCourses(course.course)">Usuń kurs</a>
                     </td>
                 </tr>
             </table>
@@ -161,3 +163,60 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.course-admin-panel {
+    .course-admin-top {
+        &__title {
+            float: left;
+        }
+        &__exit{
+            float: right;
+
+            a {
+                border: none;
+                padding: 15px 30px;
+                background: #ffdb09;
+                display: inline-block;
+                width: 100%;
+                font-family: 'Open Sans', sans-serif;
+                cursor: pointer;
+                text-decoration: none;
+                color: #000000;
+                text-align: center;
+                margin-top: 20px;
+
+                &:hover {
+                    background: #000000;
+                    color: #ffdb09;
+                }
+            }
+        }
+        &::after {
+            clear: both;
+            content: '';
+            display: table;
+        }
+    }
+
+    .delete-course {
+        display: block;
+        margin-top: 10px;
+    }
+
+    .menu-course-admin {
+        background: #000000;
+        border: none;
+        color: #FFFFFF;
+        font-size: 18px;
+        border-right: 2px solid #FFF;
+        padding: 10px 20px;
+        font-weight: 700;
+        margin: 20px 0 0 0;
+        cursor: pointer;
+
+        &:hover {
+            background: #4d7ef7;
+        }
+    }
+}
+</style>

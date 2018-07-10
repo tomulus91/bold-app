@@ -22,9 +22,12 @@
                         <td>{{ user.login }}</td>
                         <td>{{ user.name }}</td>
                         <td>{{ user.email }}</td>
-                        <td align="center">
+                        <td align="center" v-if="user.token !== permCurrentAdmin">
                             <a href="#" @click.prevent="editUser(user.token)">Edit</a> |
                             <a href="#" @click.prevent="deleteUser(user.token)">Delete</a>
+                        </td>
+                        <td align="center" v-if="user.token === permCurrentAdmin">
+                            <span>Jesteś obecnie zalogowany na tym koncie</span>
                         </td>
                     </tr>
                 </table>
@@ -48,6 +51,7 @@ import PasswordApi from '@/plugins/PasswordApi'
 import {mapState, mapActions} from 'vuex'
 import Message from '@/components/common/message'
 import SearchForm from '@/components/common/search'
+import localStorage from '@/plugins/localforage'
 
 export default {
   name: 'usersShow',
@@ -58,6 +62,7 @@ export default {
       showEditUserPanel: false,
       tokenCurrentUser: '',
       usersArray: [],
+      permCurrentAdmin: '',
       flags: {
         showAllUsers: true,
         editSingleUser: false,
@@ -80,11 +85,18 @@ export default {
   mounted () {
     this.getUsers({})
     this.usersArray = this.users
+    this.getDataCurrentAdmin()
   },
   methods: {
     ...mapActions('sessionUser', [
       'getUsers'
     ]),
+    getDataCurrentAdmin () {
+      localStorage.getItem('USER_DATA', (err, value) => {
+        let data = JSON.parse(value)
+        this.permCurrentAdmin = data.token
+      })
+    },
     arrayAfterSearch (newArrayUser) {
       this.usersArray = newArrayUser
     },

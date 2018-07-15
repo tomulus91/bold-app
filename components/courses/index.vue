@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <div v-if="this.userIsLogged && this.showDefaultView">
-            <h1 class="title-course">Szkolenia</h1>
+            <headline :levelHeadline='"level1"' :headlineText='"Szkolenia"' :modifierClass='"headline--left-align"' />
             <button v-if="this.userIsAdmin" class="buttonForm buttonForm--add-course no-padd">
                 <nuxt-link to="/admin/courses">Zarządzaj szkoleniami</nuxt-link>
             </button>
             <message v-if="this.newCourseIsAddMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageText="'Szkolenie zostało dodane'"></message>
             <div class="courses">
                 <div class="courses--left">
-                    <h2>Dostępne szkolenia</h2>
+                    <headline :levelHeadline='"level2"' :headlineText='"Dostępne szkolenia"' :modifierClass='"headline--bold"' />
                     <button class="buttonForm buttonForm--add-course" @click="showAddCoursePanel">
                         Dodaj nowe
                     </button>
@@ -16,8 +16,9 @@
                 </div>
                 <div class="courses--right">
                     <h2>Twój budżet na szkolenia</h2>
+                    <headline :levelHeadline='"level2"' :headlineText='"Twój budżet na szkolenia"' :modifierClass='"headline--bold"' />
                     <price />
-                    <h2>Twoje szkolenia</h2>
+                    <headline :levelHeadline='"level2"' :headlineText='"Twoje szkolenia"' :modifierClass='"headline--bold"' />
                     <course-by-user @showSingleCourse="showSingleCourse"></course-by-user>
                 </div>
             </div>
@@ -35,6 +36,7 @@ import AddCourse from '@/components/courses/add'
 import CourseByUser from '@/components/courses/courseByUser'
 import SingleCourse from '@/components/courses/courseSingle'
 import Message from '@/components/common/message'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'courses',
@@ -44,7 +46,8 @@ export default {
     Message,
     CourseByUser,
     SingleCourse,
-    Price
+    Price,
+    Headline
   },
   data () {
     return {

@@ -30,12 +30,26 @@ export default {
         h1 {
             font: 300 28px/44px 'Open Sans', sans-serif;
             text-transform: uppercase;
+
+            &.level1 {
+                &--bold {
+                    font-weight: 700;
+                }
+            }
         }
 
         h2 {
-            font: 22px/32px 'Open Sans', sans-serif;
-            text-transform: uppercase;
-            font-weight: 300;
+            font: 300 22px/32px 'Open Sans', sans-serif;
+
+            &.level2 {
+                &--bold {
+                    font-weight: 700;
+                }
+
+                &--big-letter {
+                    text-transform: uppercase;
+                }
+            }
         }
 
         &--left-align {
@@ -44,10 +58,6 @@ export default {
 
         &--right-align {
             float: right;
-        }
-
-        &--bold {
-            font-weight: 700;
         }
 
         clear: both;

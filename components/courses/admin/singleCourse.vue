@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1> {{ this.courseData.name }} </h1>
+        <headline :levelHeadline='"level1"' :headlineText='this.courseData.name' />
         <button @click="exitSingleCourse">Wyjdź</button>
         <message v-if="this.updateStatus"
                  :messageType="this.updateIsErrorType ? 'success' : 'error'"
@@ -23,6 +23,7 @@
 import coursesServiceByUser from '~/assets/service/courses/courseByUser'
 import Message from '@/components/common/message'
 import Price from '@/components/courses/price'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'singleCourse',
@@ -31,7 +32,8 @@ export default {
   ],
   components: {
     Message,
-    Price
+    Price,
+    Headline
   },
   data () {
     return {

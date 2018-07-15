@@ -1,7 +1,7 @@
 <template>
     <div class="course-single-page">
         <div class="course-single-top">
-            <h2 class="course-single-top__title">{{this.singleCourse.name}}</h2>
+            <headline :levelHeadline='"level2"' :headlineText='this.singleCourse.name' :modifierClass='"level2--bold headline--left-align"' />
             <div class="course-single-top__exit" @click="exitSingleCourseView">Anuluj</div>
             <div class="course-single-top__action" @click="addToCourse" v-if="showAddToCourseButton">Dodaj mnie do tego kursu</div>
             <div class="course-single-top__action course-single-top__action--remove" @click="removeToCourse" v-if="!showAddToCourseButton">Usuń mnie z tego kursu</div>
@@ -28,6 +28,7 @@
 const moment = require('moment')
 import {mapState, mapActions} from 'vuex'
 import courseByUserService from '@/assets/service/courses/courseByUser'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'courseSingle',
@@ -41,6 +42,9 @@ export default {
       usersNameInCourse: [],
       showAddToCourseButton: true
     }
+  },
+  components: {
+    Headline
   },
   methods: {
     addToCourse () {

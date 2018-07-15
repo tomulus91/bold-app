@@ -1,6 +1,6 @@
 <template>
     <form class="form-add-user" v-on:submit.prevent="submit">
-        <h1>Dodaj nowego użytkownika</h1>
+        <headline :levelHeadline='"level1"' :headlineText='"Dodaj nowego użytkownika"' />
         <div class="input-wrapper">
             <div>
                 <label class="label-form">Login user</label>
@@ -46,6 +46,7 @@ import usersService from '@/assets/service/users'
 import settingsService from '@/assets/service/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import ButtonElements from '@/components/common/elements/button'
+import Headline from '@/components/common/elements/headline'
 
 const randomstring = require('randomstring')
 
@@ -57,7 +58,8 @@ export default {
   name: 'UsersAdd',
   components: {
     ValidationError,
-    ButtonElements
+    ButtonElements,
+    Headline
   },
   data () {
     return {

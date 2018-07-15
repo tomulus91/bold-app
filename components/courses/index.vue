@@ -8,17 +8,16 @@
             <message v-if="this.newCourseIsAddMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageText="'Szkolenie zostało dodane'"></message>
             <div class="courses">
                 <div class="courses--left">
-                    <headline :levelHeadline='"level2"' :headlineText='"Dostępne szkolenia"' :modifierClass='"headline--bold"' />
+                    <headline :levelHeadline='"level2"' :headlineText='"Dostępne szkolenia"' :modifierClass='"level2--bold level2--big-letter"' />
                     <button class="buttonForm buttonForm--add-course" @click="showAddCoursePanel">
                         Dodaj nowe
                     </button>
                     <all-courses @showSingleCourse="showSingleCourse"></all-courses>
                 </div>
                 <div class="courses--right">
-                    <h2>Twój budżet na szkolenia</h2>
-                    <headline :levelHeadline='"level2"' :headlineText='"Twój budżet na szkolenia"' :modifierClass='"headline--bold"' />
+                    <headline :levelHeadline='"level2"' :headlineText='"Twój budżet na szkolenia"' :modifierClass='"level2--bold"' />
                     <price />
-                    <headline :levelHeadline='"level2"' :headlineText='"Twoje szkolenia"' :modifierClass='"headline--bold"' />
+                    <headline :levelHeadline='"level2"' :headlineText='"Twoje szkolenia"' :modifierClass='"level2--bold"' />
                     <course-by-user @showSingleCourse="showSingleCourse"></course-by-user>
                 </div>
             </div>

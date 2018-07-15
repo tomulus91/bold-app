@@ -92,15 +92,6 @@ body,html {
       letter-spacing: 2px;
       font-size: 32px;
     }
-
-    h1 {
-      font: 300 28px/44px 'Open Sans', sans-serif;
-      text-transform: uppercase;
-
-      &.title-user-panel {
-        float: left;
-      }
-    }
   }
   .users-panel-top {
     &::after {

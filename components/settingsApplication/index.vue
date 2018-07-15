@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>{{ this.titleSetting }}</h1>
+        <headline :levelHeadline='"level1"' :headlineText='this.titleSetting' />
         <div content="all-setting" v-if="!this.showAdminSettings && !this.showCourseSettings">
             <div @click="setSettingToView('keyAdmin')">
                 Administratorzy systemu
@@ -19,12 +19,14 @@
 import settingsApplicationService from '@/assets/service/settingsApplication'
 import adminUsersView from '@/components/settingsApplication/adminUsers'
 import courseView from '@/components/settingsApplication/course'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'settingApplication',
   components: {
     adminUsersView,
-    courseView
+    courseView,
+    Headline
   },
   data () {
     return {

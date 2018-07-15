@@ -1,6 +1,6 @@
 <template>
     <form class="form-edit-user" v-on:submit.prevent="submit">
-        <h1>Edytuj dane pracownika</h1>
+        <headline :levelHeadline='"level1"' :headlineText='"Edytuj dane pracownika"' />
         <div class="input-wrapper">
             <div>
                 <label class="label-form">Login user</label>
@@ -40,13 +40,15 @@ import PasswordApi from '@/plugins/PasswordApi'
 import {mapActions} from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'
 import ButtonElements from '@/components/common/elements/button'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'EditUser',
   props: ['tokenUser'],
   components: {
     ValidationError,
-    ButtonElements
+    ButtonElements,
+    Headline
   },
   data () {
     return {

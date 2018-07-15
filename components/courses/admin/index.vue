@@ -1,7 +1,7 @@
 <template>
     <div class="course-admin-panel">
         <div class="course-admin-top">
-            <h1 class="course-admin-top__title">{{ this.titleCourse }}</h1>
+            <headline :levelHeadline='"level1"' :headlineText='this.titleCourse' :modifierClass='"headline--left-align"' />
             <span class="course-admin-top__exit"><nuxt-link to="/courses">Wyjdź</nuxt-link></span>
         </div>
         <button class="menu-course-admin" @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
@@ -27,7 +27,7 @@
                 </tr>
             </table>
         </div>
-        <h1 v-if="this.coursesToAccept.length === 0 && !this.singleCourseView">Brak kursów do rozpatrzenia</h1>
+        <headline v-if="this.coursesToAccept.length === 0 && !this.singleCourseView" :levelHeadline='"level1"' :headlineText='"Brak kursów do rozpatrzenia"' />
         <courses-single @setDefaultView="setDefaultView" :params="paramsForSingleCourse" v-if="this.singleCourseView"></courses-single>
     </div>
 </template>
@@ -37,11 +37,13 @@ import { mapState, mapActions } from 'vuex'
 import CoursesSingle from './singleCourse'
 import courseService from '@/assets/service/courses'
 import courseByUserService from '@/assets/service/courses/courseByUser'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'courseAdmin',
   components: {
-    CoursesSingle
+    CoursesSingle,
+    Headline
   },
   data () {
     return {

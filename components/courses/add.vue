@@ -1,7 +1,7 @@
 <template>
     <div>
         <form class="form-add-course" v-on:submit.prevent="submit">
-            <h1>Dodaj nowe szkolenie</h1>
+            <headline :levelHeadline='"level1"' :headlineText='"Dodaj nowe szkolenie"'  />
             <div class="input-wrapper">
                 <div>
                     <label class="label-form">Nazwa szkolenia:</label>
@@ -90,6 +90,7 @@ import DatePicker from 'vuejs-datepicker'
 import courseService from '@/assets/service/courses'
 import courseByUserService from '@/assets/service/courses/courseByUser'
 import { mapState } from 'vuex'
+import Headline from '@/components/common/elements/headline'
 
 const moment = require('moment')
 const randomstring = require('randomstring')
@@ -103,7 +104,8 @@ export default {
   components: {
     ValidationError,
     ButtonElements,
-    DatePicker
+    DatePicker,
+    Headline
   },
   data () {
     return {

@@ -2,7 +2,7 @@
     <div class="users">
         <div v-if="flags.showAllUsers">
             <div class="users-panel-top">
-                <h1 class="title-user-panel">Zarządzaj pracownikami</h1>
+                <headline :levelHeadline='"level1"' :headlineText='"Zarządzaj pracownikami"' :modifierClass='"headline--left-align"' />
                 <button class="buttonForm buttonForm--add-user" @click="setVisibleUserPanel(false, false, true)">
                     Dodaj nowego
                 </button>
@@ -52,10 +52,11 @@ import {mapState, mapActions} from 'vuex'
 import Message from '@/components/common/message'
 import SearchForm from '@/components/common/search'
 import localStorage from '@/plugins/localforage'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'usersShow',
-  components: {UsersAdd, EditUser, Message, SearchForm},
+  components: {UsersAdd, EditUser, Message, SearchForm, Headline},
   data () {
     return {
       showAllUsers: true,

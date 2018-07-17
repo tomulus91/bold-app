@@ -33,13 +33,7 @@
 
 <script>
 import settingsApplicationService from '@/assets/service/settingsApplication'
-import Vue from 'vue'
-import VeeValidate from 'vee-validate'
 import ValidationError from '@/components/common/validation/ValidationError'
-
-Vue.use(VeeValidate, {
-  errorBagName: 'vErrors'
-})
 
 export default {
   name: 'course',

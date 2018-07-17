@@ -13,7 +13,8 @@ module.exports = {
     '@/assets/css/src/normalize.scss'
   ],
   plugins: [
-    '~/plugins/localforage'
+    '~/plugins/localforage',
+    '~/plugins/VeeValidate'
   ],
   /*
   ** Headers

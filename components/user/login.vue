@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VeeValidate from 'vee-validate'
 import UserService from '@/assets/service/users'
 import PasswordApi from '@/plugins/PasswordApi'
 import { mapState, mapActions } from 'vuex'
@@ -40,10 +38,6 @@ import BannerTop from '@/components/page/elements/content/bannerOnTop'
 import ContentHome from '@/components/page/elements/content/contentHome'
 import ButtonElements from '@/components/common/elements/button'
 import Message from '@/components/common/message'
-
-Vue.use(VeeValidate, {
-  errorBagName: 'vErrors'
-})
 
 export default {
   name: 'loginUser',

@@ -82,8 +82,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VeeValidate from 'vee-validate'
 import ButtonElements from '@/components/common/elements/button'
 import ValidationError from '@/components/common/validation/ValidationError'
 import DatePicker from 'vuejs-datepicker'
@@ -94,10 +92,6 @@ import Headline from '@/components/common/elements/headline'
 
 const moment = require('moment')
 const randomstring = require('randomstring')
-
-Vue.use(VeeValidate, {
-  errorBagName: 'vErrors'
-})
 
 export default {
   name: 'addCourses',

@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import VeeValidate from 'vee-validate'
 import { mapActions } from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'
 import usersService from '@/assets/service/users'
@@ -49,10 +47,6 @@ import ButtonElements from '@/components/common/elements/button'
 import Headline from '@/components/common/elements/headline'
 
 const randomstring = require('randomstring')
-
-Vue.use(VeeValidate, {
-  errorBagName: 'vErrors'
-})
 
 export default {
   name: 'UsersAdd',

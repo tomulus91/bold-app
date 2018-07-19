@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import UserService from '@/assets/service/users'
+import UserService from '@/assets/service/mongodb/users'
 import PasswordApi from '@/plugins/PasswordApi'
 import { mapState, mapActions } from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'

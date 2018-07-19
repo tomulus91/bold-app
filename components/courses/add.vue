@@ -85,8 +85,8 @@
 import ButtonElements from '@/components/common/elements/button'
 import ValidationError from '@/components/common/validation/ValidationError'
 import DatePicker from 'vuejs-datepicker'
-import courseService from '@/assets/service/courses'
-import courseByUserService from '@/assets/service/courses/courseByUser'
+import courseService from '@/assets/service/mongodb/courses'
+import courseByUserService from '@/assets/service/mongodb/courses/courseByUser'
 import { mapState } from 'vuex'
 import Headline from '@/components/common/elements/headline'
 

@@ -34,8 +34,8 @@
 </template>
 
 <script>
-import userService from '@/assets/service/users'
-import settingsApplicationService from '@/assets/service/settingsApplication'
+import userService from '@/assets/service/mongodb/users'
+import settingsApplicationService from '@/assets/service/mongodb/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import {mapActions} from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'

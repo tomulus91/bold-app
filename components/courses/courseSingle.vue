@@ -27,7 +27,7 @@
 <script>
 const moment = require('moment')
 import {mapState, mapActions} from 'vuex'
-import courseByUserService from '@/assets/service/courses/courseByUser'
+import courseByUserService from '@/assets/service/mongodb/courses/courseByUser'
 import Headline from '@/components/common/elements/headline'
 
 export default {

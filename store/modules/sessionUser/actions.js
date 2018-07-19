@@ -1,17 +1,12 @@
 import { types } from './mutations'
-import localStorage from '@/plugins/localforage'
-import settingsApplicationService from '@/assets/service/settingsApplication'
-import usersService from '~/assets/service/users'
+import mongoUsers from '~/assets/service/mongodb/users'
+import serviceUsers from '~/assets/service/users.service'
 import PasswordApi from '@/plugins/PasswordApi'
-
-const LocalStorageName = {
-  USER_DATA: 'USER_DATA'
-}
 
 export default {
   sessionForUser ({ state, commit }, dataUser) {
     if (state.userData.userIsLogged) {
-      localStorage.removeItem(LocalStorageName.USER_DATA)
+      serviceUsers.removeLocalStorageForUsers()
       commit(types.SET_USER_IS_LOGGED, false)
       commit(types.REMOVE_USER_IS_ADMIN)
       commit(types.REMOVE_USER_NAME)
@@ -21,26 +16,26 @@ export default {
       commit(types.SET_USER_IS_ADMIN, false)
       commit(types.SET_USER_NAME, dataUser.name)
       commit(types.SET_USER_TOKEN, dataUser.token)
-      localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
-        'token': dataUser.token,
-        'name': dataUser.name
-      })).then(() => {
-        checkUserIsAdmin(state, commit)
+      serviceUsers.addLocalStorageForUsers(dataUser).then(() => {
+        serviceUsers.checkUserIsAdmin(state, commit)
       }).catch(() => {
         console.log('Error setItem')
       })
     }
   },
+  setAdminUser ({state, commit}) {
+    console.log('adminset')
+    commit(types.SET_USER_IS_ADMIN, true)
+  },
   checkSession ({state, commit}) {
-    localStorage.getItem(LocalStorageName.USER_DATA, (err, value) => {
-      if (!err && value) {
-        let data = JSON.parse(value)
+    serviceUsers.getLocalStorageForUsers().then((userData) => {
+      if (userData !== false) {
         commit(types.SET_USER_IS_LOGGED, true)
-        commit(types.SET_USER_IS_ADMIN, PasswordApi.verifyPassword(data.token, data.perm))
-        commit(types.SET_USER_NAME, data.name)
-        commit(types.SET_USER_TOKEN, data.token)
+        commit(types.SET_USER_IS_ADMIN, PasswordApi.verifyPassword(userData.token, userData.perm))
+        commit(types.SET_USER_NAME, userData.name)
+        commit(types.SET_USER_TOKEN, userData.token)
         if (!state.userData.userIsAdmin) {
-          checkUserIsAdmin(state, commit)
+          serviceUsers.checkUserIsAdmin(state, commit)
         }
       } else {
         commit(types.SET_USER_IS_LOGGED, false)
@@ -48,7 +43,7 @@ export default {
     })
   },
   getUsers ({state, commit}) {
-    const userPromise = usersService.fetchUsers()
+    const userPromise = mongoUsers.fetchUsers()
     userPromise
       .then(response => {
         if (response.data) {
@@ -58,24 +53,4 @@ export default {
         console.log(e)
       })
   }
-}
-
-const checkUserIsAdmin = (state, commit) => {
-  const settingsPromise = settingsApplicationService.settingsByNameOption('keyAdmin')
-  settingsPromise.then((result) => {
-    if (result.data) {
-      Object.keys(result.data).forEach(function (key) {
-        let currentKey = result.data[key].valueOption
-        if (PasswordApi.verifyPassword(state.userData.tokenUser, currentKey)) {
-          commit(types.SET_USER_IS_ADMIN, true)
-          localStorage.removeItem(LocalStorageName.USER_DATA)
-          localStorage.setItem(LocalStorageName.USER_DATA, JSON.stringify({
-            'token': state.userData.tokenUser,
-            'name': state.userData.nameUser,
-            'perm': currentKey
-          }))
-        }
-      })
-    }
-  })
 }

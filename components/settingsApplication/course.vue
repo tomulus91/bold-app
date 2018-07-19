@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import settingsApplicationService from '@/assets/service/settingsApplication'
+import settingsApplicationService from '@/assets/service/mongodb/settingsApplication'
 import ValidationError from '@/components/common/validation/ValidationError'
 
 export default {

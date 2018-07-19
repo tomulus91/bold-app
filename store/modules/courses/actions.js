@@ -1,6 +1,6 @@
 import { types } from './mutations'
-import coursesService from '~/assets/service/courses'
-import coursesServiceByUser from '~/assets/service/courses/courseByUser'
+import coursesService from '~/assets/service/mongodb/courses'
+import coursesServiceByUser from '~/assets/service/mongodb/courses/courseByUser'
 
 export default {
   getCourses ({state, commit}) {

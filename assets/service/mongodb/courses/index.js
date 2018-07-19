@@ -14,8 +14,5 @@ export default {
         token: token
       }
     })
-  },
-  updateCourse (params) {
-    return axios.put(`${BASE_URL}update-course`, params.id, params)
   }
 }

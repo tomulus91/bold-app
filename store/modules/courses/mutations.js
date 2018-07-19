@@ -1,6 +1,3 @@
-import coursesService from '~/assets/service/courses'
-import coursesServiceByUser from '~/assets/service/courses/courseByUser'
-
 export const types = {
   SET_COURSES: 'SET_COURSES',
   SET_COURSES_SAVES_BY_TOKEN: 'SET_COURSES_SAVES_BY_TOKEN',

@@ -40,8 +40,8 @@
 <script>
 import { mapActions } from 'vuex'
 import ValidationError from '@/components/common/validation/ValidationError'
-import usersService from '@/assets/service/users'
-import settingsService from '@/assets/service/settingsApplication'
+import usersService from '@/assets/service/mongodb/users'
+import settingsService from '@/assets/service/mongodb/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import ButtonElements from '@/components/common/elements/button'
 import Headline from '@/components/common/elements/headline'

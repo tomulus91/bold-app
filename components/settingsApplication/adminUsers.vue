@@ -19,7 +19,7 @@
 </template>
 <script>
 import PasswordApi from '@/plugins/PasswordApi'
-import settingsApplicationService from '@/assets/service/settingsApplication'
+import settingsApplicationService from '@/assets/service/mongodb/settingsApplication'
 import { mapActions, mapState } from 'vuex'
 import localStorage from '@/plugins/localforage'
 

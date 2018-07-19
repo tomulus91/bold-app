@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import settingsApplicationService from '@/assets/service/settingsApplication'
+import settingsApplicationService from '@/assets/service/mongodb/settingsApplication'
 import adminUsersView from '@/components/settingsApplication/adminUsers'
 import courseView from '@/components/settingsApplication/course'
 import Headline from '@/components/common/elements/headline'

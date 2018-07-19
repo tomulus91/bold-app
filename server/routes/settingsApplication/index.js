@@ -1,5 +1,7 @@
 module.exports = function (app, db) {
 
+  const passwordHash = require('password-hash')
+
   // Get all options application
   app.get('/data/settings', (req, res) => {
     db.collection('settings').find({}).toArray((err, result) => {
@@ -36,6 +38,35 @@ module.exports = function (app, db) {
           }
         })
         res.send(arrayKeyAdmin)
+      }
+    })
+  })
+
+  // Check user is admin
+  app.get('/data/check-user-is-admin', (req, res) => {
+    const keyOption = req.query.nameOption
+    const tokenUser = req.query.tokenUser
+    let isAdmin = false
+    db.collection('settings').find({}).toArray((err, result) => {
+      if (err) {
+        res.send({'error': 'Bad get single users'})
+      } else {
+        Object.keys(result).forEach(function (key) {
+          const currentkeyOption = result[key].keyOption
+          if (currentkeyOption === keyOption) {
+            if (passwordHash.verify(tokenUser, result[key].valueOption)) {
+              isAdmin = true
+              res.send({
+                tokenAdmin: result[key].valueOption
+              })
+            }
+          }
+        })
+        if (!isAdmin) {
+          res.send({
+            tokenAdmin: false
+          })
+        }
       }
     })
   })

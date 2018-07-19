@@ -24,5 +24,13 @@ export default {
         nameOption: nameOption
       }
     })
+  },
+  userIsAdmin (nameOption, tokenUser) {
+    return axios.get(`${BASE_URL}check-user-is-admin`, {
+      params: {
+        nameOption: nameOption,
+        tokenUser: tokenUser
+      }
+    })
   }
 }

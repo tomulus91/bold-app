@@ -35,8 +35,8 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import CoursesSingle from './singleCourse'
-import courseService from '@/assets/service/courses'
-import courseByUserService from '@/assets/service/courses/courseByUser'
+import courseService from '@/assets/service/mongodb/courses'
+import courseByUserService from '@/assets/service/mongodb/courses/courseByUser'
 import Headline from '@/components/common/elements/headline'
 
 export default {

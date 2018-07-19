@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import coursesServiceByUser from '~/assets/service/courses/courseByUser'
+import coursesServiceByUser from '~/assets/service/mongodb/courses/courseByUser'
 import Message from '@/components/common/message'
 import Price from '@/components/courses/price'
 import Headline from '@/components/common/elements/headline'

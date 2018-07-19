@@ -43,10 +43,10 @@
 </template>
 
 <script>
-import usersService from '~/assets/service/users'
+import usersService from '~/assets/service/mongodb/users'
 import UsersAdd from '@/components/user/add'
 import EditUser from '@/components/user/edit'
-import settingsApplicationService from '@/assets/service/settingsApplication'
+import settingsApplicationService from '@/assets/service/mongodb/settingsApplication'
 import PasswordApi from '@/plugins/PasswordApi'
 import {mapState, mapActions} from 'vuex'
 import Message from '@/components/common/message'

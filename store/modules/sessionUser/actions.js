@@ -6,36 +6,36 @@ import PasswordApi from '@/plugins/PasswordApi'
 export default {
   sessionForUser ({ state, commit }, dataUser) {
     if (state.userData.userIsLogged) {
+      console.log('22222')
       serviceUsers.removeLocalStorageForUsers()
       commit(types.SET_USER_IS_LOGGED, false)
       commit(types.REMOVE_USER_IS_ADMIN)
       commit(types.REMOVE_USER_NAME)
       commit(types.REMOVE_USER_TOKEN)
     } else {
+      console.log('1111')
       commit(types.SET_USER_IS_LOGGED, true)
-      commit(types.SET_USER_IS_ADMIN, false)
       commit(types.SET_USER_NAME, dataUser.name)
       commit(types.SET_USER_TOKEN, dataUser.token)
       serviceUsers.addLocalStorageForUsers(dataUser).then(() => {
-        serviceUsers.checkUserIsAdmin(state, commit)
+        serviceUsers.checkUserIsAdmin(state).then(response => {
+          commit(types.SET_USER_IS_ADMIN, response.userIsAdmin)
+        })
       }).catch(() => {
         console.log('Error setItem')
       })
     }
   },
-  setAdminUser ({state, commit}) {
-    console.log('adminset')
-    commit(types.SET_USER_IS_ADMIN, true)
-  },
   checkSession ({state, commit}) {
     serviceUsers.getLocalStorageForUsers().then((userData) => {
       if (userData !== false) {
         commit(types.SET_USER_IS_LOGGED, true)
-        commit(types.SET_USER_IS_ADMIN, PasswordApi.verifyPassword(userData.token, userData.perm))
         commit(types.SET_USER_NAME, userData.name)
         commit(types.SET_USER_TOKEN, userData.token)
         if (!state.userData.userIsAdmin) {
-          serviceUsers.checkUserIsAdmin(state, commit)
+          serviceUsers.checkUserIsAdmin(state).then(response => {
+            commit(types.SET_USER_IS_ADMIN, response.userIsAdmin)
+          })
         }
       } else {
         commit(types.SET_USER_IS_LOGGED, false)

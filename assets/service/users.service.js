@@ -1,29 +1,38 @@
 import settingsApplicationService from '@/assets/service/mongodb/settingsApplication'
 import localStorage from '@/plugins/localforage'
+import PasswordApi from '@/plugins/PasswordApi'
 
 const LocalStorageName = {
   USER_DATA: 'USER_DATA'
 }
 
 export default {
-  checkUserIsAdmin (state, commit) {
-    console.log('CHEC')
-    const settingsPromise = settingsApplicationService.userIsAdmin('keyAdmin', state.userData.tokenUser)
-    settingsPromise.then((result) => {
-      console.log(result.data.tokenAdmin)
-      if (result.data.tokenAdmin !== 0) {
-        this.removeLocalStorageForUsers()
-        this.addLocalStorageForUsers({
-          'token': state.userData.tokenUser,
-          'name': state.userData.nameUser,
-          'perm': result.data.tokenAdmin
-        })
-        this.$store.dispatch('sessionUser/setAdminUser')
-      }
+  checkUserIsAdmin (state) {
+    return new Promise((resolve) => {
+      this.getLocalStorageForUsers().then(response => {
+        if (response.hasOwnProperty('perm')) {
+          resolve({userIsAdmin: PasswordApi.verifyPassword(state.userData.tokenUser, response.perm)})
+        } else {
+          const settingsPromise = settingsApplicationService.userIsAdmin('keyAdmin', state.userData.tokenUser)
+          settingsPromise.then((result) => {
+            if (result.data.tokenAdmin !== 0) {
+              this.removeLocalStorageForUsers()
+              this.addLocalStorageForUsers({
+                'token': state.userData.tokenUser,
+                'name': state.userData.nameUser,
+                'perm': result.data.tokenAdmin
+              })
+              resolve({userIsAdmin: true})
+            } else {
+              resolve({userIsAdmin: false})
+            }
+          })
+        }
+      })
     })
   },
   addLocalStorageForUsers (data) {
-    return new Promise(() => {
+    return new Promise((resolve) => {
       let dataStorage = {
         'token': data.token,
         'name': data.name
@@ -33,6 +42,7 @@ export default {
       }
       dataStorage = JSON.stringify(dataStorage)
       localStorage.setItem(LocalStorageName.USER_DATA, dataStorage)
+      resolve({addLocalStorage: true})
     })
   },
   getLocalStorageForUsers () {

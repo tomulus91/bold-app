@@ -1,5 +1,4 @@
 module.exports = function (app, db) {
-
   const passwordHash = require('password-hash')
 
   // Get all options application
@@ -32,8 +31,8 @@ module.exports = function (app, db) {
         res.send({'error': 'Bad get single users'})
       } else {
         Object.keys(result).forEach(function (key) {
-          const currentkeyOption = result[key].keyOption
-          if (currentkeyOption === keyOption) {
+          const currentKeyOption = result[key].keyOption
+          if (currentKeyOption === keyOption) {
             arrayKeyAdmin.push(result[key])
           }
         })
@@ -79,7 +78,7 @@ module.exports = function (app, db) {
     })
   })
 
-  //Update setting
+  // Update setting
   app.post('/data/update-settings', (req, res) => {
     const query = {keyOption: req.body.key}
     const newValues = {
@@ -94,6 +93,4 @@ module.exports = function (app, db) {
       res.send(sett)
     })
   })
-
 }
-

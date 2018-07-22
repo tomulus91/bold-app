@@ -1,9 +1,9 @@
 <template>
-    <div class="header">
-        <div class="container">
+    <div class="container container__header">
+        <div class="header-top">
             <logo-page></logo-page>
             <today-date></today-date>
-            <div v-if="this.userIsLogged" class="container--logged">
+            <div v-if="this.userIsLogged" class="header-top__logged">
                 <name-user></name-user>
                 <menu-page></menu-page>
             </div>
@@ -33,3 +33,25 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+    .header-top {
+        &__logo {
+            float: left;
+        }
+
+        &__date {
+            float: left;
+            font: 600 12px/16px 'Open Sans', sans-serif;
+            margin-left: 50px;
+        }
+
+        &__logged {
+            float: right;
+
+            &--login-name {
+                float: left;
+                font: 600 12px/30px 'Open Sans', sans-serif;
+            }
+        }
+    }
+</style>

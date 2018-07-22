@@ -1,5 +1,5 @@
 <template>
-    <div class="date-container">
+    <div class="header-top__date">
         {{this.today}} <br />
         <name-day></name-day>
     </div>

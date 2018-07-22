@@ -1,5 +1,5 @@
 <template>
-    <div class="login-name">
+    <div class="header-top__logged--login-name">
         Zalogowany jako: {{this.nameUser}}
     </div>
 </template>

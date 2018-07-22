@@ -1,19 +1,16 @@
 import { types } from './mutations'
 import mongoUsers from '~/assets/service/mongodb/users'
 import serviceUsers from '~/assets/service/users.service'
-import PasswordApi from '@/plugins/PasswordApi'
 
 export default {
   sessionForUser ({ state, commit }, dataUser) {
     if (state.userData.userIsLogged) {
-      console.log('22222')
       serviceUsers.removeLocalStorageForUsers()
       commit(types.SET_USER_IS_LOGGED, false)
       commit(types.REMOVE_USER_IS_ADMIN)
       commit(types.REMOVE_USER_NAME)
       commit(types.REMOVE_USER_TOKEN)
     } else {
-      console.log('1111')
       commit(types.SET_USER_IS_LOGGED, true)
       commit(types.SET_USER_NAME, dataUser.name)
       commit(types.SET_USER_TOKEN, dataUser.token)

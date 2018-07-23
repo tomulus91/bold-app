@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="banner-top">
-            <h2 class="banner-top--text">{{textOnBanner}}</h2>
-            <img class="banner-top--image" :src="imageBanner" />
+        <div class="content__banner">
+            <h2 class="content__banner--text">{{textOnBanner}}</h2>
+            <img class="content__banner--image" :src="imageBanner" />
         </div>
     </div>
 </template>
@@ -23,7 +23,7 @@ export default {
 }
 </script>
 <style lang="scss">
-    .banner-top {
+    .content__banner {
         position: relative;
         margin: 0;
         padding: 0;

@@ -1,10 +1,10 @@
 <template>
-    <div class="login-panel">
-        <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner"></banner-top>
-        <content-home v-if="this.userIsLogged" />
-        <div class="container" v-if="this.viewShow">
-            <form class="form-login" v-if="!this.userIsLogged" @keyup.enter="submit" v-on:submit.prevent="submit">
-                <h2 class="title-page">Logowanie</h2>
+    <div class="content">
+        <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner" />
+        <div class="content__panel">
+            <content-home v-if="this.userIsLogged" />
+            <form class="form-login" v-if="!this.userIsLogged && this.viewShow" @keyup.enter="submit" v-on:submit.prevent="submit">
+                <headline :levelHeadline='"level2"' :headlineText='"Logowanie"' />
                 <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
                 <div class="input-wrapper">
                     <div>
@@ -22,7 +22,6 @@
                 </div>
                 <div>
                     <button-elements :buttonMessage="'Zaloguj sie'" />
-                    <br/> <br/>
                 </div>
             </form>
         </div>
@@ -38,6 +37,7 @@ import BannerTop from '@/components/page/elements/content/bannerOnTop'
 import ContentHome from '@/components/page/elements/content/contentHome'
 import ButtonElements from '@/components/common/elements/button'
 import Message from '@/components/common/message'
+import Headline from '@/components/common/elements/headline'
 
 export default {
   name: 'loginUser',
@@ -53,7 +53,8 @@ export default {
     ButtonElements,
     Message,
     BannerTop,
-    ContentHome
+    ContentHome,
+    Headline
   },
   watch: {
     userIsLogged (value) {
@@ -96,6 +97,31 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+    .form-login{
+        width: 500px;
+        margin: 0 auto;
 
+        .label-form {
+            display: block;
+            width: 100%;
+            font-weight: 300;
+            color: #333;
+        }
+
+        .input-form {
+            width: 100%;
+            padding: 15px 20px;
+            height: 48px;
+            box-sizing: border-box;
+            border:none;
+            border-bottom: 1px solid #c5c6ca;
+            margin-bottom: 40px;
+
+            &:focus {
+                outline: none;
+                border-bottom: 1px solid #47494e;
+            }
+        }
+    }
 </style>

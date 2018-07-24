@@ -1,5 +1,5 @@
 <template>
-    <form class="form-add-user" v-on:submit.prevent="submit">
+    <form class="form-user" v-on:submit.prevent="submit">
         <headline :levelHeadline='"level1"' :headlineText='"Dodaj nowego użytkownika"' />
         <div class="input-wrapper">
             <div>

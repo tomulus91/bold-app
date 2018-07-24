@@ -3,7 +3,7 @@
         <div v-if="flags.showAllUsers">
             <div class="users-panel-top">
                 <headline :levelHeadline='"level1"' :headlineText='"Zarządzaj pracownikami"' :modifierClass='"headline--left-align"' />
-                <button class="buttonForm buttonForm--add-user" @click="setVisibleUserPanel(false, false, true)">
+                <button class="buttonForm__add-user" @click="setVisibleUserPanel(false, false, true)">
                     Dodaj nowego
                 </button>
                 <search-form :arrayToSearch="users" :searchText="'Imienia/Nazwiska'" :searchBy="'name'" @arrayAfterSearch="arrayAfterSearch"></search-form>
@@ -96,6 +96,9 @@ export default {
       localStorage.getItem('USER_DATA', (err, value) => {
         let data = JSON.parse(value)
         this.permCurrentAdmin = data.token
+        if (data === null) {
+          console.log(err)
+        }
       })
     },
     arrayAfterSearch (newArrayUser) {
@@ -138,3 +141,24 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+    .buttonForm {
+        &__add-user {
+            border: none;
+            padding: 15px 30px;
+            text-transform: uppercase;
+            background: #ffdb09;
+            display: inline-block;
+            font-family: 'Open Sans', sans-serif;
+            cursor: pointer;
+            width: auto;
+            float: right;
+            margin-top: 20px;
+
+            &:hover {
+                background: #000000;
+                color: #ffdb09;
+            }
+        }
+    }
+</style>

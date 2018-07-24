@@ -1,5 +1,5 @@
 <template>
-    <form class="form-edit-user" v-on:submit.prevent="submit">
+    <form class="form-user" v-on:submit.prevent="submit">
         <headline :levelHeadline='"level1"' :headlineText='"Edytuj dane pracownika"' />
         <div class="input-wrapper">
             <div>
@@ -135,6 +135,3 @@ export default {
   }
 }
 </script>
-<style type="text/css">
-
-</style>

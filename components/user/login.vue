@@ -3,7 +3,7 @@
         <banner-top :textOnBanner="'Bold Intranet'" :imageBanner="this.banner" />
         <div class="content__panel">
             <content-home v-if="this.userIsLogged" />
-            <form class="form-login" v-if="!this.userIsLogged && this.viewShow" @keyup.enter="submit" v-on:submit.prevent="submit">
+            <form class="form-user" v-if="!this.userIsLogged && this.viewShow" @keyup.enter="submit" v-on:submit.prevent="submit">
                 <headline :levelHeadline='"level2"' :headlineText='"Logowanie"' />
                 <message v-if="this.errorLogin" :messageType="'error'" :messageText="'Błędny login/hasło'" />
                 <div class="input-wrapper">
@@ -97,8 +97,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-    .form-login{
+<style lang="scss" scoped>
+    .form-user{
         width: 500px;
         margin: 0 auto;
 

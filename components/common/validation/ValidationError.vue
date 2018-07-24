@@ -17,8 +17,8 @@ export default {
 </script>
 
 <style scoped>
-    span {
-        color: red;
+    .validation-error {
+        color: #FF0000;
         font-size: 12px;
     }
     .fade-enter-active, .fade-leave-active {

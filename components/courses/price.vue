@@ -64,7 +64,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.courses--right {
     .price {
         text-align: right;
         font-weight: 700;
@@ -73,5 +72,4 @@ export default {
         letter-spacing: 2px;
         margin-bottom: 60px;
     }
-}
 </style>

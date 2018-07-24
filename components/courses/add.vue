@@ -172,3 +172,81 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+    .form-add-course{
+        width: 500px;
+        margin: 0 auto;
+
+        .label-form {
+            display: block;
+            width: 100%;
+            font-weight: 300;
+            color: #333;
+        }
+
+        .input-form {
+            width: 100%;
+            padding: 15px 20px;
+            height: 48px;
+            box-sizing: border-box;
+            border:none;
+            border-bottom: 1px solid #c5c6ca;
+            margin-bottom: 40px;
+
+            &:focus {
+                outline: none;
+                border-bottom: 1px solid #47494e;
+            }
+        }
+
+        .calendar-input {
+            margin-bottom: 0;
+            width: 100%;
+            padding: 10px;
+        }
+
+        select {
+            padding: 10px;
+            width: 100%;
+            border: 1px solid #c7c7cb;
+            background: none;
+            font-size: 18px;
+            margin: 10px 0 40px;
+
+            &:focus {
+                outline: none;
+                border-bottom: 1px solid #47494e;
+            }
+        }
+
+        .other-information {
+            width: 100%;
+            margin-top: 15px;
+            height: 150px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+        .exit-form {
+            background: #FF0000;
+            padding: 15px 30px;
+            color: #FFFFFFFF;
+            text-transform: uppercase;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-top: 80px;
+            cursor: pointer;
+            text-align: center;
+
+            &:hover {
+                background: #000000;
+            }
+        }
+
+        .input-wrapper--bottom {
+            margin-bottom: 40px;
+        }
+    }
+</style>

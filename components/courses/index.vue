@@ -1,20 +1,20 @@
 <template>
-    <div class="container">
+    <div>
         <div v-if="this.userIsLogged && this.showDefaultView">
             <headline :levelHeadline='"level1"' :headlineText='"Szkolenia"' :modifierClass='"headline--left-align"' />
-            <button v-if="this.userIsAdmin" class="buttonForm buttonForm--add-course no-padd">
+            <button v-if="this.userIsAdmin" class="buttonForm buttonForm--add-course buttonForm--no-padd">
                 <nuxt-link to="/admin/courses">Zarządzaj szkoleniami</nuxt-link>
             </button>
             <message v-if="this.newCourseIsAddMessage" @removeMessage="removeMessage" :showCloseButton="true" :messageText="'Szkolenie zostało dodane'"></message>
             <div class="courses">
-                <div class="courses--left">
-                    <headline :levelHeadline='"level2"' :headlineText='"Dostępne szkolenia"' :modifierClass='"level2--bold level2--big-letter"' />
+                <div class="courses__left">
+                    <headline :levelHeadline='"level2"' :headlineText='"Dostępne szkolenia"' :modifierClass='"level2--bold level2--big-letter headline--left-align"' />
                     <button class="buttonForm buttonForm--add-course" @click="showAddCoursePanel">
                         Dodaj nowe
                     </button>
                     <all-courses @showSingleCourse="showSingleCourse"></all-courses>
                 </div>
-                <div class="courses--right">
+                <div class="courses__right">
                     <headline :levelHeadline='"level2"' :headlineText='"Twój budżet na szkolenia"' :modifierClass='"level2--bold"' />
                     <price />
                     <headline :levelHeadline='"level2"' :headlineText='"Twoje szkolenia"' :modifierClass='"level2--bold"' />
@@ -87,3 +87,24 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+    .courses {
+        clear: both;
+
+        &__left {
+            width: 65%;
+            float: left;
+        }
+
+        &__right {
+            width: 30%;
+            float: right;
+        }
+
+        &::after {
+            display: table;
+            content: '';
+            clear: both;
+        }
+    }
+</style>

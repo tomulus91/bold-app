@@ -71,5 +71,13 @@ export default {
         font-size: 28px;
         letter-spacing: 2px;
         margin-bottom: 60px;
+
+        .single-course-content--price & {
+            font-weight: 400;
+            color: #000000;
+            font-size: 18px;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+        }
     }
 </style>

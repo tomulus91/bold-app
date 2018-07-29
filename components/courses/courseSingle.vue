@@ -202,6 +202,12 @@ export default {
                 margin-bottom: 10px;
                 border: none;
             }
+
+            &::after {
+                clear: both;
+                content: '';
+                display: table;
+            }
         }
 
         .add-info-course {

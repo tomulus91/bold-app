@@ -27,7 +27,7 @@ export default {
 <style lang="scss">
     body,html {
         margin: 0;
-        padding: 0;
+        padding: 0 0 80px;
         min-width: 100%;
         min-height: 100%;
         font-family: 'Open Sans', sans-serif;

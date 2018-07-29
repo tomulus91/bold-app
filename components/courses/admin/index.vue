@@ -1,13 +1,15 @@
 <template>
     <div class="course-admin-panel">
-        <div class="course-admin-top">
-            <headline :levelHeadline='"level1"' :headlineText='this.titleCourse' :modifierClass='"headline--left-align"' />
-            <span class="course-admin-top__exit"><nuxt-link to="/courses">Wyjdź</nuxt-link></span>
+        <div class="course-admin-head" v-if="!this.singleCourseView">
+            <div class="course-admin-top">
+                <headline :levelHeadline='"level1"' :headlineText='this.titleCourse' :modifierClass='"headline--left-align"' />
+                <span class="course-admin-top__exit"><nuxt-link to="/courses">Wyjdź</nuxt-link></span>
+            </div>
+            <button class="menu-course-admin" @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
+            <button class="menu-course-admin" @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
+            <button class="menu-course-admin" @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
+            <button class="menu-course-admin" @click="setShowTypeCourse('all')">Wszystkie szkolenia</button>
         </div>
-        <button class="menu-course-admin" @click="setShowTypeCourse('none')">Szkolenia do rozpatrzenia</button>
-        <button class="menu-course-admin" @click="setShowTypeCourse('accept')">Zaakceptowane szkolenia</button>
-        <button class="menu-course-admin" @click="setShowTypeCourse('discard')">Odrzucone szkolenia</button>
-        <button class="menu-course-admin" @click="setShowTypeCourse('all')">Wszystkie szkolenia</button>
         <div v-if="coursesToAccept.length > 0 && !this.singleCourseView" class="table-wrap">
             <table>
                 <tr>

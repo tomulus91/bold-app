@@ -69,6 +69,9 @@ export default {
                 margin-top: 20px;
                 cursor: pointer;
                 text-align: center;
+                clear: both;
+                position: relative;
+                top: 20px;
 
                 &:hover {
                     background: #000000;
